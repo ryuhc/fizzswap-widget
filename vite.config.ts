@@ -26,7 +26,7 @@ export default defineConfig({
       '@': resolve(__dirname, './src'),
     },
   },
-  server: {
+  server: process.env.NODE_ENV === 'production' ? {} : {
     https: {
       key: fs.readFileSync(resolve(__dirname, 'certificates/localhost-key.pem')),
       cert: fs.readFileSync(resolve(__dirname, 'certificates/localhost.pem')),
