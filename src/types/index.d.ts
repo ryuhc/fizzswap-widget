@@ -18,6 +18,7 @@ declare type SwapWidgetProps = {
     [p: number]: string
   }
   operatorUrl?: string,
+  wcApiKey?: string,
   swapType: SwapType
 }
 

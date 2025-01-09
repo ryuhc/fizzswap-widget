@@ -38,7 +38,7 @@ export default function RootProvider(props: IProps) {
   const supportChains = useSupportChains()
 
   useEffect(() => {
-    const projectId = import.meta.env.VITE_WALLETCONNECT_KEY ?? ''
+    const projectId = props.config?.wcApiKey ?? import.meta.env.VITE_WALLETCONNECT_KEY ?? ''
     const metadata =  {
       name: 'Fizzswap',
       description: 'Fizzswap extends the Silicon DeFi ecosystem through liquidity pool-based ETH, WBTC, USDT instant token swapping and liquidity mining.',
