@@ -31,7 +31,7 @@ afterEach(() => {
 describe('test render <FormRow />', () => {
   it('show title was given. if no title, hide element', () => {
     const title = 'From Token'
-    const { rerender } = render(<FormRow {...initialProps} title={title} />, { wrapper })
+    const { rerender } = render(<FormRow {...initialProps} title={title} selectable={true} />, { wrapper })
 
     expect(screen.getByTestId('form-row-title').innerHTML).toBe(title)
 
@@ -53,7 +53,7 @@ describe('test render <FormRow />', () => {
 
 describe('test action <FormRow />', () => {
   it('focus on input, call onFocus()', async () => {
-    render(<FormRow {...initialProps} />, { wrapper })
+    render(<FormRow {...initialProps} selectable={true} />, { wrapper })
 
     const user = userEvent.setup()
     await user.click(screen.getByTestId('form-row-input'))
@@ -63,7 +63,7 @@ describe('test action <FormRow />', () => {
 
   it('when input, call onChange() with html event', () => {
     const mockOnInput = vi.fn()
-    render(<FormRow {...initialProps} onInput={mockOnInput} />, { wrapper })
+    render(<FormRow {...initialProps} selectable={true} onInput={mockOnInput} />, { wrapper })
 
     fireEvent.change(screen.getByTestId('form-row-input'), { target: { value: '5000' } })
     expect(mockOnInput).toHaveBeenCalledWith(expect.objectContaining({ type: 'change', _reactName: 'onChange' }))
@@ -71,7 +71,7 @@ describe('test action <FormRow />', () => {
 
   it('click token symbol or icon, open SelectTokenModal', async () => {
     const user = userEvent.setup()
-    const { container, rerender } = render(<FormRow {...initialProps} />, { wrapper })
+    const { container, rerender } = render(<FormRow {...initialProps} selectable={true} />, { wrapper })
 
     const modalOverlay = document.createElement('div')
     modalOverlay.setAttribute('id', 'modal-overlay')
@@ -79,7 +79,7 @@ describe('test action <FormRow />', () => {
 
     await user.click(screen.getByTestId('form-row-symbol'))
 
-    rerender(<FormRow {...initialProps} />)
+    rerender(<FormRow {...initialProps} selectable={true} />)
 
     expect(isRenderedByTestId('select-token-modal')).toBe(true)
   })

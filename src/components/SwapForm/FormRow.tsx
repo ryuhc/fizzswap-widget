@@ -22,7 +22,6 @@ import {
   StyledFormRow,
   FormRowSub
 } from '@/components/SwapForm/styles'
-import { useConfigContext } from '@/context/ConfigProvider'
 import { useFormRow } from '@/hooks/swap/useFormRow'
 
 interface IProps {
@@ -74,8 +73,6 @@ export function FormRow({
     return focused || inputValueView
   }, [focused, inputValueView])
 
-  const config = useConfigContext()
-
   return (
     <StyledFormRow $selectable={selectable}>
       {(title && selectable) && (
@@ -108,12 +105,12 @@ export function FormRow({
             data-testid="form-row-input"
           />
 
-          <FormSelectToken className={config.selectable ? 'with-ripple' : ''} $selectable={selectable} onClick={() => config.selectable && showSelectToken()}>
+          <FormSelectToken className={selectable ? 'with-ripple' : ''} $selectable={selectable} onClick={() => selectable && showSelectToken()}>
             <Text size={16} weight={700} color={token?.address ? 'black' : 'primary'} data-testid="form-row-symbol">
               {token?.symbol ?? 'Token'}
             </Text>
             <TokenIcon token={token} size={40} />
-            {config.selectable ? <Image src={TriangleIcon} alt="select" /> : null}
+            {selectable ? <Image src={TriangleIcon} alt="select" /> : null}
           </FormSelectToken>
         </div>
 
