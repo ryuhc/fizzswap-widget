@@ -1,10 +1,12 @@
 {
   "name": "fizzswap-widget",
-  "version": "0.2.11",
+  "version": "0.2.12",
   "author": {
     "name": "ryuhc",
     "email": "ryuhc@ozys.net"
   },
+  "homepage": "https://github.com/ryuhc/fizzswap-widget#readme",
+  "repository": "https://github.com/ryuhc/fizzswap-widget",
   "type": "module",
   "types": "./dist/index.d.ts",
   "main": "./dist/index.cjs",
@@ -29,6 +31,7 @@
     "compile": "tsc -b",
     "test": "vitest run"
   },
+  "license": "GPL-3.0-or-later",
   "dependencies": {
     "@ethereumjs/util": "^9.1.0",
     "@gsap/react": "^2.1.1",
