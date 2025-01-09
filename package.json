@@ -26,7 +26,8 @@
     "deploy": ".",
     "lint": "eslint .",
     "preview": "vite preview",
-    "compile": "tsc -b"
+    "compile": "tsc -b",
+    "test": "vitest run"
   },
   "dependencies": {
     "@ethereumjs/util": "^9.1.0",

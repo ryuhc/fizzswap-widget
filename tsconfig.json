@@ -22,5 +22,5 @@
     "emitDeclarationOnly": true
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
-  "exclude": ["node_modules", "**/*.test.ts", "**/*.test.tsx", "vitest.config.ts", "src/index.dev.tsx"]
+  "exclude": ["node_modules", "**/*.test.*", "vitest.config.ts", "src/index.dev.tsx"]
 }
