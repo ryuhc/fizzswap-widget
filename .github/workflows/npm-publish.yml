@@ -4,8 +4,9 @@
 name: Node.js Package
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - main
 
 jobs:
   build:
@@ -20,7 +21,7 @@ jobs:
       - run: pnpm test
       - run: pnpm build:prod
 
-  publish-npm:
+  publish:
     needs: build
     runs-on: ubuntu-latest
     steps:
