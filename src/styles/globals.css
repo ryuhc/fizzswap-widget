@@ -1,0 +1,179 @@
+@import url(//spoqa.github.io/spoqa-han-sans/css/SpoqaHanSansNeo.css);
+
+* {
+  box-sizing: border-box;
+  background-repeat: no-repeat;
+  padding: 0;
+  margin: 0;
+}
+
+button {
+  border: none;
+  outline: none;
+  -webkit-appearance: button;
+  background: transparent;
+  cursor: pointer;
+}
+
+#widget-root {
+  color: #333;
+  font-size: 14px;
+  font-family: "Spoqa Han Sans Neo", "Roboto", sans-serif;
+  letter-spacing: -0.03em;
+  line-height: 20px;
+
+  * {
+    ::selection {
+      background: #B4D5FE;
+    }
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  img {
+    display: initial;
+    vertical-align: middle;
+  }
+
+  input {
+    border: none;
+    outline: 0 none;
+    background: transparent;
+    border-radius: 0;
+    -webkit-appearance: none;
+    color: #333;
+
+    &[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    &::placeholder {
+      color: #ccc;
+    }
+  }
+  textarea:focus, input:focus {
+    outline: none;
+  }
+
+  :root {
+    --foreground-rgb: #333;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  .scrollable {
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #dee3eb;
+      border-radius: 8px;
+    }
+  }
+
+  button, select {
+    text-transform: none;
+  }
+
+  #modal-overlay {
+    display: none;
+    position: fixed;
+    background: #00000030;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 50;
+    align-content: center;
+    justify-content: center;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1em;
+    font-weight: normal;
+    margin: 0;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  #widget-root {
+    color-scheme: dark;
+  }
+}
+
+/* makes the element visible and scales it x30 */
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(30, 30);
+  }
+}
+.with-ripple {
+  position: relative;
+  overflow: hidden;
+
+  /* place the element with after, which will get animated */
+  &::after {
+    content: '';
+    /* make small white invisible circle, let background shine through */
+    opacity: 0;
+    background: rgba(0, 0, 0, 0.1);
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+    /* center it horizontal & vertically*/
+    position: absolute;
+    top: 50%;
+    left: 50%;
+  }
+
+  /* button beeing focussed but not active right now? Trigger animation */
+  &:active::after {
+    animation: ripple 0.4s ease-out;
+  }
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes slideFromRight {
+  from {
+    opacity: 0;
+    transform: translate3d(50px, 0, 1px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 1px);
+  }
+}
+@keyframes slideFromBottom {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 50px, 1px);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0px, 1px);
+  }
+}

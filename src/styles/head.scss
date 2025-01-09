@@ -1,0 +1,239 @@
+// 플랫폼, 메뉴 등에 상관없이 보편적으로 쓰일 믹스인이나 변수들을 모아놓은 파일
+@mixin center-align-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin vertical-align-flex {
+  display: flex;
+  align-items: center;
+}
+
+@mixin vertical-flex-end {
+  display: flex;
+  align-items: flex-end;
+}
+
+@mixin horizon-flex-end {
+  display: flex;
+  align-content: flex-end;
+}
+
+@mixin horizon-align-flex {
+  display: flex;
+  justify-content: center;
+}
+
+@mixin horizon-flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+@mixin full-circle($v) {
+  width: $v;
+  height: $v;
+  border-radius: 50%;
+}
+
+@mixin text-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@mixin full-fixed {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+@mixin full-absolute {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+}
+
+@mixin align-center($v) {
+  height: $v + px;
+  line-height: $v + px;
+  text-align: center;
+}
+
+@mixin calc-width-lr($v) {
+  width: calc(100% - #{$v * 2}px);
+  margin: 0 $v + px;
+}
+
+@mixin basic-modal() {
+  width: 480px;
+  background: #fff;
+  margin: auto;
+}
+
+@mixin square($n) {
+  width: $n;
+  height: $n;
+}
+
+@mixin general-bold-title() {
+  font: {
+    size: 20px;
+    weight: bold;
+  }
+}
+
+@mixin general-bold-text() {
+  font: {
+    size: 1.29em;
+    weight: bold;
+  }
+}
+
+@mixin large-bold-text() {
+  font: {
+    size: 2.15em;
+    weight: bold;
+  }
+}
+
+@mixin get-size-without-unit($v) {
+  width: calc(100% - #{$v});
+  line-height: 1.25;
+  word-break: break-all;
+}
+
+@mixin gen-inline-left() {
+  float: left;
+  display: inline-block;
+}
+
+@mixin gen-regular-text() {
+  font: {
+    size: 1.29em;
+    weight: 500;
+  }
+}
+
+@mixin gen-regular-label() {
+  font: {
+    size: 20px;
+    weight: 500;
+  }
+}
+
+@mixin small-regular-text() {
+  font: {
+    size: 12px;
+    weight: 500;
+  }
+}
+
+@mixin asset-regular-label() {
+  font: {
+    size: 16px;
+    weight: 500;
+  }
+}
+
+@mixin flex-row-center {
+  text-align: center;
+  justify-content: center;
+}
+
+@mixin flex-row-right {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+@mixin round-el($h) {
+  height: #{$h}px;
+  border-radius: #{$h / 2}px;
+}
+
+@mixin ecoPot-title-text($size, $color, $weight) {
+  font: {
+    size: $size;
+    weight: $weight;
+  }
+  color: $color;
+}
+
+$white: #ffffff;
+
+$color_long: #f07575;
+$color_short: #0078ee;
+
+$max_width: 1200px;
+$max_form_width: 400px;
+$body_bg_color: #fafbfc;
+$gen_box_shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+
+$gen_gray: #999999;
+$melange_gray: #dee3eb;
+$gen_lightgray: #c5c5c5;
+$new_lightgray: #ebeef2;
+$melange_white: #f0f3f5;
+
+$gen_black: #333;
+$gen_lightblack: #666;
+$gen_dark_navy: #142e47;
+
+$gen_border: 1px solid rgba(34, 34, 34, 0.1);
+
+$empty_profile_bg: #d8d8d8;
+$gen_modal_bg: rgba(0, 0, 0, 0.3);
+$gen_text_shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+
+$gen_transition: all 0.2s ease-out;
+$gen_cubic_bezier: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1);
+
+$gen_sky: #275aff;
+$gen_blue: #0078ee;
+
+$red_long: #f07575;
+
+$gen_red: #f26c61;
+$gen_error: #e65c5c;
+$gen_light_error: #f28379;
+$staking_red: #e65016;
+
+$primary_color: #00DA00;
+$primary_active: #00BF00;
+$primary_light: #faf7f2;
+
+$secondary_color: #b39c7d;
+$secondary_active: #6f6558;
+$secondary_light: #e6d2b8;
+
+$tertiary_color: #66a1ff;
+$tertiary_hover: #5e94eb;
+$tertiary_active: #3378e6;
+
+$violet: #8237c8;
+$violet_bold: #551e8c;
+$violet_light: #962dfa;
+
+$gen_desc_red: #ff5b4d;
+$khaki_black: #4d463d;
+$gray_disable: #c1c5cc;
+
+$pale_green: #6ad0ba;
+
+$gen_utilized_rate: #e56d16;
+
+$gen_666666: #666666;
+
+$gen_f39755: #f39755;
+
+/*
+/*
+@font-face {
+  font-family: "password-mask";
+  src: url($public_path+ "/fonts/password-mask.ttf") format("truetype");
+}
+*/

@@ -1,0 +1,17 @@
+<svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <filter x="-10.9%" y="-7.8%" width="121.9%" height="121.9%" filterUnits="objectBoundingBox" id="wi4y8pppoa">
+            <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" in="shadowBlurOuter1"/>
+        </filter>
+        <rect id="f7dmjboydb" x="0" y="0" width="32" height="32" rx="16"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g transform="translate(2 1)">
+            <use fill="#000" filter="url(#wi4y8pppoa)" xlink:href="#f7dmjboydb"/>
+            <use fill="#FFF" xlink:href="#f7dmjboydb"/>
+        </g>
+        <path d="M18 17.67c-4.923 0-8.913-.719-8.913-1.606 0-.766 2.974-1.406 6.953-1.567v2.913a48.7 48.7 0 0 0 3.904 0v-2.914c3.988.16 6.97.8 6.97 1.568 0 .887-3.991 1.607-8.914 1.607m9.524-1.516c0-.886-3.25-1.625-7.575-1.798v-2.493h5.734V8.086H10.317v3.778h5.734v2.493c-4.325.173-7.575.912-7.575 1.798s3.25 1.625 7.575 1.798v7.96h3.898v-7.96c4.325-.173 7.575-.912 7.575-1.798" fill="#4FAE95" fill-rule="nonzero"/>
+    </g>
+</svg>

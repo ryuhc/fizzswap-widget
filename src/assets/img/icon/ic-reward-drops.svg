@@ -1,0 +1,79 @@
+<svg width="44" height="44" viewBox="0 0 44 44" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <linearGradient x1="50%" y1="52.119%" x2="68.409%" y2="63.449%" id="x7wc3x7t8b">
+            <stop stop-color="#DEE3EB" offset="0%"/>
+            <stop stop-color="#F1F3F7" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="7.185%" y1="50%" x2="72.615%" y2="50%" id="l5ww5zfsnd">
+            <stop stop-color="#FFE2C7" offset="0%"/>
+            <stop stop-color="#E68844" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="4.62%" y1="50%" x2="78.65%" y2="57.297%" id="8htpataklc">
+            <stop stop-color="#F4A631" offset="0%"/>
+            <stop stop-color="#00BF00" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="0%" y1="64.784%" x2="50%" y2="85.953%" id="bjg0asl01e">
+            <stop stop-color="#00DA00" offset="0%"/>
+            <stop stop-color="#00BF00" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50%" x2="72.194%" y2="50%" id="8kf01f4ong">
+            <stop stop-color="#F39755" offset="0%"/>
+            <stop stop-color="#FFEEB9" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="100%" y1="53.715%" x2="0%" y2="43.724%" id="17yr0tlqhi">
+            <stop stop-color="#FCE2A1" offset="0%"/>
+            <stop stop-color="#F8C268" offset="100%"/>
+        </linearGradient>
+        <linearGradient x1="19.287%" y1="55.499%" x2="100%" y2="50%" id="kp1ayox5nl">
+            <stop stop-color="#FFF" offset="0%"/>
+            <stop stop-color="#FFF" stop-opacity="0" offset="100%"/>
+        </linearGradient>
+        <filter x="-16.2%" y="-16.2%" width="132.5%" height="132.5%" filterUnits="objectBoundingBox" id="iss02nsf5a">
+            <feOffset dy="1" in="SourceAlpha" result="shadowOffsetOuter1"/>
+            <feGaussianBlur stdDeviation="1" in="shadowOffsetOuter1" result="shadowBlurOuter1"/>
+            <feColorMatrix values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0" in="shadowBlurOuter1" result="shadowMatrixOuter1"/>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"/>
+                <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+        </filter>
+        <filter x="-.8%" y="-2%" width="101.7%" height="104.1%" filterUnits="objectBoundingBox" id="4hol534ork">
+            <feOffset dx="-.2" dy="-.2" in="SourceAlpha" result="shadowOffsetInner1"/>
+            <feComposite in="shadowOffsetInner1" in2="SourceAlpha" operator="arithmetic" k2="-1" k3="1" result="shadowInnerInner1"/>
+            <feColorMatrix values="0 0 0 0 1 0 0 0 0 0.684729064 0 0 0 0 0 0 0 0 1 0" in="shadowInnerInner1"/>
+        </filter>
+        <ellipse id="2feqy3t7bj" cx="6.028" cy="2.485" rx="5.996" ry="2.46"/>
+        <path d="M.135 1.325C.016.585-.021.162.022.058 1.855 1.595 3.878 2.363 6.09 2.363c3.319 0 5.865-1.369 5.865-2.31-.048.63-.125 1.141-.231 1.537-.843.906-2.92 1.659-5.925 1.659S.889 2.231.135 1.325z" id="h5fycdqyhf"/>
+    </defs>
+    <g fill="none" fill-rule="evenodd">
+        <g filter="url(#iss02nsf5a)" fill="#FFF" transform="translate(2 1)">
+            <rect width="40" height="40" rx="20"/>
+        </g>
+        <g stroke-width=".5">
+            <path d="M16.901 9.999c-.005-4.441-3.587-8.045-8.002-8.05C4.485 1.944.91 5.54.915 9.98c.497-.649 1.747-.541 2.14-.405 1.184.409 1.52.917 1.874 1.453a2.47 2.47 0 0 1 .011-.026c.659-1.51 2.667-1.99 3.97-1.989 1.524.002 3.443.733 4.051 2.023.705-1.042 1.154-1.303 1.997-1.449.629-.108 1.374-.138 1.943.41z" stroke="#D5D8DC" fill="url(#x7wc3x7t8b)" stroke-linejoin="round" transform="rotate(30 -.849 38.131)"/>
+            <path stroke="#C1C5CC" d="m25.803 19.691-8.099 5.998 1.142-10.065"/>
+            <path stroke="#DEE3EB" d="m24.623 21.585-7.036 4.111.127-8.139"/>
+            <path stroke="#C1C5CC" d="m28.579 22.653-10.94 2.958-2.913-10.976"/>
+            <path d="M17.033 10.047c-.005-4.468-3.587-8.093-8.002-8.098-4.414-.005-7.989 3.613-7.984 8.08.071-.88.97-1.268 1.532-1.463.834-.289 2.126-.323 2.48.216.647-1.54 2.67-1.758 3.98-1.756 1.525.001 3.438.502 4.047 1.8.676-.538 1.528-.537 2.364-.246.563.196 1.371.586 1.583 1.467z" stroke="url(#8htpataklc)" fill="url(#l5ww5zfsnd)" stroke-linejoin="round" transform="rotate(30 -.75 37.892)"/>
+            <path d="M13.268 8.849c-.004-3.772-1.812-6.832-4.037-6.834-2.226-.003-4.027 3.053-4.023 6.825" stroke="url(#bjg0asl01e)" transform="rotate(30 -.614 37.622)"/>
+        </g>
+        <g transform="rotate(-60 34.948 6)">
+            <mask id="zpbnje4x4h" fill="#fff">
+                <use xlink:href="#h5fycdqyhf"/>
+            </mask>
+            <use fill="url(#8kf01f4ong)" xlink:href="#h5fycdqyhf"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M.459.126h1v2.726h-1z"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M1.01.711h1v2.726h-1zM3.941 1.392h1v2.726h-1zM2.768 1.392h1v2.726h-1z"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M3.355 1.392h1v2.726h-1zM4.527 1.392h1v2.726h-1zM2.182 1.392h1v2.726h-1z"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M1.596 1.392h1v2.726h-1zM5.211 1.75h1v2.726h-1z"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M5.797 1.75h1v2.726h-1zM8.728 1.75h1v2.726h-1zM7.556 1.75h1v2.726h-1z"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M8.142 1.75h1v2.726h-1zM9.315 1.75h1v2.726h-1zM6.97 1.75h1v2.726h-1zM11.66 1.069h1v2.726h-1zM10.487 1.75h1v2.726h-1z"/>
+            <path fill-opacity=".1" fill="#00DA00" mask="url(#zpbnje4x4h)" d="M11.074 1.069h1v2.726h-1zM9.901 1.75h1v2.726h-1zM6.383 1.75h1v2.726h-1z"/>
+        </g>
+        <g transform="rotate(-60 32.704 7.299)">
+            <use fill="url(#17yr0tlqhi)" xlink:href="#2feqy3t7bj"/>
+            <use fill="#000" filter="url(#4hol534ork)" xlink:href="#2feqy3t7bj"/>
+            <ellipse stroke="url(#kp1ayox5nl)" stroke-width=".5" stroke-linejoin="square" cx="6.028" cy="2.485" rx="5.746" ry="2.21"/>
+        </g>
+    </g>
+</svg>

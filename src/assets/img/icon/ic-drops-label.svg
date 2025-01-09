@@ -1,0 +1,8 @@
+<svg width="57" height="20" viewBox="0 0 57 20" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <path d="M0 0h54.764a2 2 0 0 1 1.789 2.894l-8 16A2 2 0 0 1 46.763 20H0V0z" fill="#00DA00"/>
+        <text font-family="SpoqaHanSans-Bold, SpoqaHanSans" font-size="10" font-weight="bold" fill="#FFF">
+                    <tspan x="10.85" y="14">Drops</tspan>
+                </text>
+    </g>
+</svg>

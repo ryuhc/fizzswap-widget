@@ -1,0 +1,75 @@
+@import '../../styles/head';
+
+.common-circle-progress {
+  margin: 0 auto;
+
+  .loader {
+    @include square(100%);
+    border-radius: 50%;
+    position: relative;
+    animation: load3 1.4s infinite linear;
+    transform: translateZ(0);
+    background: $primary_color;
+    background: linear-gradient(to right, rgba(44, 218, 73, 0.25) 0%, rgba(44, 218, 73, 1) 100%);
+  }
+
+  .loader:before {
+    width: 50%;
+    height: 50%;
+    background: linear-gradient(to right, rgba(255, 255, 255, 1) 0%, rgba(44, 218, 73, 0.25) 100%);
+    border-radius: 100% 0 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+  }
+
+  .loader:after {
+    background: #fff;
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    content: '';
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+
+  @keyframes load3 {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
+  &.body {
+    .loader:after {
+      background: $body_bg_color;
+    }
+  }
+
+  &.modal {
+    .loader:after {
+      background: $gen_gray;
+    }
+  }
+
+  &.secondary {
+    .loader:after {
+      background: $secondary_color;
+    }
+  }
+
+  &.async-components {
+    margin: 60px auto;
+  }
+
+  &.async-components-small {
+    margin: 0 auto;
+  }
+}

@@ -1,0 +1,30 @@
+<svg width="46" height="42" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" fill-rule="evenodd">
+        <g opacity=".8" fill="#FFC032">
+            <rect y="28.301" width="15.161" height="3.032" rx="1"/>
+            <rect y="32.344" width="15.161" height="3.032" rx="1"/>
+            <rect y="36.387" width="15.161" height="3.032" rx="1"/>
+            <rect y="20.215" width="15.161" height="3.032" rx="1"/>
+            <rect y="24.258" width="15.161" height="3.032" rx="1"/>
+            <rect y="16.172" width="15.161" height="3.032" rx="1"/>
+            <rect y="12.129" width="15.161" height="3.032" rx="1"/>
+            <rect y="8.086" width="15.161" height="3.032" rx="1"/>
+            <rect y="4.043" width="15.161" height="3.032" rx="1"/>
+            <rect width="15.161" height="3.032" rx="1"/>
+        </g>
+        <g transform="rotate(45 5.074 33.79)">
+            <circle fill="#00DA00" cx="5.191" cy="5.179" r="4.879"/>
+            <path fill="#FFF" d="m3.322 4.625 4.531-.081-4.226 2.44z"/>
+        </g>
+        <g transform="translate(18.366 20.212)" fill="#FFC032" fill-opacity=".8">
+            <rect y="15.161" width="14.151" height="4.043" rx="1"/>
+            <rect y="5.054" width="14.151" height="4.043" rx="1"/>
+            <rect y="10.108" width="14.151" height="4.043" rx="1"/>
+            <rect width="14.151" height="4.043" rx="1"/>
+        </g>
+        <g transform="rotate(45 -14.566 62.827)">
+            <circle fill="#00DA00" cx="5.82" cy="5.045" r="4.879"/>
+            <path fill="#FFF" d="m3.95 4.49 4.532-.08-4.226 2.44z"/>
+        </g>
+    </g>
+</svg>
