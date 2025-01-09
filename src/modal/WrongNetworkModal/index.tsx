@@ -1,7 +1,6 @@
 import { useCallback, useMemo } from 'react'
 
 import styled from 'styled-components'
-import { numberToHex } from 'viem'
 import { useAccount } from 'wagmi'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
@@ -16,7 +15,7 @@ import { device } from '@/styles/createBreakPoints'
 import { StyledModal, StyledModalTitle } from '@/styles/modal'
 
 import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
-import { silicon, siliconSepolia } from '@/constants/chain'
+import { silicon } from '@/constants/chain'
 import { useEnvContext } from '@/context/EnvProvider'
 import { useConnectWallet } from '@/hooks/wallet/useConnectWallet'
 
@@ -48,21 +47,19 @@ export function WrongNetworkModal({ onClose }: IProps) {
 
     // @ts-ignore
     connector.getProvider().then(provider => {
-      const chainInfo = env.PROFILE === 'prod' && !env.isInternalProd ? silicon : siliconSepolia
-
       provider.request({
         method: 'wallet_addEthereumChain',
         params: [{
-          chainId: numberToHex(Number(env.DEFAULT_CHAIN)),
-          chainName: chainInfo.name,
-          nativeCurrency: chainInfo.nativeCurrency,
-          rpcUrls: chainInfo.rpcUrls.public.http,
-          blockExplorerUrls: [chainInfo.blockExplorers?.default.url],
+          chainId: silicon.id,
+          chainName: silicon.name,
+          nativeCurrency: silicon.nativeCurrency,
+          rpcUrls: silicon.rpcUrls.public.http,
+          blockExplorerUrls: [silicon.blockExplorers?.default.url],
           iconUrls: []
         }]
       })
     })
-  }, [connector, env, allowSwitchChain, onClose])
+  }, [connector, allowSwitchChain, onClose])
 
   return (
     <ModalWrapper customStyle={{

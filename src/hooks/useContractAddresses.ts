@@ -1,12 +1,9 @@
 import { useMemo } from 'react'
 
-import { contractAddresses, contractAddressesInternal } from '@/constants/chain'
-import { useEnvContext } from '@/context/EnvProvider'
+import { contractAddresses } from '@/constants/chain'
 
 export function useContractAddresses() {
-  const env = useEnvContext()
-
   return useMemo(() => {
-    return env.isInternalProd ? contractAddressesInternal : contractAddresses
-  }, [env])
+    return contractAddresses
+  }, [])
 }

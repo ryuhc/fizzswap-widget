@@ -3,14 +3,14 @@ import { useMemo } from 'react'
 import { createPublicClient, http } from 'viem'
 import { useChainId } from 'wagmi'
 
-import { SUPPORT_CHAIN_IDS } from '@/constants/chain'
+import { silicon, SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { useSupportChains } from '@/hooks/network/useSupportChains'
 
 export function useHttpClient(customUrl?: string) {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const supportChains = useSupportChains()
   const targetChain = useMemo(() => {
-    return supportChains.find(item => item.id === chainId)
+    return supportChains.find(item => item.id === chainId) ?? silicon
   }, [chainId, supportChains])
 
   const client = useMemo(() => {

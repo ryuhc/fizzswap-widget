@@ -10,7 +10,7 @@ import { useSupportChains } from '@/hooks/network/useSupportChains'
 export function useWrongNetwork() {
   const env = useEnvContext()
   const { connector } = useAccount()
-  const [connectorChainId, setConnectorChainId] = useState<number>(env.DEFAULT_CHAIN)
+  const [connectorChainId, setConnectorChainId] = useState<number>(Number(env.DEFAULT_CHAIN))
 
   const providerRef = useRef<any>(null)
   useEffect(() => {
