@@ -46,11 +46,9 @@ export function SlippageSetting() {
 }
 
 const StyledSlippageSetting = styled('div')`
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  margin: 15px auto;
 `
 const StyledSlippageSettingContent = styled('div')`
   width: auto;

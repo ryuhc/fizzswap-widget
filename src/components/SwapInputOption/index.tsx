@@ -3,6 +3,7 @@ import { ChangeEvent, useCallback, useMemo, useState } from 'react'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
 import { Text } from '@/styles/common'
+import { device } from '@/styles/createBreakPoints'
 
 export function SwapInputOption({ token, typedField, onSelect }: {
   token: ITokenItem,
@@ -39,8 +40,12 @@ export function SwapInputOption({ token, typedField, onSelect }: {
 
 const StyledSwapInputOption = styled('section')`
   display: flex;
-  gap: 4px;
+  gap: 8px 4px;
   margin-top: 10px;
+
+  @media ${device.md} {
+    flex-wrap: wrap;
+  }
 `
 
 const SwapInputOptionItem = styled('button')`

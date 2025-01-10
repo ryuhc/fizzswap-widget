@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { DateTime } from 'luxon'
 
 import { isValidAddress } from '@ethereumjs/util'
 import { useDebounce } from '@uidotdev/usehooks'
@@ -56,7 +57,6 @@ import { useCurrentAccount } from '@/hooks/wallet/useCurrentAccount'
 import { fetchSwapRoutes } from '@/state/swap/fetch/fetchSwapRoutes'
 import { SwapInputOption } from '@/components/SwapInputOption'
 
-
 export function SwapForm() {
   const { t, locale } = useTranslationSimplify()
 
@@ -102,6 +102,7 @@ export function SwapForm() {
     data: routes,
     isFetching,
     fetchRoute,
+    updatedAt
   } = useFetchRoutes({
     inputToken,
     outputToken,
@@ -689,6 +690,9 @@ export function SwapForm() {
     <>
       <SwapConfigArea>
         <SlippageSetting />
+        <div style={{ margin: '0 10px 0 auto' }}>
+          <Text size={12} color="gray">{t('General.RecentUpdatedAt')} : {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}</Text>
+        </div>
         <RefreshRouteButton onClick={fetchRoute}>
           <Image src={RefreshIcon} alt="refresh" className={isFetching ? 'fetching' : ''} />
         </RefreshRouteButton>

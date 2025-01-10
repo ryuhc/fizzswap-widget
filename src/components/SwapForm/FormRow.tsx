@@ -23,6 +23,7 @@ import {
   FormRowSub
 } from '@/components/SwapForm/styles'
 import { useFormRow } from '@/hooks/swap/useFormRow'
+import { textEllipsis } from '@/utils'
 
 interface IProps {
   idx: number,
@@ -107,7 +108,7 @@ export function FormRow({
 
           <FormSelectToken className={selectable ? 'with-ripple' : ''} $selectable={selectable} onClick={() => selectable && showSelectToken()}>
             <Text size={16} weight={700} color={token?.address ? 'black' : 'primary'} data-testid="form-row-symbol">
-              {token?.symbol ?? 'Token'}
+              {textEllipsis(token?.symbol ?? 'Token', 10)}
             </Text>
             <TokenIcon token={token} size={40} />
             {selectable ? <Image src={TriangleIcon} alt="select" /> : null}

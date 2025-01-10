@@ -141,10 +141,10 @@ export const FormRowInputField = styled(`input`)<{ error: boolean }>`
   border: none;
   background: none;
   padding: 0;
-  font-size: 24px;
+  font-size: 18px;
   
   &::placeholder {
-    color: ${({ theme}) => theme.colors.gray6};
+    color: ${({ theme }) => theme.colors.gray6};
   }
   
   @media ${device.md} {
@@ -158,17 +158,14 @@ export const FormRowSub = styled(`div`)`
 
 export const FormError = styled('div')`
   text-align: right;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 `
 
 export const SwapConfigArea = styled('section')`
+  width: 100%;
   display: flex;
   align-items: center;
-  gap: 16px;
-  
-  @media ${device.sm} {
-    gap: 10px;
-  }
+  margin: 15px 0;
 `
 export const RefreshRouteButton = styled('button')`
   width: 28px;

@@ -27,7 +27,7 @@ export function useSwapRoutes({ inputToken, outputToken, amount, isPos }: IProps
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const apiPath = useApiUrl()
   const queryKey = ['swapRoute', chainId, inputToken.address ?? '-', outputToken.address ?? '-', amount, isPos]
-  const { data, refetch, isFetching, isStale } = useQuery({
+  const { data, refetch, isFetching } = useQuery({
     queryKey,
     queryFn: () => {
       if (amount === '0' || !amount || !outputToken.address || !inputToken.address) {

@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 
 import { useChainId } from 'wagmi'
 
@@ -78,5 +78,12 @@ export function useFetchRoutes({
     return { ...res, isPos }
   }, [isPos, inputToken, outputToken, chainId, isPos])
 
-  return { data, refetch, isFetching, fetchRoute }
+  const [updatedAt, setUpdatedAt] = useState<number>(0)
+  useEffect(() => {
+    if (data) {
+      setUpdatedAt(new Date().valueOf())
+    }
+  }, [data])
+
+  return { data, refetch, isFetching, fetchRoute, updatedAt }
 }
