@@ -54,6 +54,7 @@ import { useSwitchToken } from '@/hooks/swap/useSwitchToken'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 import { useCurrentAccount } from '@/hooks/wallet/useCurrentAccount'
 import { fetchSwapRoutes } from '@/state/swap/fetch/fetchSwapRoutes'
+import { SwapInputOption } from '@/components/SwapInputOption'
 
 
 export function SwapForm() {
@@ -674,6 +675,16 @@ export function SwapForm() {
     }
   }, [config, typedField])
 
+  const showAmountOption = useMemo(() => {
+    if (typedField === 0) {
+      return isSameAddress(inputToken?.address ?? '', nativeAddress)
+    }
+
+    if (typedField === 1) {
+      return isSameAddress(outputToken?.address ?? '', nativeAddress)
+    }
+  }, [inputToken, outputToken, typedField, nativeAddress])
+
   return (
     <>
       <SwapConfigArea>
@@ -700,6 +711,13 @@ export function SwapForm() {
             isMax={isMaxInput}
             onMax={onSelectMax}
             onSelect={onSelectToken}
+          />
+        )}
+        {(!config.selectable && showAmountOption) && (
+          <SwapInputOption
+            token={typedField === 0 ? inputToken : outputToken}
+            typedField={typedField}
+            onSelect={onInput}
           />
         )}
         {(config.swapType === 'normal' && config.selectable) && (
