@@ -1,8 +1,8 @@
 import './i18n'
-import App from './App'
+import SwapWidget from './SwapWidget'
 
 export * from '@/utils'
 export * from '@/constants/chain'
 export * from '@/constants/colors'
 
-export default App
+export default SwapWidget

@@ -1,12 +1,12 @@
 import { createRoot } from 'react-dom/client'
 
 import './i18n'
-import App from './App'
+import SwapWidget from './SwapWidget'
 
 if (import.meta.env.VITE_IS_LOCAL) {
   createRoot(document.getElementById('root')!).render(
     <div>
-      <App
+      <SwapWidget
         swapType="normal"
         selectable={false}
         inputAmount="0.1"
@@ -17,4 +17,4 @@ if (import.meta.env.VITE_IS_LOCAL) {
   )
 }
 
-export default App
+export default SwapWidget

@@ -6,7 +6,7 @@ import { SwapWidgetProps } from '@/types/index.d.ts'
 import '@/styles/globals.css'
 import 'react-tooltip/dist/react-tooltip.css'
 
-function App(props: SwapWidgetProps) {
+function SwapWidget(props: SwapWidgetProps) {
   return (
     <section id="widget-root">
       <RootProvider config={props}>
@@ -16,4 +16,4 @@ function App(props: SwapWidgetProps) {
   )
 }
 
-export default App
+export default SwapWidget
