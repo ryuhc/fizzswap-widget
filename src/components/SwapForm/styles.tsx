@@ -175,4 +175,8 @@ export const RefreshRouteButton = styled('button')`
   height: 28px;
   border-radius: 4px;
   background: ${({ theme }) => theme.colors.bodyBackground};
+  
+  img.fetching {
+    animation: rotate 1s cubic-bezier(.25,.8,.25,1) infinite;
+  }
 `

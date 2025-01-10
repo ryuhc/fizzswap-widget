@@ -679,7 +679,7 @@ export function SwapForm() {
       <SwapConfigArea>
         <SlippageSetting />
         <RefreshRouteButton onClick={fetchRoute}>
-          <Image src={RefreshIcon} alt="refresh" />
+          <Image src={RefreshIcon} alt="refresh" className={isFetching ? 'fetching' : ''} />
         </RefreshRouteButton>
       </SwapConfigArea>
       

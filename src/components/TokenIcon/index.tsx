@@ -47,7 +47,13 @@ export function TokenIcon({ token, size, highlightwhenempty, lazyload, onClickIc
       onClick={() => onClickIcon && onClickIcon()}
       data-highlight={highlightwhenempty ? '1' : '0'}
     >
-      <Image src={!token?.address ? UnSelectedIcon : (token?.image || DefaultTokenIcon)} alt={token?.symbol} onError={handleError} loading={lazyload ? 'lazy' : undefined} />
+      <Image
+        src={!token?.address ? UnSelectedIcon : (token?.image || DefaultTokenIcon)}
+        alt={token?.symbol}
+        onError={handleError}
+        loading={lazyload ? 'lazy' : undefined}
+        sx={{ width: '100%' }}
+      />
     </StyledIcon>
   )
 }
@@ -66,6 +72,7 @@ const StyledIcon = styled('div')<{ size: string | number, token: ITokenItem | nu
   text-align: center;
   border-radius: 50%;
   cursor: pointer;
+  background: ${({ theme }) => theme.colors.white};
 
   img {
     height: 100%;

@@ -1,6 +1,14 @@
 import { useEffect, useMemo, useState } from 'react'
 
-export function Image({ src, alt, sx, type, loading, onError }: { src: any, alt?: string, sx?: any, type?: string, loading?: 'eager' | 'lazy' | undefined, onError?: Function }) {
+export function Image({ src, alt, sx, type, className, loading, onError }: {
+  src: any,
+  alt?: string,
+  sx?: any,
+  type?: string,
+  loading?: 'eager' | 'lazy' | undefined,
+  className?: string,
+  onError?: Function
+}) {
   const [path, setPath] = useState<string>('')
 
   useEffect(() => {
@@ -22,6 +30,6 @@ export function Image({ src, alt, sx, type, loading, onError }: { src: any, alt?
   }, [sx, type])
 
   return path && (
-    <img src={path} alt={alt ?? ''} style={styleProps} loading={loading} onError={onError} />
+    <img src={path} className={className ?? ''} alt={alt ?? ''} style={styleProps} loading={loading} onError={onError} />
   )
 }
