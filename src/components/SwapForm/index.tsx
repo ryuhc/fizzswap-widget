@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
-import { DateTime } from 'luxon'
 
 import { isValidAddress } from '@ethereumjs/util'
 import { useDebounce } from '@uidotdev/usehooks'
 import BN from 'bignumber.js'
+import { DateTime } from 'luxon'
 import { Abi } from 'viem'
 import { useChainId } from 'wagmi'
 
@@ -23,6 +23,7 @@ import { ExchangeRate } from '@/components/ExchangeRate'
 import { Image } from '@/components/Image/'
 import { SlippageSetting } from '@/components/SlippageSetting'
 import { SwapEstimated } from '@/components/SwapEstimated'
+import { SwapInputOption } from '@/components/SwapInputOption'
 
 import { TxConfirmModal } from '@/modal/TxConfirmModal'
 
@@ -55,7 +56,6 @@ import { useSwitchToken } from '@/hooks/swap/useSwitchToken'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 import { useCurrentAccount } from '@/hooks/wallet/useCurrentAccount'
 import { fetchSwapRoutes } from '@/state/swap/fetch/fetchSwapRoutes'
-import { SwapInputOption } from '@/components/SwapInputOption'
 
 export function SwapForm() {
   const { t, locale } = useTranslationSimplify()
@@ -676,16 +676,6 @@ export function SwapForm() {
     }
   }, [config, typedField])
 
-  const showAmountOption = useMemo(() => {
-    if (typedField === 0) {
-      return isSameAddress(inputToken?.address ?? '', nativeAddress)
-    }
-
-    if (typedField === 1) {
-      return isSameAddress(outputToken?.address ?? '', nativeAddress)
-    }
-  }, [inputToken, outputToken, typedField, nativeAddress])
-
   return (
     <>
       <SwapConfigArea>
@@ -707,21 +697,13 @@ export function SwapForm() {
             token={inputToken as ITokenItem}
             title="From"
             balance={balances[inputToken?.address ?? ''] ?? 0n}
-            showLabel={typedField === 1 && Number(inputValue) > 0}
             hasError={error.fields.token0}
-            selectable={config.selectable}
+            selectable={!!config.selectable}
             onInput={onInput}
             onFocus={onFocus}
             isMax={isMaxInput}
             onMax={onSelectMax}
             onSelect={onSelectToken}
-          />
-        )}
-        {(!config.selectable && showAmountOption) && (
-          <SwapInputOption
-            token={typedField === 0 ? inputToken : outputToken}
-            typedField={typedField}
-            onSelect={onInput}
           />
         )}
         {(config.swapType === 'normal' && config.selectable) && (
@@ -739,15 +721,23 @@ export function SwapForm() {
             token={outputToken as ITokenItem}
             title="To"
             balance={balances[outputToken?.address ?? ''] ?? 0n}
-            showLabel={typedField === 0 && Number(outputValue) > 0}
             hasError={error.fields.token1}
-            selectable={config.selectable}
+            selectable={!!config.selectable}
             onInput={onInput}
             onFocus={onFocus}
             isMax={isMaxInput}
             onMax={onSelectMax}
             onSelect={onSelectToken}
             hideMax={true}
+          />
+        )}
+
+        {!config.selectable && (
+          <SwapInputOption
+            token={typedField === 0 ? inputToken : outputToken}
+            balance={balances[(typedField === 0 ? inputToken : outputToken)?.address ?? ''] ?? 0n}
+            typedField={typedField}
+            onSelect={onInput}
           />
         )}
 

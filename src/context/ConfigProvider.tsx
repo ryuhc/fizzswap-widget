@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 
-import { SwapWidgetProps } from '@/types/index.d.ts'
+import type { SwapWidgetProps } from '@/types/index.d.ts'
 
 export const ConfigContext = createContext<SwapWidgetProps>({} as SwapWidgetProps)
 

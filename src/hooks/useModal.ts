@@ -1,4 +1,4 @@
-import { MouseEvent, useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import { allowScroll, preventScroll } from "@/utils/scroll";
 
@@ -9,20 +9,20 @@ const useModal = (): UseModalReturn => {
   const [portalElement, setPortalElement] = useState<Element | null>(null);
 
   useEffect(() => {
-    const portal = document.getElementById("modal-overlay")
+    const portal = document.getElementById('modal-overlay')
 
     setPortalElement(portal);
 
     if (portal) {
       if (show) {
         portal.className = portal.style.display = 'flex'
-        portal.addEventListener('click', handleClickToClose.bind(this, portal))
+        portal.addEventListener('click', handleClickToClose)
 
         preventScroll()
       } else if (portal.children.length === 0) {
 
         portal.className = portal.style.display = 'none'
-        portal.removeEventListener('click', handleClickToClose.bind(this, portal))
+        portal.removeEventListener('click', handleClickToClose)
 
         allowScroll()
       }
@@ -33,9 +33,15 @@ const useModal = (): UseModalReturn => {
     setShow(!show);
   };
 
-  const handleClickToClose = useCallback((portal: Element, event: MouseEvent<Element>) => {
+  const handleClickToClose = useCallback((event: HTMLElementEventMap['click']) => {
     const {clientX, clientY} = event
-    const {top, bottom, left, right} = portal.children[0]?.getBoundingClientRect() ?? {}
+    const portal = document.getElementById("modal-overlay")
+    const {top, bottom, left, right} = portal?.children[0]?.getBoundingClientRect() ?? {
+      top: 0,
+      bottom: 0,
+      left: 0,
+      right: 0
+    }
 
     if (
       (left <= clientX && clientX <= right) &&

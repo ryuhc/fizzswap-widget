@@ -72,8 +72,6 @@ export function AboutPriceImpactModal({
                 tokenA={token0Info}
                 tokenB={token1Info}
                 rate={defaultRate}
-                withHighlight={true}
-                withMultiline={isMobile}
               />
             </dd>
           </dl>
@@ -89,8 +87,6 @@ export function AboutPriceImpactModal({
                 tokenA={token0Info}
                 tokenB={token1Info}
                 rate={params.rate}
-                withHighlight={true}
-                withMultiline={isMobile}
               />
             </dd>
           </dl>

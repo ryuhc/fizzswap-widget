@@ -46,7 +46,7 @@ export function WrongNetworkModal({ onClose }: IProps) {
     }
 
     // @ts-ignore
-    connector.getProvider().then(provider => {
+    connector.getProvider().then((provider: any) => {
       provider.request({
         method: 'wallet_addEthereumChain',
         params: [{
@@ -59,7 +59,7 @@ export function WrongNetworkModal({ onClose }: IProps) {
         }]
       })
     })
-  }, [connector, allowSwitchChain, onClose])
+  }, [connector, onClose, allowSwitchChain, disconnect])
 
   return (
     <ModalWrapper customStyle={{

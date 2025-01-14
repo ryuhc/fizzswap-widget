@@ -1,6 +1,6 @@
-import { silicon, siliconSepolia, SUPPORT_CHAIN_IDS } from '@/constants/chain/config'
+import { silicon, siliconSepolia } from '@/constants/chain/config'
 
-export const contractAddresses: { [p: string]: Record<SUPPORT_CHAIN_IDS, `0x${string}`>} = {
+export const contractAddresses: { [p: string]: { [p: number]: `0x${string}` } } = {
   native: {
     [silicon.id]: '0x0000000000000000000000000000000000000000',
     [siliconSepolia.id]: '0x0000000000000000000000000000000000000000',

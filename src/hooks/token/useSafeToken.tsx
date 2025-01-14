@@ -9,13 +9,14 @@ import useModal from '@/hooks/useModal'
 
 import { SafeTokenModal } from '@/modal/SafeTokenModal'
 
+import { SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 
 export function useSafeToken(tokens: ITokenItem[], callback?: Function) {
   const [showSafeAlert, setShowSafeAlert, safeAlertPortal, closeSafeAlert] = useModal()
 
-  const chainId = useChainId()
+  const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const nativeToken = useNativeToken(chainId)
 
   const [hideTokenAlert, setHideTokenAlert] = useLocalStorage(

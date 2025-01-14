@@ -8,6 +8,8 @@ import { createConfig, WagmiConfig } from 'wagmi'
 
 import { AlertContainer } from '@/components/AlertContainer'
 
+import type { SwapWidgetProps } from '@/types/index.d.ts'
+
 import { silicon } from '@/constants/chain'
 import ConfigProvider from '@/context/ConfigProvider'
 import EnvProvider from '@/context/EnvProvider'
@@ -15,7 +17,6 @@ import GlobalHooksProvider from '@/context/GlobalHooksProvider'
 import StyleProvider from '@/context/StyleProvider'
 import WalletActionProvider from '@/context/WalletActionProvider'
 import { useSupportChains } from '@/hooks/network/useSupportChains'
-import { SwapWidgetProps } from '@/types/index.d.ts'
 
 import 'react-toastify/dist/ReactToastify.css'
 import '@/styles/toast.scss'

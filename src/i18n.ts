@@ -13,6 +13,7 @@ for (const locale in TranslationData) {
     continue
   }
 
+  // @ts-ignore
   for (const [namespaceId, namespaceValues] of Object.entries(TranslationData[locale] ?? {})) {
     const parsedValues: Record<string, string> = {}
 

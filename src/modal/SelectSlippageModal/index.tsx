@@ -12,15 +12,12 @@ import { Image } from '@/components/Image'
 
 import {
   SelectSlippageSubmitArea,
-  SelectSlippageDefaultIcon,
   SelectSlippageDesc,
   SelectSlippageError,
   SelectSlippageInput,
   SelectSlippageInputField,
   SelectSlippageInputIcon,
   SelectSlippageInputUnit,
-  SelectSlippageOption,
-  SelectSlippageOptions,
   SelectSlippageTitle,
   StyledSelectSlippageModal
 } from './styles'
@@ -35,7 +32,6 @@ import { ModalSubmitButton, StyledModalTitle } from '@/styles/modal'
 
 import CheckIcon from '@/assets/img/icon/ic-check-primary.svg'
 import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
-import SlippageIcon from '@/assets/img/icon/ic-slippage-default-en.svg'
 
 interface IProps {
   currentValue: number,
@@ -198,21 +194,6 @@ export function SelectSlippageModal({ currentValue, onClose, onSelect }: IProps)
           <Text size={14} color="black2" dangerouslySetInnerHTML={{ __html: t('General.SetSlippageNotice') }} />
         </SelectSlippageDesc>
 
-        {/*
-        <SelectSlippageOptions>
-          {slippageOptions.map(option => {
-            return (
-              <SelectSlippageOption key={option.value} className={option.value === selectedOption ? 'selected' : ''} onClick={() => onSelectOption(option)}>
-                <Text>{option.value}%</Text>
-                {option.value === 0.5 && (
-                  <SelectSlippageDefaultIcon><Image src={SlippageIcon} alt="default" type="vector" /></SelectSlippageDefaultIcon>
-                )}
-              </SelectSlippageOption>
-            )
-          })}
-        </SelectSlippageOptions>
-        */}
-
         <SelectSlippageInput>
           <SelectSlippageInputField
             type="text"
@@ -230,15 +211,10 @@ export function SelectSlippageModal({ currentValue, onClose, onSelect }: IProps)
           <SelectSlippageInputUnit>
             <Text size={18} color="gray" weight={700}>%</Text>
           </SelectSlippageInputUnit>
-          {error && (
-            <SelectSlippageInputIcon>
-              <Image src={ErrorIcon} alt="error" type="vector" />
-            </SelectSlippageInputIcon>
-          )}
         </SelectSlippageInput>
 
         <SelectSlippageError>
-          <Text size={12}>{error}</Text>
+          <Text size={14}>{error}</Text>
         </SelectSlippageError>
 
         <SelectSlippageSubmitArea>

@@ -23,7 +23,7 @@ export default function GlobalHooksProvider() {
 
   // show version for qa
   useEffect(() => {
-    debugLog(`version is ${process.env.BUILD_ID}`, env.PROFILE)
+    debugLog(`version is ${process.env.BUILD_ID}`, String(env.PROFILE))
   }, [env])
 
   return null

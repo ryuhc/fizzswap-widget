@@ -93,7 +93,6 @@ export const SelectSlippageError = styled('div')`
   margin-top: 10px;
   margin-left: auto;
   color: ${({ theme }) => theme.colors.red};
-  text-align: right;
 `
 export const SelectSlippageSubmitArea = styled(`div`)`
   width: 100%;

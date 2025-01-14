@@ -56,7 +56,7 @@ export const FormSubmit = styled(SubmitButton)`
 `
 
 // form row
-export const StyledFormRow = styled('section')`
+export const StyledFormRow = styled('section')<{ $selectable: boolean }>`
   height: ${({ $selectable }) => {
     return $selectable ? '144px' : '64px'
   }};
@@ -109,7 +109,7 @@ export const FormRowTitle = styled('section')`
     }
   }
 `
-export const FormSelectToken = styled('div')`
+export const FormSelectToken = styled('div')<{ $selectable: boolean }>`
   display: flex;
   align-items: center;
   justify-content: space-between;

@@ -9,12 +9,12 @@ import { callAndDecodeContractFunctions } from '@/utils/fetch'
 
 import ERC20ABI from '@/abi/common/ERC20.json'
 import MulticallABI from '@/abi/common/Multicall.json'
-import { contractAddresses } from '@/constants/chain'
+import { contractAddresses, SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { useApiUrl } from '@/hooks/network/useApiUrl'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 
 export function useTokenBalances(addresses: `0x${string}`[]): Record<`0x${string}`, bigint> {
-  const chainId = useChainId()
+  const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const { address: userAddress } = useAccount()
   const nativeToken = useNativeToken(chainId)
   const callParams = useMemo(() => {

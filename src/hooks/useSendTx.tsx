@@ -70,7 +70,7 @@ export function useSendTx({
         account,
         ...tx,
       } as any).catch(e => {
-        debugLog(e, env.profile)
+        debugLog(e, String(env.PROFILE))
         return 0n
       }) as Promise<bigint>,
       new Promise(resolve => {

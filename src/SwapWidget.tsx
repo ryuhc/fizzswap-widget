@@ -1,7 +1,8 @@
 import { SwapBox } from '@/components/SwapBox'
 
+import type { SwapWidgetProps } from '@/types/index.d.ts'
+
 import RootProvider from '@/context/RootProvider'
-import { SwapWidgetProps } from '@/types/index.d.ts'
 
 import '@/styles/globals.css'
 import 'react-tooltip/dist/react-tooltip.css'

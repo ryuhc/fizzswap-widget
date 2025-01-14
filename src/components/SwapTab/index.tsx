@@ -27,7 +27,7 @@ const StyledSwapTab = styled('div')`
   gap: 10px;
 `
 
-const SwapInputModeOption = styled('button')`
+const SwapInputModeOption = styled('button')<{ $type: string, $selected: boolean }>`
   flex: 2;
   height: 48px;
   border-radius: 8px;
