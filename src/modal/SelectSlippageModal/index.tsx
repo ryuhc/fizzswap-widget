@@ -1,7 +1,6 @@
-import React, { useCallback, useMemo, useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { createPortal } from 'react-dom'
 
-import { find,map } from 'lodash'
 import styled from 'styled-components'
 
 
@@ -16,7 +15,6 @@ import {
   SelectSlippageError,
   SelectSlippageInput,
   SelectSlippageInputField,
-  SelectSlippageInputIcon,
   SelectSlippageInputUnit,
   SelectSlippageTitle,
   StyledSelectSlippageModal
@@ -26,7 +24,7 @@ import { ModalWrapper } from '@/modal/ModalWrapper'
 
 import { useCommonStore } from '@/state/common'
 
-import { SubmitButton, Text } from '@/styles/common'
+import { Text } from '@/styles/common'
 import { ModalSubmitButton, StyledModalTitle } from '@/styles/modal'
 
 
@@ -34,7 +32,6 @@ import CheckIcon from '@/assets/img/icon/ic-check-primary.svg'
 import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
 
 interface IProps {
-  currentValue: number,
   onClose: () => void,
   onSelect: (newValue: number) => void
 }
@@ -80,32 +77,10 @@ function RegradingHighSlippage({
   )
 }
 
-export function SelectSlippageModal({ currentValue, onClose, onSelect }: IProps) {
+export function SelectSlippageModal({ onClose, onSelect }: IProps) {
   const { t } = useTranslationSimplify()
   const { slippage } = useCommonStore()
 
-  const slippageOptions = useMemo(() => {
-    const res = [0.3, 0.5, 1, 5, 10, 20, 50]
-
-    return map(res, option => {
-      return {
-        value: option,
-        isDefault: option === slippage
-      }
-    })
-  }, [slippage])
-
-  const [selectedOption, setSelectedOption] = useState<number>(slippage)
-  const onSelectOption = useCallback((option: { value: number, isDefault: boolean }) => {
-    if (option.value === selectedOption) {
-      return
-    }
-
-    setSelectedOption(option.value)
-    setTypedValue(String(option.value))
-
-    handleSlippageValue(String(option.value))
-  }, [selectedOption])
   const [typedValue, setTypedValue] = useState<string>(String(slippage))
   const onInputSlippage = useCallback((value: string) => {
     setTypedValue(value)
@@ -145,7 +120,6 @@ export function SelectSlippageModal({ currentValue, onClose, onSelect }: IProps)
     }
 
     // 버튼 옵션 값중 하나가 아니라면 초기화
-    setSelectedOption(isValidOption(fixedInput) ? fixedInput : 0)
     setError(newError)
 
     if(valueToStr === String(fixedInput)) {
@@ -157,16 +131,11 @@ export function SelectSlippageModal({ currentValue, onClose, onSelect }: IProps)
   }, [typedValue])
 
   const [error, setError] = useState<string>('')
-  const isValidOption = useCallback((value: number) => {
-    return !!find(slippageOptions, option => {
-      return option.value === value
-    })
-  }, [slippageOptions])
 
   const onConfirm = useCallback(() => {
     onSelect(Number(typedValue))
     onClose()
-  }, [typedValue])
+  }, [onClose, onSelect, typedValue])
   const handleSubmit = useCallback(() => {
     if (!typedValue) {
       return
@@ -249,11 +218,4 @@ const HighSlippageWarningTitle = styled('dt')`
 `
 const HighSlippageWarningText = styled('dd')`
   width: calc(100% - 30px);
-`
-const ConfirmHighSlippage = styled(SubmitButton)`
-  width: 100%;
-  height: 48px;
-  bottom: 0;
-  left: 0;
-  position: absolute;
 `

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useState } from 'react'
 
 import { useChainId } from 'wagmi'
 
@@ -61,9 +61,13 @@ export function useFetchRoutes({
     amount,
     isPos,
   })
+
+  const [updatedAt, setUpdatedAt] = useState<number>(0)
   const fetchRoute = useCallback(async () => {
     const res = await refetch().then(({ data }) => data as ISwapRoutes)
     const outputDecimal = isPos ? outputToken.decimal : inputToken.decimal
+
+    setUpdatedAt(new Date().valueOf())
 
     setPriceImpact(Number(res?.best?.priceImpact ?? 0))
     updateValue(
@@ -77,13 +81,6 @@ export function useFetchRoutes({
 
     return { ...res, isPos }
   }, [isPos, inputToken, outputToken, chainId, isPos])
-
-  const [updatedAt, setUpdatedAt] = useState<number>(0)
-  useEffect(() => {
-    if (data) {
-      setUpdatedAt(new Date().valueOf())
-    }
-  }, [data])
 
   return { data, refetch, isFetching, fetchRoute, updatedAt }
 }

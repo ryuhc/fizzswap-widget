@@ -164,15 +164,7 @@ export function SwapForm() {
     }
 
     const isPos = typedField === 0
-    const newRoute = await fetchSwapRoutes(apiPath, {
-      from: inputToken.address,
-      to: outputToken.address,
-      amount: toWritableUnit(
-        isPos ? inputValue : outputValue,
-        isPos ? inputToken.decimal : outputToken.decimal,
-      ),
-      useOutput: !isPos,
-    })
+    const newRoute = await fetchRoute()
 
     const newInput = toReadableBN(
       newRoute.best.fromAmount,
@@ -208,16 +200,7 @@ export function SwapForm() {
         },
       })
     }
-  }, [
-    routes,
-    typedField,
-    slippage,
-    inputToken,
-    outputToken,
-    inputValue,
-    outputValue,
-    apiPath,
-  ])
+  }, [routes, typedField, fetchRoute, inputToken, inputValue, outputToken, outputValue, slippage])
   useEffect(() => {
     const timeout = setInterval(refreshRoute, 1000 * 15)
 

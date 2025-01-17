@@ -11,7 +11,6 @@ import { SelectSlippageModal } from '@/modal/SelectSlippageModal'
 import { useCommonStore } from '@/state/common'
 
 import { Text } from '@/styles/common'
-import { device } from '@/styles/createBreakPoints'
 
 export function SlippageSetting() {
   const { t } = useTranslationSimplify()
@@ -37,7 +36,7 @@ export function SlippageSetting() {
       {
         show && portal ? (
           createPortal((
-            <SelectSlippageModal currentValue={slippage} onClose={close} onSelect={handleSelect} /> as any
+            <SelectSlippageModal onClose={close} onSelect={handleSelect} /> as any
           ), portal)
         ) : null
       }
@@ -63,4 +62,3 @@ const StyledSlippageSettingContent = styled('div')`
 const StyledSlippageLabel = styled('div')`
   margin-right: 10px;
 `
-const StyledSlippageAction = styled('button')``

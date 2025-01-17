@@ -80,7 +80,7 @@ export function EstimateAboutTx({
 
 export const StyledEstimateAboutTx = styled('section')`
   width: 100%;
-  padding: 30px 0 15px 0;
+  padding: 30px 0 10px 0;
 `
 
 export const StyledEstimateAboutTxTitle = styled('h6')`
