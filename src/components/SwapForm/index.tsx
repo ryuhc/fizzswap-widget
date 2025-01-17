@@ -718,6 +718,7 @@ export function SwapForm() {
         {!config.selectable && (
           <SwapInputOption
             token={typedField === 0 ? inputToken : outputToken}
+            amount={typedField === 0 ? inputValue : outputValue}
             balance={balances[(typedField === 0 ? inputToken : outputToken)?.address ?? ''] ?? 0n}
             typedField={typedField}
             onSelect={onInput}

@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useMemo, useState } from 'react'
+import { ChangeEvent, useCallback, useMemo } from 'react'
 
 import styled from 'styled-components'
 import { useChainId } from 'wagmi'
@@ -12,8 +12,9 @@ import { SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { divBN, isNativeToken, mulBN, toReadableBN } from '@/utils'
 
-export function SwapInputOption({ token, typedField, onSelect, balance }: {
+export function SwapInputOption({ token, amount, typedField, onSelect, balance }: {
   token: ITokenItem,
+  amount: string,
   balance: bigint,
   typedField: number,
   onSelect: (e: ChangeEvent<HTMLInputElement> | string, field?: number) => Promise<void>
@@ -28,22 +29,20 @@ export function SwapInputOption({ token, typedField, onSelect, balance }: {
 
   const { t } = useTranslationSimplify()
 
-  const [selected, setSelected]  = useState<string>('')
-  const handleSelect = useCallback((amount: string) => {
+  const handleSelect = useCallback((selected: string) => {
     onSelect(
       isNativeInput ?
-        amount
+        selected
         : toReadableBN(
-          amount === '100'
+          selected === '100'
             ? String(balance)
-            : mulBN(balance, divBN(amount, 100)),
+            : mulBN(balance, divBN(selected, 100)),
           token.decimal,
           token.decimal
         )
       ,
       typedField
     )
-    setSelected(amount)
   }, [onSelect, typedField, isNativeInput, balance, token.decimal])
 
   return (
@@ -51,10 +50,10 @@ export function SwapInputOption({ token, typedField, onSelect, balance }: {
       <SwapInputOptionItem onClick={() => handleSelect('0')}>
         <Text size={14} color="gray">{t('V3.PoolCreateClearAll')}</Text>
       </SwapInputOptionItem>
-      {options.map(amount => {
+      {options.map(option => {
         return (
-          <SwapInputOptionItem key={amount} onClick={() => handleSelect(amount)}>
-            <Text size={12} color={selected === amount ? 'black2' : 'gray'} weight={selected === amount ? 700 : 500}>{amount} {isNativeInput ? token.symbol : '%'}</Text>
+          <SwapInputOptionItem key={option} onClick={() => handleSelect(option)}>
+            <Text size={12} color={amount === option ? 'black2' : 'gray'} weight={amount === option ? 700 : 500}>{option} {isNativeInput ? token.symbol : '%'}</Text>
           </SwapInputOptionItem>
         )
       })}
