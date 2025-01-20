@@ -8,7 +8,7 @@ describe('validate support chains', () => {
   it('on prod, only support silicon', () => {
     const { result } = renderHook(useSupportChains)
 
-    expect(result.current.length).toBe(2)
+    expect(result.current.length).toBe(1)
     expect(result.current[0].id).toBe(silicon.id)
   })
 })
