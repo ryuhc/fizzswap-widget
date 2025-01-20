@@ -16,7 +16,7 @@ declare type SwapWidgetProps = {
   apiUrl?: {
     [p: number]: string
   }
-  supportChains?: Chain['id'][],
+  supportChains?: Chain[],
   operatorUrl?: string,
   wcApiKey?: string,
   swapType: SwapType
