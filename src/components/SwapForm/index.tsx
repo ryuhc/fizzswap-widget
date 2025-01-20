@@ -29,6 +29,7 @@ import { TxConfirmModal } from '@/modal/TxConfirmModal'
 
 import { useCommonStore } from '@/state/common'
 import { useSwapState } from '@/state/swap'
+import { useTxHistoryStore } from '@/state/txHistory'
 
 import { Text } from '@/styles/common'
 
@@ -55,7 +56,6 @@ import { useSwapCall } from '@/hooks/swap/useSwapCall'
 import { useSwitchToken } from '@/hooks/swap/useSwitchToken'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 import { useCurrentAccount } from '@/hooks/wallet/useCurrentAccount'
-import { fetchSwapRoutes } from '@/state/swap/fetch/fetchSwapRoutes'
 
 export function SwapForm() {
   const { t, locale } = useTranslationSimplify()
@@ -540,9 +540,10 @@ export function SwapForm() {
     priceHandler,
   ])
 
+  const { isEstimatingFee } = useTxHistoryStore()
   const isProgressCall = useMemo(() => {
-    return isLoading || isFetching || delayed
-  }, [isLoading, isFetching, delayed])
+    return isLoading || isFetching || delayed || isEstimatingFee
+  }, [isLoading, isFetching, delayed, isEstimatingFee])
 
   const { confirmBroadcast, txPolicyModal, aboutPriceImpactModal } =
     useTxPolicy({
@@ -619,23 +620,12 @@ export function SwapForm() {
         }
         : undefined,
     )
-    */
 
     setTimeout(setShowTx, 100)
-  }, [
-    isProgressCall,
-    account,
-    inputToken,
-    outputToken,
-    inputValue,
-    outputValue,
-    broadcast,
-    balances,
-    nativeAddress,
-    routeId,
-    routes,
-    priceImpact,
-  ])
+    */
+
+    broadcast()
+  }, [isProgressCall, validateTokenSelect, inputToken, outputToken, typedField, inputValue, outputValue, routeId, routes, balances, nativeAddress, broadcast])
 
   const submitText = useMemo(() => {
     return t('General.SwapMenuSubmit')

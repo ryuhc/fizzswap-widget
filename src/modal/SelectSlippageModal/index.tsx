@@ -101,7 +101,7 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
 
     // 소수점 1자리까지만 입력 허용
     if(prevValueUnderZero.length > 1) {
-      fixedInput = parseFloat(String(parseInt(valueToStr)) + '.' + prevValueUnderZero.slice(0, 1))
+      // fixedInput = parseFloat(String(parseInt(valueToStr)) + '.' + prevValueUnderZero.slice(0, 1))
     }
 
     if(fixedInput < 0.3) { // 너무 낮은 값 입력 시
@@ -182,9 +182,11 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
           </SelectSlippageInputUnit>
         </SelectSlippageInput>
 
+        {/*
         <SelectSlippageError>
           <Text size={14}>{error}</Text>
         </SelectSlippageError>
+        */}
 
         <SelectSlippageSubmitArea>
           <ModalSubmitButton type="secondary" onClick={() => handleSubmit()}>
