@@ -1,4 +1,4 @@
-import { useCallback, useContext, useState } from 'react'
+import { useCallback, useContext, useEffect, useState } from 'react'
 
 import { SendTransactionParameters } from '@wagmi/core'
 import { camelCase } from 'lodash'
@@ -141,37 +141,46 @@ export function useSendTx({
     pollingInterval: 2_000,
     query: {
       enabled: (txHash ?? '0x') !== '0x',
-      onError: () => {
-        if (executedTx.has(txHash)) {
-          return
-        }
-
-        dispatch(EVENT_TX_FINISHED)
-        setExecutedTx(executedTx.add(txHash))
-
-        updateTx(txHash as `0x${string}`, ITxState.fail)
-        showToast(createTxToast('fail', 'Fail', t))
-      },
-      onSuccess: (receipt: any) => {
-        if (executedTx.has(receipt.transactionHash)) {
-          return
-        }
-
-        dispatch(EVENT_TX_FINISHED)
-        setExecutedTx(executedTx.add(receipt.transactionHash))
-
-        if (action !== 'approve') {
-          onSuccess && onSuccess(receipt)
-        }
-
-        updateTx(receipt.transactionHash, receipt.status as ITxState)
-        showToast(createTxToast('success', 'Success', t))
-      },
-      onSettled: () => {
-        setTimeout(reset, 1000)
-      }
     }
   })
+
+  const handleTxError = useCallback(() => {
+    if (executedTx.has(txHash)) {
+      return
+    }
+
+    dispatch(EVENT_TX_FINISHED)
+    setExecutedTx(executedTx.add(txHash))
+
+    updateTx(txHash as `0x${string}`, ITxState.fail)
+    showToast(createTxToast('fail', 'Fail', t))
+  }, [executedTx, txHash])
+  const handleReceipt = useCallback((receipt: any) => {
+    if (receipt?.status === 'success') {
+      if (executedTx.has(receipt.transactionHash)) {
+        return
+      }
+
+      dispatch(EVENT_TX_FINISHED)
+      setExecutedTx(executedTx.add(receipt.transactionHash))
+
+      if (action !== 'approve') {
+        onSuccess && onSuccess(receipt)
+      }
+
+      updateTx(receipt.transactionHash, receipt.status as ITxState)
+      showToast(createTxToast('success', 'Success', t))
+    }
+
+    if (receipt?.status === 'error') {
+      handleTxError()
+    }
+
+    setTimeout(reset, 1000)
+  }, [action, executedTx, onSuccess, handleTxError])
+  useEffect(() => {
+    handleReceipt(receipt)
+  }, [receipt])
 
   return {
     broadcast,

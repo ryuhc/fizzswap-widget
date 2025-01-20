@@ -3,7 +3,6 @@ import { Chain } from 'viem'
 declare type SwapType = 'normal' | 'inputOnly' | 'outputOnly'
 
 declare type SwapWidgetProps = {
-  rpcUrl?: string
   chainId?: Chain['id']
   inputTokenAddress?: `0x${string}`
   inputAmount?: string
@@ -17,6 +16,7 @@ declare type SwapWidgetProps = {
   apiUrl?: {
     [p: number]: string
   }
+  supportChains?: Chain['id'][],
   operatorUrl?: string,
   wcApiKey?: string,
   swapType: SwapType

@@ -97,15 +97,6 @@ export const siliconSepolia = defineChain({
   testnet: true
 } as Chain)
 
-export const DEFAULT_CHAIN_ID = Number(import.meta.env.DEFAULT_CHAIN ?? import.meta.env.NEXT_PUBLIC_DEFAULT_CHAIN)
-
-export const SUPPORT_CHAINS = import.meta.env.VITE_PROFILE === 'prod' ? [silicon] : [silicon, siliconSepolia]
-
-export const API_URLS: { [p: number]: string } = {
-  [silicon.id]: (import.meta.env.API_PATH_2355 || import.meta.env.VITE_PUBLIC_API_2355) ?? '',
-  [siliconSepolia.id]: (import.meta.env.API_PATH_1722641160 || import.meta.env.VITE_PUBLIC_API_1722641160) ?? '',
-}
-
 export const MIN_AMOUNT_FOR_FEE = '0.0001'
 
 export const POOL_CREATE_FEE = BigInt(0)
