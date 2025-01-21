@@ -628,8 +628,8 @@ export function SwapForm() {
   }, [isProgressCall, validateTokenSelect, inputToken, outputToken, typedField, inputValue, outputValue, routeId, routes, balances, nativeAddress, broadcast])
 
   const submitText = useMemo(() => {
-    return t('General.SwapMenuSubmit')
-  }, [])
+    return typedField === 0 ? t('Widget.Buy') : t('Widget.Sell')
+  }, [typedField])
   const {
     handleSubmit,
     disableSubmitUi
@@ -658,7 +658,7 @@ export function SwapForm() {
       <SwapConfigArea>
         <SlippageSetting />
         <div style={{ margin: '0 10px 0 auto' }}>
-          <Text size={12} color="gray">{t('Widget.Reset')} : {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}</Text>
+          <Text size={12} color="gray">{t('Widget.LastUpdate')} : {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}</Text>
         </div>
         <RefreshRouteButton onClick={fetchRoute}>
           <Image src={RefreshIcon} alt="refresh" className={isFetching ? 'fetching' : ''} />

@@ -1795,7 +1795,8 @@
       "SlippagePop5": "예상 교환 비율에 따라 최소 수량 이하로 토큰을 받게 될 경우(슬리피지를 벗어나는 경우), 거래는 자동으로 취소됩니다.",
       "ErrMessage1": "수량을 입력해주세요",
       "ErrMessage2": "보유 수량을 초과했습니다",
-      "ErrMessage3": "풀에서 거래 가능한 수량이 부족합니다"
+      "ErrMessage3": "풀에서 거래 가능한 수량이 부족합니다",
+      "LastUpdate": "마지막 갱신"
     }
   },
   "en": {
@@ -3593,7 +3594,8 @@
       "SlippagePop5": "f the tokens you receive are less than the min amount due to slippage, the transaction will be automatically canceled.",
       "ErrMessage1": "Enter an amount",
       "ErrMessage2": "Insufficient balance",
-      "ErrMessage3": "Insufficient pool balance for trading"
+      "ErrMessage3": "Insufficient pool balance for trading",
+      "LastUpdate": "Last Update"
     }
   }
 }
