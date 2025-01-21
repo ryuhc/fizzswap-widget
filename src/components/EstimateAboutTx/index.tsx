@@ -58,21 +58,6 @@ export function EstimateAboutTx({
           </Text>
         </StyledEstimateAboutTxTitle>
       )}
-
-      {showRate && (
-        <EstimateAboutTxItems>
-          <EstimateAboutTxItem style={{ alignItems: 'flex-start' }}>
-            <EstimateAboutTxItemTitle>
-              <Text>{t('General.ExchangeRate')}</Text>
-              {version === 2 && <CommonTooltip tooltipId="aboutExchangeRate" content={t('General.ExchangeRangeTooltip2', { rate: slippage })} />}
-            </EstimateAboutTxItemTitle>
-            <EstimateAboutTxItemValue style={{ display: 'block' }}>
-              <ExchangeRate version={version} tokenA={rateInfo.tokenA} tokenB={rateInfo.tokenB} rate={rateInfo.rate} defaultReverse={defaultReverse} onReverse={onReverse} />
-            </EstimateAboutTxItemValue>
-          </EstimateAboutTxItem>
-        </EstimateAboutTxItems>
-      )}
-
       {children}
     </StyledEstimateAboutTx>
   )

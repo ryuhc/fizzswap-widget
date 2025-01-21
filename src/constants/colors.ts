@@ -26,7 +26,7 @@ export const lightColors = {
   bodyBackground: '#fafbfc',
   violetLight: '#962dfa',
   blue: '#0078ee',
-  red: '#e65c5c',
+  red: '#fd5040',
   red2: '#e65016',
   paleGreen: '#6ad0ba',
   green: '#00ae87',

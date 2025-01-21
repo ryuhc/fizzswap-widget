@@ -4,11 +4,10 @@ import { map } from 'lodash'
 
 import { useFetchRoutes } from '@/hooks/useFetchRoutes'
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
-import { divBN, dprec, mulBN, toReadableBN, toWritableUnit } from '@/utils/number'
+import { divBN, dprec, mulBN, toWritableUnit } from '@/utils/number'
 
 import { EstimateAboutTx } from '@/components/EstimateAboutTx'
 import { SwapPath } from '@/components/SwapPath'
-import { CommonTooltip } from '@/components/Tooltip'
 
 import { useCommonStore } from '@/state/common'
 import { useSwapState } from '@/state/swap'
@@ -27,7 +26,7 @@ export function SwapEstimated() {
   // TODO : util
   const aboutFixedAmount = useMemo(() => {
     return {
-      title: typedField === 0 ? t('General.MinOutputOfSwap') : t('General.MaxInputOfSwap'),
+      title: t('Widget.MinAmount'),
       tooltip: typedField === 0 ? t('General.MinOutputNotice', {
         slippage: slippage
       }) : t('General.MaxInputNotice', {
@@ -97,6 +96,22 @@ export function SwapEstimated() {
       <EstimateAboutTxItems>
         <EstimateAboutTxItem>
           <EstimateAboutTxItemTitle>
+            <Text>
+              {t('Widget.EstimatedAmount')}
+            </Text>
+          </EstimateAboutTxItemTitle>
+          <EstimateAboutTxItemValue>
+            {isSelected ? (
+              <div>
+                <Paragraph data-testid="estimated-swap-amount">
+                  {dprec(typedField === 0 ? inputValue : outputValue, 6)} {aboutFixedAmount.token?.symbol}
+                </Paragraph>
+              </div>
+            ) : <Text>-</Text>}
+          </EstimateAboutTxItemValue>
+        </EstimateAboutTxItem>
+        <EstimateAboutTxItem>
+          <EstimateAboutTxItemTitle>
             <Text data-testid="estimated-swap-title">
               {aboutFixedAmount.title}
             </Text>
@@ -113,7 +128,7 @@ export function SwapEstimated() {
         </EstimateAboutTxItem>
         <EstimateAboutTxItem>
           <EstimateAboutTxItemTitle>
-            <Text>{t('General.DiffFromCurrentRate')}</Text>
+            <Text>{t('Widget.PriceImpact')}</Text>
           </EstimateAboutTxItemTitle>
           <EstimateAboutTxItemValue>
             {isSelected ? <Text color={piColor} weight={700}>{dprec(priceImpact, 2)} %</Text> : <Text>-</Text>}

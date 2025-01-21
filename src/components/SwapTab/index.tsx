@@ -13,10 +13,10 @@ export function SwapTab() {
   return (
     <StyledSwapTab>
       <SwapInputModeOption $type="buy" $selected={typedField === 0} onClick={() => focusOnField(0)}>
-        <Text color={typedField === 0 ? 'white' : 'gray'} weight={700}>{t('General.Buy')}</Text>
+        <Text color={typedField === 0 ? 'white' : 'gray'} weight={700}>{t('Widget.Buy')}</Text>
       </SwapInputModeOption>
       <SwapInputModeOption $type="sell" $selected={typedField === 1} onClick={() => focusOnField(1)}>
-        <Text color={typedField === 1 ? 'white' : 'gray'} weight={700}>{t('General.Sell')}</Text>
+        <Text color={typedField === 1 ? 'white' : 'gray'} weight={700}>{t('Widget.Sell')}</Text>
       </SwapInputModeOption>
     </StyledSwapTab>
   )

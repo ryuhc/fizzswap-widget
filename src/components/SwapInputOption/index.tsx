@@ -48,7 +48,7 @@ export function SwapInputOption({ token, amount, typedField, onSelect, balance }
   return (
     <StyledSwapInputOption>
       <SwapInputOptionItem onClick={() => handleSelect('0')}>
-        <Text size={14} color="gray">{t('V3.PoolCreateClearAll')}</Text>
+        <Text size={14} color="gray">{t('Widget.Reset')}</Text>
       </SwapInputOptionItem>
       {options.map(option => {
         return (

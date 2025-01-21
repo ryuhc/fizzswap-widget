@@ -516,7 +516,7 @@ export function SwapForm() {
             spender: swapCall.to,
             nativeBalance,
           },
-      submitText: t('General.DoSwap'),
+      submitText: typedField === 0 ? t('Widget.Buy') : t('Widget.Sell'),
       isLoading,
       priceHandler: {
         show: priceHandler.show,
@@ -575,12 +575,12 @@ export function SwapForm() {
       if (typedField === 0) fields.token0 = true
       if (typedField === 1) fields.token1 = true
 
-      return setError(t('General.NeedValueToSubmit'), fields)
+      return setError(t('Widget.ErrMessage1'), fields)
     }
 
     // 경로가 존재하는 지 체크
     if (routeId > 0 && !routes.best.path.length) {
-      return setError(t('General.IsEmptyRoute'), {
+      return setError(t('Widget.ErrMessage3'), {
         token0: false,
         token1: false,
       })
@@ -601,7 +601,7 @@ export function SwapForm() {
         ),
       )
     ) {
-      return setError(t('General.InsufficientBalance'), { token0: true })
+      return setError(t('Widget.ErrMessage2'), { token0: true })
     }
 
     /*
@@ -649,12 +649,16 @@ export function SwapForm() {
     }
   }, [config, typedField])
 
+  const isDirty = useMemo(() => {
+    return ((typedField === 0 && Number(inputValue) > 0) || (typedField === 1 && Number(outputValue) > 0))
+  }, [typedField, inputValue, outputValue])
+
   return (
     <>
       <SwapConfigArea>
         <SlippageSetting />
         <div style={{ margin: '0 10px 0 auto' }}>
-          <Text size={12} color="gray">{t('General.RecentUpdatedAt')} : {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}</Text>
+          <Text size={12} color="gray">{t('Widget.Reset')} : {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}</Text>
         </div>
         <RefreshRouteButton onClick={fetchRoute}>
           <Image src={RefreshIcon} alt="refresh" className={isFetching ? 'fetching' : ''} />
@@ -715,7 +719,7 @@ export function SwapForm() {
           />
         )}
 
-        <SwapEstimated />
+        {isDirty ? <SwapEstimated /> : <div style={{ margin: '20px 0' }} />}
 
         {error.message && <FormError><Text color="red">{error.message}</Text></FormError>}
 

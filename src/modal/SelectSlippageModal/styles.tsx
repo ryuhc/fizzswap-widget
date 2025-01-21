@@ -6,10 +6,12 @@ import { StyledModal, StyledModalTitle } from '@/styles/modal'
 export const StyledSelectSlippageModal = styled(StyledModal)`
   width: 375px;
   border-radius: 16px;
-  padding: 30px 20px;
+  padding: 30px 20px 100px 20px;
 
   @media ${device.md} {
     width: calc(100% - 40px);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
     padding-bottom: 100px;
   }
 `
@@ -94,6 +96,29 @@ export const SelectSlippageError = styled('div')`
   margin-left: auto;
   color: ${({ theme }) => theme.colors.red};
 `
+
+export const SelectSlippageWarning = styled('ul')`
+  margin: 24px 0;
+  
+  li {
+    position: relative;
+    margin-bottom: 3px;
+    list-style: none;
+    padding-left: 15px;
+    
+    &::after {
+      content: ' ';
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: ${({ theme }) => theme.colors.gray};
+      position: absolute;
+      top: 7px;
+      left: 0;
+    }
+  }
+`
+
 export const SelectSlippageSubmitArea = styled(`div`)`
   width: 100%;
   height: 88px;

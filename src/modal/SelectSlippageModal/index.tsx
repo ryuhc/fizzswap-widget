@@ -17,7 +17,7 @@ import {
   SelectSlippageInputField,
   SelectSlippageInputUnit,
   SelectSlippageTitle,
-  StyledSelectSlippageModal
+  StyledSelectSlippageModal, SelectSlippageWarning
 } from './styles'
 import { ModalClose } from '@/modal/ModalClose'
 import { ModalWrapper } from '@/modal/ModalWrapper'
@@ -104,11 +104,7 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
       // fixedInput = parseFloat(String(parseInt(valueToStr)) + '.' + prevValueUnderZero.slice(0, 1))
     }
 
-    if(fixedInput < 0.3) { // 너무 낮은 값 입력 시
-      fixedInput = 0.3
-      newError = t('General.MinSlippageError')
-    }
-    else if(fixedInput >= 0.3 && fixedInput < 0.5) { // 애매하게 낮은 값 입력 시
+    if(fixedInput >= 0.3 && fixedInput < 0.5) { // 애매하게 낮은 값 입력 시
       newError = t('General.WarningLowSlippage')
     }
     else if(fixedInput > 1 && fixedInput <= 50) {  // 애매하게 높은 값 입력 시
@@ -156,11 +152,11 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
         <ModalClose onClose={onClose} />
 
         <SelectSlippageTitle>
-          <Text size={20} weight={700}>{t('General.SetSlippage')}</Text>
+          <Text size={20} weight={700}>{t('Widget.SlippagePop1')}</Text>
         </SelectSlippageTitle>
 
         <SelectSlippageDesc>
-          <Text size={14} color="black2" dangerouslySetInnerHTML={{ __html: t('General.SetSlippageNotice') }} />
+          <Text size={14} color="black2">{t('Widget.SlippagePop2')}</Text>
         </SelectSlippageDesc>
 
         <SelectSlippageInput>
@@ -188,9 +184,15 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
         </SelectSlippageError>
         */}
 
+        <SelectSlippageWarning>
+          <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop3')}</Text></li>
+          <li><Text size={14} weight={500} color="black2" dangerouslySetInnerHTML={{ __html: t('Widget.SlippagePop4') }} /></li>
+          <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop5')}</Text></li>
+        </SelectSlippageWarning>
+
         <SelectSlippageSubmitArea>
           <ModalSubmitButton type="secondary" onClick={() => handleSubmit()}>
-            <Text weight={700}>{t('General.Confirm')}</Text>
+            <Text weight={700}>{t('Widget.OK')}</Text>
           </ModalSubmitButton>
         </SelectSlippageSubmitArea>
       </StyledSelectSlippageModal>
