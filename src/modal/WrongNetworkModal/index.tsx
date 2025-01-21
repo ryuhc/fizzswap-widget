@@ -1,6 +1,7 @@
 import { useCallback, useMemo } from 'react'
 
 import styled from 'styled-components'
+import { toHex } from 'viem'
 import { useAccount } from 'wagmi'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
@@ -16,7 +17,6 @@ import { StyledModal, StyledModalTitle } from '@/styles/modal'
 
 import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
 import { silicon } from '@/constants/chain'
-import { useEnvContext } from '@/context/EnvProvider'
 import { useConnectWallet } from '@/hooks/wallet/useConnectWallet'
 
 interface IProps {
@@ -25,7 +25,6 @@ interface IProps {
 
 export function WrongNetworkModal({ onClose }: IProps) {
   const { t } = useTranslationSimplify()
-  const env = useEnvContext()
 
   const { connector } = useAccount()
   const allowSwitchChain = useMemo(() => {
@@ -50,7 +49,7 @@ export function WrongNetworkModal({ onClose }: IProps) {
       provider.request({
         method: 'wallet_addEthereumChain',
         params: [{
-          chainId: silicon.id,
+          chainId: toHex(silicon.id),
           chainName: silicon.name,
           nativeCurrency: silicon.nativeCurrency,
           rpcUrls: silicon.rpcUrls.public.http,
