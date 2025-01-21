@@ -119,7 +119,7 @@ export function SwapEstimated() {
           <EstimateAboutTxItemValue>
             {isSelected ? (
               <div>
-                <Paragraph data-testid="estimated-swap-amount">
+                <Paragraph data-testid="estimated-swap-minAmount">
                   {dprec(aboutFixedAmount.value, 6)} {aboutFixedAmount.token?.symbol}
                 </Paragraph>
               </div>

@@ -59,8 +59,8 @@ describe('test render <SwapEstimated />', () => {
 
     render(<SwapEstimated />, { wrapper })
 
-    expect(screen.getByTestId('estimated-swap-title').innerHTML).toBe('MinOutputOfSwap')
-    expect(screen.getByTestId('estimated-swap-amount').innerHTML).toBe(`${dprec(mulBN(initialState.outputValue, safeDiv(100 - mockSlippage, 100)), 6)} ${initialState.outputToken.symbol}`)
+    expect(screen.getByTestId('estimated-swap-title').innerHTML).toBe('MinAmount')
+    expect(screen.getByTestId('estimated-swap-minAmount').innerHTML).toBe(`${dprec(mulBN(initialState.outputValue, safeDiv(100 - mockSlippage, 100)), 6)} ${initialState.outputToken.symbol}`)
   })
 
   it('if neg trade, show maxInput with title', () => {
@@ -73,8 +73,8 @@ describe('test render <SwapEstimated />', () => {
 
     render(<SwapEstimated />, { wrapper })
 
-    expect(screen.getByTestId('estimated-swap-title').innerHTML).toBe('MaxInputOfSwap')
-    expect(screen.getByTestId('estimated-swap-amount').innerHTML).toBe(`${dprec(mulBN(initialState.inputValue, safeDiv(100 + mockSlippage, 100)), 6)} ${initialState.inputToken.symbol}`)
+    expect(screen.getByTestId('estimated-swap-title').innerHTML).toBe('MinAmount')
+    expect(screen.getByTestId('estimated-swap-minAmount').innerHTML).toBe(`${dprec(mulBN(initialState.inputValue, safeDiv(100 + mockSlippage, 100)), 6)} ${initialState.inputToken.symbol}`)
   })
 
   /*
