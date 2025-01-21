@@ -41,7 +41,6 @@ import { Chain } from 'viem'
 declare type SwapType = 'normal' | 'inputOnly' | 'outputOnly'
 
 declare type SwapWidgetProps = {
-  rpcUrl?: string
   chainId?: Chain['id']
   inputTokenAddress?: `0x${string}`
   inputAmount?: string
@@ -55,14 +54,13 @@ declare type SwapWidgetProps = {
   apiUrl?: {
     [p: number]: string
   }
-  operatorUrl?: string
-  wcApiKey?: string
+  supportChains?: Chain[],
+  operatorUrl?: string,
+  wcApiKey?: string,
   swapType: SwapType
 }
 
 declare type SwapWidget = (props: SwapWidgetProps) => JSX.Element
-
-// ex : <SwapWidget selectable={true} swapType="normal" />
 ```
 
 ## 예시
@@ -78,7 +76,6 @@ declare type SwapWidget = (props: SwapWidgetProps) => JSX.Element
 
 ## Legal notice
 
-이 위젯은 무료이며 오픈소스입니다. 생태계 발전을 위한 코드 기여도 언제든 환영합니다.
-
+이 위젯은 무료이며 오픈소스입니다. 생태계 발전을 위한 코드 기여도 언제든 환영합니다.\
 다만 우리는 서비스 업체가 이 위젯을 자사 제품에 연동할 때 소재 지역의 경제 또는 무역 제재를 준수하는지 사전에 철저히 검토할것을 권장합니다.\
 충분한 검토없이 위젯을 사용했을 시 발생할 수 있는 민형사상 책임 및 각종 이슈에 대해 우리는 책임지지 않습니다. 

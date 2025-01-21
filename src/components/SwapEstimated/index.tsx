@@ -104,7 +104,7 @@ export function SwapEstimated() {
             {isSelected ? (
               <div>
                 <Paragraph data-testid="estimated-swap-amount">
-                  {dprec(typedField === 0 ? inputValue : outputValue, 6)} {aboutFixedAmount.token?.symbol}
+                  {dprec(typedField === 0 ? outputValue : inputValue, 6)} {aboutFixedAmount.token?.symbol}
                 </Paragraph>
               </div>
             ) : <Text>-</Text>}
