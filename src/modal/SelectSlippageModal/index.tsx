@@ -1,13 +1,6 @@
 import React, { useCallback, useState } from 'react'
-import { createPortal } from 'react-dom'
 
-import styled from 'styled-components'
-
-
-import useModal from '@/hooks/useModal'
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
-
-import { Image } from '@/components/Image'
 
 import {
   SelectSlippageSubmitArea,
@@ -25,56 +18,11 @@ import { ModalWrapper } from '@/modal/ModalWrapper'
 import { useCommonStore } from '@/state/common'
 
 import { Text } from '@/styles/common'
-import { ModalSubmitButton, StyledModalTitle } from '@/styles/modal'
-
-
-import CheckIcon from '@/assets/img/icon/ic-check-primary.svg'
-import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
+import { ModalSubmitButton } from '@/styles/modal'
 
 interface IProps {
   onClose: () => void,
   onSelect: (newValue: number) => void
-}
-
-function RegradingHighSlippage({
-  onConfirm,
-  onClose
-}: {
-  onConfirm: () => void,
-  onClose: () => void
-}) {
-  const { t } = useTranslationSimplify()
-
-  return (
-    <ModalWrapper>
-      <StyledSelectSlippageModal>
-        <ModalClose onClose={onClose} />
-        <StyledModalTitle style={{ margin: '30px 0 65px 0' }}>
-          <Image sx={{ marginRight: '10px' }} src={ErrorIcon} alt="alert" type="vector" />
-          {t('General.AboutSetSlippage')}
-        </StyledModalTitle>
-
-        <HighSlippageWarning>
-          <HighSlippageWarningTitle><Image src={CheckIcon} alt="check" type="vector" /></HighSlippageWarningTitle>
-          <HighSlippageWarningText><Text size={12} weight={500}>{t('General.AboutSetSlippageItem1')}</Text></HighSlippageWarningText>
-        </HighSlippageWarning>
-        <HighSlippageWarning>
-          <HighSlippageWarningTitle><Image src={CheckIcon} alt="check" type="vector" /></HighSlippageWarningTitle>
-          <HighSlippageWarningText><Text size={12} weight={500}>{t('General.AboutSetSlippageItem2')}</Text></HighSlippageWarningText>
-        </HighSlippageWarning>
-        <HighSlippageWarning>
-          <HighSlippageWarningTitle><Image src={CheckIcon} alt="check" type="vector" /></HighSlippageWarningTitle>
-          <HighSlippageWarningText><Text size={12} weight={500}>{t('General.AboutSetSlippageItem3')}</Text></HighSlippageWarningText>
-        </HighSlippageWarning>
-
-        <SelectSlippageSubmitArea>
-          <ModalSubmitButton type="secondary" onClick={() => onConfirm()}>
-            <Text size={14} weight={700}>{t('Asset.CopyNoticeConfirm')}</Text>
-          </ModalSubmitButton>
-        </SelectSlippageSubmitArea>
-      </StyledSelectSlippageModal>
-    </ModalWrapper>
-  )
 }
 
 export function SelectSlippageModal({ onClose, onSelect }: IProps) {
@@ -137,14 +85,8 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
       return
     }
 
-    if (Number(typedValue) >= 5) {
-      return setShow()
-    }
-
     onConfirm()
   }, [typedValue, onConfirm])
-
-  const [show, setShow, portal, close] = useModal()
 
   return (
     <ModalWrapper>
@@ -196,30 +138,6 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
           </ModalSubmitButton>
         </SelectSlippageSubmitArea>
       </StyledSelectSlippageModal>
-
-      {show && portal ? createPortal(
-        <RegradingHighSlippage
-          onConfirm={onConfirm}
-          onClose={close}
-        /> as any,
-        portal
-      ) : null}
     </ModalWrapper>
   )
 }
-
-const HighSlippageWarning = styled('dl')`
-  display: flex;
-  margin-bottom: 16px;
-  
-  &:last-of-type {
-    margin-bottom: 0;
-  }
-`
-const HighSlippageWarningTitle = styled('dt')`
-  width: 16px;
-  margin-right: 14px;
-`
-const HighSlippageWarningText = styled('dd')`
-  width: calc(100% - 30px);
-`
