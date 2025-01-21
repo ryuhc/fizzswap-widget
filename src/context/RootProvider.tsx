@@ -93,7 +93,7 @@ export default function RootProvider(props: IProps) {
   }, [props.config, supportChains])
 
   return wagmiConfig && (
-    <WagmiConfig config={wagmiConfig}>
+    <WagmiConfig config={wagmiConfig} reconnectOnMount={true}>
       <QueryClientProvider client={rootQueryClient}>
         <EnvProvider env={env}>
           <ConfigProvider config={props.config}>

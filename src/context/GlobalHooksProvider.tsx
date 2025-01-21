@@ -3,8 +3,6 @@ import { useEffect } from 'react'
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 
-import { debugLog } from '@/utils/common'
-
 import { useEnvContext } from '@/context/EnvProvider'
 import { useBlockNumber } from '@/hooks/queries/useBlockNumber'
 import { useTokenListDefault } from '@/hooks/queries/useTokenList'
@@ -23,7 +21,7 @@ export default function GlobalHooksProvider() {
 
   // show version for qa
   useEffect(() => {
-    debugLog(`version is ${process.env.BUILD_ID}`, String(env.PROFILE))
+    console.log(`widget version : ${import.meta.env.APP_VERSION}`, String(env.PROFILE))
   }, [env])
 
   return null

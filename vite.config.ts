@@ -21,6 +21,9 @@ export default defineConfig({
     },
     cssCodeSplit: true
   },
+  define: {
+    'import.meta.env.APP_VERSION': JSON.stringify(process.env.npm_package_version),
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, './src'),
