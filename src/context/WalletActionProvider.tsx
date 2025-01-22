@@ -21,6 +21,7 @@ import { WrongNetworkModal } from '@/modal/WrongNetworkModal'
 import { useCommonStore } from '@/state/common'
 
 import { OPEN_NETWORK_STATUS, OPEN_WRONG_NETWORK } from '@/constants/events'
+import { useConfigContext } from '@/context/ConfigProvider'
 import { useSupportChains } from '@/hooks/network/useSupportChains'
 import useA2AConnectorQRUri from '@/hooks/wallet/useA2AConnectorQRUri'
 import { useConnectors } from '@/hooks/wallet/useConnectors'
@@ -118,7 +119,13 @@ export default function WalletActionProvider() {
   const currentConnectors = useConnectors()
 
   // cached connector 찾아서 자동 연결
+  const config = useConfigContext()
   const initConnector = useCallback(() => {
+    // state override 하는 경우 예외처리
+    if (config.state) {
+      return
+    }
+
     const persistedConnectorId = searchParams.get('connect') ?? localStorage.getItem('wagmi.recentConnectorId') ?? ''
 
     if (persistedConnectorId && !disableAutoConnect.includes(persistedConnectorId)) {
@@ -142,7 +149,7 @@ export default function WalletActionProvider() {
         })
       }
     }
-  }, [connectors, currentConnectors, handleShowRisk, searchParams, supportChains])
+  }, [connectors, config, currentConnectors, handleShowRisk, searchParams, supportChains])
   useEffect(() => {
     initConnector()
   }, [])

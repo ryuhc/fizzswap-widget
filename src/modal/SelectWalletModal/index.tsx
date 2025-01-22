@@ -2,7 +2,7 @@ import { useCallback, useMemo, useState } from 'react'
 
 import { dispatch } from 'use-bus'
 import { BaseError } from 'viem'
-import { useConnect } from 'wagmi'
+import { useConnect, useConfig } from 'wagmi'
 
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
@@ -21,6 +21,7 @@ import { StyledModalTitle } from '@/styles/modal'
 
 import { DOCS_URL } from '@/constants/chain'
 import { WALLET_CONNECTED } from '@/constants/events'
+import { useConfigContext } from '@/context/ConfigProvider'
 import { useEnvContext } from '@/context/EnvProvider'
 import { useSupportChains } from '@/hooks/network/useSupportChains'
 import { useConnectors } from '@/hooks/wallet/useConnectors'
@@ -69,7 +70,7 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
 
   const supportChains = useSupportChains()
   const [selectedWallet, setSelectedWallet] = useState<any>(null)
-  const {connectors, connect, isLoading} = useConnect({
+  const {connectAsync, isLoading} = useConnect({
     mutation: {
       onError: (error) => {
         setConnectError(error as BaseError)
@@ -93,6 +94,9 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
   })
 
   const env = useEnvContext()
+  const config = useConfigContext()
+  const wagmiConfig = useConfig()
+
   const currentConnectors = useConnectors()
   const handleConnect = useCallback(async (id: string, connector: any) => {
     if (isLoading) {
@@ -152,8 +156,12 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
       return
     }
 
-    connect({ connector })
-  }, [isLoading, connectors, env])
+    connectAsync({ connector }).then(wallet => {
+      if (wallet && config.importState) {
+        config.importState(wagmiConfig.state)
+      }
+    })
+  }, [isLoading, onClose, env, wagmiConfig, config])
   const retryConnect = useCallback(() => {
     setConnectingWalletId('')
     setSelectedWallet(null)
