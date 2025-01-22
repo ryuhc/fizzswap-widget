@@ -1,4 +1,5 @@
 import { Chain } from 'viem'
+import { State } from 'wagmi'
 
 declare type SwapType = 'normal' | 'inputOnly' | 'outputOnly'
 
@@ -16,9 +17,10 @@ declare type SwapWidgetProps = {
   apiUrl?: {
     [p: number]: string
   }
-  supportChains?: Chain[],
-  operatorUrl?: string,
-  wcApiKey?: string,
+  supportChains?: Chain[]
+  operatorUrl?: string
+  wcApiKey?: string
+  state?: State
   swapType: SwapType
 }
 

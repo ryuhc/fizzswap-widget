@@ -92,8 +92,14 @@ export default function RootProvider(props: IProps) {
     }
   }, [props.config, supportChains])
 
+  useEffect(() => {
+    if (wagmiConfig && props.config.state) {
+      wagmiConfig.setState(props.config.state)
+    }
+  }, [wagmiConfig, props.config.state])
+
   return wagmiConfig && (
-    <WagmiConfig config={wagmiConfig} reconnectOnMount={true}>
+    <WagmiConfig config={wagmiConfig}>
       <QueryClientProvider client={rootQueryClient}>
         <EnvProvider env={env}>
           <ConfigProvider config={props.config}>

@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 
 import { useGSAP } from '@gsap/react'
+// @ts-ignore
 import { gsap } from 'gsap'
 
 import { useEnvContext } from '@/context/EnvProvider'
@@ -21,7 +22,7 @@ export default function GlobalHooksProvider() {
 
   // show version for qa
   useEffect(() => {
-    console.log(`widget version : ${import.meta.env.APP_VERSION}`, String(env.PROFILE))
+    console.log(`widget version : ${import.meta.env.APP_VERSION}`)
   }, [env])
 
   return null

@@ -36,7 +36,7 @@ i18n
       ko: messages.ko,
       en: messages.en
     },
-    lng: (navigator?.language?.toLowerCase() ?? '').includes('en') ? 'en' : 'ko',
+    lng: typeof window !== 'undefined' ? ((navigator?.language?.toLowerCase() ?? '').includes('en') ? 'en' : 'ko') : 'en',
     interpolation: {
       escapeValue: false // react already safes from xss
     }
