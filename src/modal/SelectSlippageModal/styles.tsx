@@ -11,7 +11,6 @@ export const StyledSelectSlippageModal = styled(StyledModal)`
   @media ${device.md} {
     width: calc(100% - 40px);
     max-height: calc(100vh - 120px);
-    overflow-y: auto;
     padding-bottom: 100px;
   }
 `
@@ -130,5 +129,12 @@ export const SelectSlippageSubmitArea = styled(`div`)`
   
   >div {
     border-radius: 8px;
+  }
+`
+
+export const SelectSlippageBody = styled('section')`
+  @media ${device.md} {
+    height: calc(100% - 100px);
+    overflow-y: auto;
   }
 `

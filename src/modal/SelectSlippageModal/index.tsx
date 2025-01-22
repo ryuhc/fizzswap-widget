@@ -10,7 +10,9 @@ import {
   SelectSlippageInputField,
   SelectSlippageInputUnit,
   SelectSlippageTitle,
-  StyledSelectSlippageModal, SelectSlippageWarning
+  StyledSelectSlippageModal,
+  SelectSlippageWarning,
+  SelectSlippageBody
 } from './styles'
 import { ModalClose } from '@/modal/ModalClose'
 import { ModalWrapper } from '@/modal/ModalWrapper'
@@ -97,40 +99,42 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
           <Text size={20} weight={700}>{t('Widget.SlippagePop1')}</Text>
         </SelectSlippageTitle>
 
-        <SelectSlippageDesc>
-          <Text size={14} color="black2">{t('Widget.SlippagePop2')}</Text>
-        </SelectSlippageDesc>
+        <SelectSlippageBody>
+          <SelectSlippageDesc>
+            <Text size={14} color="black2">{t('Widget.SlippagePop2')}</Text>
+          </SelectSlippageDesc>
 
-        <SelectSlippageInput>
-          <SelectSlippageInputField
-            type="text"
-            value={typedValue}
-            inputMode="decimal"
-            placeholder={t('General.SelfInput')}
-            onChange={e => onInputSlippage(e.target.value)}
-            onKeyDown={e => {
-              if (e.code === 'KeyE') {
-                e.preventDefault()
-                return false
-              }
-            }}
-          />
-          <SelectSlippageInputUnit>
-            <Text size={18} color="gray" weight={700}>%</Text>
-          </SelectSlippageInputUnit>
-        </SelectSlippageInput>
+          <SelectSlippageInput>
+            <SelectSlippageInputField
+              type="text"
+              value={typedValue}
+              inputMode="decimal"
+              placeholder={t('General.SelfInput')}
+              onChange={e => onInputSlippage(e.target.value)}
+              onKeyDown={e => {
+                if (e.code === 'KeyE') {
+                  e.preventDefault()
+                  return false
+                }
+              }}
+            />
+            <SelectSlippageInputUnit>
+              <Text size={18} color="gray" weight={700}>%</Text>
+            </SelectSlippageInputUnit>
+          </SelectSlippageInput>
 
-        {/*
+          {/*
         <SelectSlippageError>
           <Text size={14}>{error}</Text>
         </SelectSlippageError>
         */}
 
-        <SelectSlippageWarning>
-          <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop3')}</Text></li>
-          <li><Text size={14} weight={500} color="black2" dangerouslySetInnerHTML={{ __html: t('Widget.SlippagePop4') }} /></li>
-          <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop5')}</Text></li>
-        </SelectSlippageWarning>
+          <SelectSlippageWarning>
+            <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop3')}</Text></li>
+            <li><Text size={14} weight={500} color="black2" dangerouslySetInnerHTML={{ __html: t('Widget.SlippagePop4') }} /></li>
+            <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop5')}</Text></li>
+          </SelectSlippageWarning>
+        </SelectSlippageBody>
 
         <SelectSlippageSubmitArea>
           <ModalSubmitButton type="secondary" onClick={() => handleSubmit()}>
