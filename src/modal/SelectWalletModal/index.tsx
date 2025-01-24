@@ -70,7 +70,7 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
 
   const supportChains = useSupportChains()
   const [selectedWallet, setSelectedWallet] = useState<any>(null)
-  const {connectAsync, isLoading} = useConnect({
+  const {connect, isLoading} = useConnect({
     mutation: {
       onError: (error) => {
         setConnectError(error as BaseError)
@@ -156,11 +156,7 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
       return
     }
 
-    connectAsync({ connector }).then(wallet => {
-      if (wallet && config.importState) {
-        config.importState(wagmiConfig.state)
-      }
-    })
+    connect({ connector })
   }, [isLoading, onClose, env, wagmiConfig, config])
   const retryConnect = useCallback(() => {
     setConnectingWalletId('')

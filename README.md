@@ -58,7 +58,7 @@ declare type SwapWidgetProps = {
   operatorUrl?: string
   wcApiKey?: string
   state?: State
-  importState?: (state: State) => void
+  onConnect?: () => void
   swapType: SwapType
 }
 
