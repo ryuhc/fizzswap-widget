@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { ToastContainer } from 'react-toastify'
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { usePrevious } from '@uidotdev/usehooks'
 import { injected, walletConnect } from '@wagmi/connectors'
 import { createClient, http } from 'viem'
 import { createConfig, WagmiConfig } from 'wagmi'
@@ -92,11 +94,21 @@ export default function RootProvider(props: IProps) {
     }
   }, [props.config, supportChains])
 
+  // (optional) import wagmi state from parent
   useEffect(() => {
     if (wagmiConfig && props.config.state) {
       wagmiConfig.setState(props.config.state)
     }
   }, [wagmiConfig, props.config.state])
+
+  // (optional) import language from parent
+  const { i18n } = useTranslation()
+  const prevLang = usePrevious(props.config.language)
+  useEffect(() => {
+    if (props.config.language && prevLang !== props.config.language) {
+      i18n.changeLanguage(props.config.language).finally()
+    }
+  }, [props.config.language, prevLang])
 
   return wagmiConfig && (
     <WagmiConfig config={wagmiConfig}>

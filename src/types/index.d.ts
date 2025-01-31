@@ -22,6 +22,7 @@ declare type SwapWidgetProps = {
   wcApiKey?: string
   state?: State
   onConnect?: () => void
+  language?: string
   swapType: SwapType
 }
 
