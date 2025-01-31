@@ -133,22 +133,11 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
       const handleTeleportUri = (message: { type: string, data?: unknown }) => {
         if (message.type === 'display_uri') {
           connector.emitter.off('message', handleTeleportUri)
-          window.open(`tg://resolve?domain=${env.TG_WALLET_BOT}&appname=wallet&startapp=${Buffer.from(JSON.stringify({"type":"auth","value":{"uri":message.data}})).toString('hex')}`)
+          window.open(`${env.TELEPORT_PATH}?pairing_uri=${encodeURIComponent(String(message?.data ?? ''))}`)
         }
       }
 
       connector.emitter.on('message', handleTeleportUri)
-    }
-
-    if (_isMobileOS && id === 'korbit') {
-      const handleKorbitUri = (message: { type: string, data?: unknown }) => {
-        if (message.type === 'display_uri') {
-          connector.emitter.off('message', handleKorbitUri)
-          window.open(`korbit://web3?pairing=${message.data}`)
-        }
-      }
-
-      connector.emitter.on('message', handleKorbitUri)
     }
 
     if (!_isMobileOS && notInstalled) {

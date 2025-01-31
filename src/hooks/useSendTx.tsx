@@ -102,7 +102,7 @@ export function useSendTx({
     */
 
     if (fetchProviderId(connector) === 'teleport') {
-      isMobileOS() ? window.open(`tg://resolve?domain=${env.TG_WALLET_BOT}&appname=wallet`) : dispatch(OPEN_TELEPORT_WALLET)
+      isMobileOS() ? window.open(String(env.TELEPORT_PATH)) : dispatch(OPEN_TELEPORT_WALLET)
     }
 
     sendTransactionAsync(_tx)

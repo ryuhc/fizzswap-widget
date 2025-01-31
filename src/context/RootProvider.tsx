@@ -89,7 +89,7 @@ export default function RootProvider(props: IProps) {
       API_PATH_2355: (props.config?.apiUrl ?? {})['2355'] ?? import.meta.env.VITE_API_2355,
       API_PATH_1722641160: (props.config?.apiUrl ?? {})['1722641160'] ?? import.meta.env.VITE_API_1722641160,
       OPERATOR_PATH: props.config?.operatorUrl ?? import.meta.env.VITE_OPERATOR_PATH,
-      TG_WALLET_BOT: import.meta.env.VITE_TG_WALLET_BOT,
+      TELEPORT_PATH: import.meta.env.VITE_TELEPORT_PATH,
       SUPPORT_CHAINS: supportChains
     }
   }, [props.config, supportChains])

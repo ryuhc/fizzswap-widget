@@ -47,22 +47,13 @@ const useA2AConnectorQRUri = () => {
       return
     }
 
-    const uri = `tg://resolve?domain=${env.TG_WALLET_BOT}&appname=wallet&startapp=${
-      Buffer.from(JSON.stringify({"type":"auth","value":{"uri":message.data}})).toString('hex')
-    }`
+    const uri = `${env.TELEPORT_PATH}?pairing_uri=${encodeURIComponent(String(message?.data ?? ''))}`
 
     setQrUri(uri)
   }, [env])
-  const korbitUriHandler = useCallback((message: { type: string, data?: unknown }) => {
-    if (message.type !== 'display_uri') {
-      return
-    }
-
-    setQrUri(`korbit://web3?pairing=${message.data}`)
-  }, [])
 
   useBus(OPEN_TELEPORT_WALLET, () => {
-    setQrUri(`tg://resolve?domain=${env.TG_WALLET_BOT}&appname=wallet`)
+    setQrUri(String(env.TELEPORT_PATH))
   }, [env])
 
   useEffect(() => {
@@ -92,19 +83,6 @@ const useA2AConnectorQRUri = () => {
 
         break
       }
-      // TODO : korbit wallet
-      case 'korbit': {
-        const connector = findConnector()
-
-        connector?.getProvider().then(_provider => {
-          a2aProviderRef.current = connector
-          provider = connector
-
-          connector.emitter.on('message', korbitUriHandler)
-        })
-
-        break
-      }
       default: {
         break
       }
@@ -116,10 +94,6 @@ const useA2AConnectorQRUri = () => {
         switch(fetchProviderId(provider)) {
           case 'teleport': {
             provider.emitter.off('message', teleportUriHandler)
-            break
-          }
-          case 'korbit': {
-            provider.emitter.off('message', korbitUriHandler)
             break
           }
           default: {
