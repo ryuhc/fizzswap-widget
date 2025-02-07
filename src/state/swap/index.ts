@@ -79,7 +79,7 @@ export const useSwapState = create<ISwapStore>()(
       set({ ...initialState })
     },
     clearInput: () => {
-      set({ typedField: -1, inputValue: '', outputValue: '', isMaxInput: false, priceImpact: 0 })
+      set({ inputValue: '', outputValue: '', isMaxInput: false, priceImpact: 0 })
     }
   } as ISwapStore)
 )
