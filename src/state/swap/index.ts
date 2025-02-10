@@ -25,14 +25,16 @@ export interface ISwapStore {
   priceImpact: number,
   setPriceImpact: (newValue: number) => void,
   clearState: () => void,
-  clearInput: () => void
+  clearInput: () => void,
+  mode: string,
+  setMode: (mode: string) => void
 }
 
 const initialState = {
   inputToken: {} as ITokenItem,
   outputToken: {} as ITokenItem,
   rate: 0,
-  typedField: -1,
+  typedField: 0,
   inputValue: '',
   outputValue: '',
   isMaxInput: false,
@@ -80,6 +82,10 @@ export const useSwapState = create<ISwapStore>()(
     },
     clearInput: () => {
       set({ inputValue: '', outputValue: '', isMaxInput: false, priceImpact: 0 })
+    },
+    mode: 'buy',
+    setMode: (mode: string) => {
+      set({ mode, inputToken: get().outputToken, outputToken: get().inputToken })
     }
   } as ISwapStore)
 )

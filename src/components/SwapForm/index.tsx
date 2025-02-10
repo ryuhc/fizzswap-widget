@@ -2,7 +2,7 @@ import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'r
 import { createPortal } from 'react-dom'
 
 import { isValidAddress } from '@ethereumjs/util'
-import { useDebounce } from '@uidotdev/usehooks'
+import { useDebounce, usePrevious } from '@uidotdev/usehooks'
 import BN from 'bignumber.js'
 import { DateTime } from 'luxon'
 import { Abi } from 'viem'
@@ -77,6 +77,8 @@ export function SwapForm() {
     setPriceImpact,
     clearInput,
     clearState,
+    mode,
+    setMode
   } = useSwapState()
   const { slippage } = useCommonStore()
   const config = useConfigContext()
@@ -307,10 +309,10 @@ export function SwapForm() {
 
     // init mode
     if (!config.selectable) {
-      focusOnField(config.inputTokenAddress ? 0 : 1)
+      setMode(config.inputTokenAddress ? 'buy' : 'sell')
     }
     if (config.swapType === 'outputOnly') {
-      focusOnField(1)
+      config.selectable ? focusOnField(1) : setMode('sell')
     }
 
     // init currency
@@ -345,6 +347,13 @@ export function SwapForm() {
       clearState()
     }
   }, [])
+
+  const prevMode = usePrevious(mode)
+  useEffect(() => {
+    if (prevMode && prevMode !== mode) {
+      fetchRoute().finally()
+    }
+  }, [mode])
 
   // about select token
   const onSelectToken = useCallback(
@@ -516,7 +525,7 @@ export function SwapForm() {
             spender: swapCall.to,
             nativeBalance,
           },
-      submitText: typedField === 0 ? t('Widget.Buy') : t('Widget.Sell'),
+      submitText: config.selectable ? t('General.DoSwap') : (mode === 'buy' ? t('Widget.Buy') : t('Widget.Sell')),
       isLoading,
       priceHandler: {
         show: priceHandler.show,
@@ -538,6 +547,8 @@ export function SwapForm() {
     routes,
     priceImpact,
     priceHandler,
+    config,
+    mode
   ])
 
   const { isEstimatingFee } = useTxHistoryStore()
@@ -628,8 +639,8 @@ export function SwapForm() {
   }, [isProgressCall, validateTokenSelect, inputToken, outputToken, typedField, inputValue, outputValue, routeId, routes, balances, nativeAddress, broadcast])
 
   const submitText = useMemo(() => {
-    return typedField === 0 ? t('Widget.Buy') : t('Widget.Sell')
-  }, [typedField])
+    return config.selectable ? t('General.DoSwap') : (mode === 'buy' ? t('Widget.Buy') : t('Widget.Sell'))
+  }, [config, mode])
   const {
     handleSubmit,
     disableSubmitUi
@@ -723,7 +734,7 @@ export function SwapForm() {
 
         {error.message && <FormError><Text color="red">{error.message}</Text></FormError>}
 
-        <FormSubmit type={isProgressCall ? 'pending' : disableSubmitUi || error.message ? 'gray2' : (typedField === 0 ? 'red' : 'blue')} onClick={handleSubmit}>
+        <FormSubmit type={isProgressCall ? 'pending' : disableSubmitUi || error.message ? 'gray2' : (config.selectable || mode === 'buy' ? 'red' : 'blue')} onClick={handleSubmit}>
           <Text size={16} weight={700}>{submitText}</Text>
           {isProgressCall && <Image sx={{ width: '28px', height: '28px' }} src={ProgressIcon as string} alt="progress"/>}
         </FormSubmit>

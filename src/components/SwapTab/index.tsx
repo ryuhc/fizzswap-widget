@@ -8,15 +8,15 @@ import { Text } from '@/styles/common'
 
 export function SwapTab() {
   const { t } = useTranslationSimplify()
-  const { typedField, focusOnField } = useSwapState()
+  const { mode, setMode } = useSwapState()
 
   return (
     <StyledSwapTab>
-      <SwapInputModeOption $type="buy" $selected={typedField === 0} onClick={() => focusOnField(0)}>
-        <Text color={typedField === 0 ? 'white' : 'gray'} weight={700}>{t('Widget.Buy')}</Text>
+      <SwapInputModeOption $type="buy" $selected={mode === 'buy'} onClick={() => setMode('buy')}>
+        <Text color={mode === 'buy' ? 'white' : 'gray'} weight={700}>{t('Widget.Buy')}</Text>
       </SwapInputModeOption>
-      <SwapInputModeOption $type="sell" $selected={typedField === 1} onClick={() => focusOnField(1)}>
-        <Text color={typedField === 1 ? 'white' : 'gray'} weight={700}>{t('Widget.Sell')}</Text>
+      <SwapInputModeOption $type="sell" $selected={mode === 'sell'} onClick={() => setMode('sell')}>
+        <Text color={mode === 'sell' ? 'white' : 'gray'} weight={700}>{t('Widget.Sell')}</Text>
       </SwapInputModeOption>
     </StyledSwapTab>
   )
