@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 
 import { usePrevious } from '@uidotdev/usehooks'
+import { SendTransactionParameters } from '@wagmi/core'
 import { findIndex, map } from 'lodash'
-import { encodeFunctionData } from 'viem'
+import { encodeFunctionData, EncodeFunctionDataParameters } from 'viem'
 import { useChainId } from 'wagmi'
 
 import { useSendTx } from '@/hooks/useSendTx'
@@ -35,8 +36,8 @@ interface IProps {
 
 export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, nativeBalance, isSummary }: IProps) {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
-  const { txHistory, isEstimatingFee } = useTxHistoryStore()
-  const { data: approvals, isFetched, refetch, remove } = useAllowance({
+  const { isEstimatingFee } = useTxHistoryStore()
+  const { data: approvals, isFetched, refetch } = useAllowance({
     chainId,
     params: isSummary ? [] : ids,
     isNft: !!nftAddress,
@@ -92,7 +93,7 @@ export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, na
           abi: ERC721ABI,
           functionName: 'approve',
           args: [spender, ids[step]]
-        })
+        } as EncodeFunctionDataParameters)
       }
     }
 
@@ -106,7 +107,7 @@ export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, na
         abi: ERC20ABI,
         functionName: 'approve',
         args: [spender, amount]
-      })
+      } as EncodeFunctionDataParameters)
     }
   }, [step, ids, spender, nftAddress, amounts])
   const { broadcast, hash, isLoading, receipt } = useSendTx({
@@ -120,13 +121,13 @@ export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, na
     chainId,
     methodInterface: approveParam.methodInterface,
     methodArgs: approveParam.args
-  })
-  const handleApprove = useCallback((approval: IApprovals) => {
+  } as SendTransactionParameters)
+  const handleApprove = useCallback(async (approval: IApprovals) => {
     if (isEstimatingFee || isLoading || approval.finished) {
       return
     }
 
-    broadcast().finally()
+    await broadcast()
   }, [isEstimatingFee, isLoading, broadcast])
 
   const updateStep = useCallback(() => {
@@ -150,11 +151,6 @@ export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, na
       updateStep()
     }
   }, [hash, receipt])
-  useEffect(() => {
-    if (txHistory.length > 0 && txHistory[0].action !== 'approve') {
-      remove()
-    }
-  }, [txHistory])
 
   return {
     needApprove,

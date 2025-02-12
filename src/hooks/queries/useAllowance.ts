@@ -31,7 +31,7 @@ export function useAllowance({
 }: IProps) {
   const { address: owner } = useAccount()
   const apiPath = useApiUrl()
-  const { data, isFetched, refetch, remove } = useQuery({
+  const { data, isFetched, refetch } = useQuery({
     queryKey: ['allowance', chainId, owner, spender, isNft, nftAddress, params.join(','), (amounts ?? []).map(amount => String(amount)).join(',')],
     queryFn: async () => {
       const callParams: any[] = []
@@ -72,5 +72,5 @@ export function useAllowance({
     enabled: owner && params.length > 0
   })
 
-  return { data, refetch, isFetched: params.length === 0 || isFetched, remove }
+  return { data, refetch, isFetched: params.length === 0 || isFetched }
 }

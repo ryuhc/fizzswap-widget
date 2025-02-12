@@ -54,6 +54,7 @@ import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { useFormSubmit } from '@/hooks/swap/useFormSubmit'
 import { useSwapCall } from '@/hooks/swap/useSwapCall'
 import { useSwitchToken } from '@/hooks/swap/useSwitchToken'
+import { useApproveToken } from '@/hooks/token/useApproveToken'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 import { useCurrentAccount } from '@/hooks/wallet/useCurrentAccount'
 
@@ -418,7 +419,7 @@ export function SwapForm() {
     isPos: typedField === 0,
     routes,
   })
-  const { broadcast, hash, isLoading } = useSendTx({
+  const { broadcast, isLoading } = useSendTx({
     tx: {
       to: swapCall.to as `0x${string}`,
       value: BigInt(swapCall.value),
@@ -556,13 +557,30 @@ export function SwapForm() {
     return isLoading || isFetching || delayed || isEstimatingFee
   }, [isLoading, isFetching, delayed, isEstimatingFee])
 
+  const approveParams = useMemo(() => {
+    const defaultData: any = { ids: [], symbols: [], amounts: [], spender: '0x' }
+
+    return !config.selectable ? (confirmParams?.approvals ?? defaultData) : defaultData
+  }, [config, confirmParams])
+  const { needApprove, handleApprove } = useApproveToken({
+    ids: approveParams?.ids ?? [],
+    symbols: approveParams?.symbols ?? [],
+    amounts: approveParams?.amounts ?? [],
+    spender: approveParams?.spender ?? '0x',
+    nftAddress: approveParams?.nftAddress ?? undefined,
+    nativeBalance,
+  })
+  const isFinishApprove = useMemo(() => {
+    return needApprove?.length === 0 || needApprove?.filter(item => !item.finished).length === 0
+  }, [needApprove])
+
   const { confirmBroadcast, txPolicyModal, aboutPriceImpactModal } =
     useTxPolicy({
       policy: locale === 'ko' ? 'SwapFinal' : 'en_SwapFinal',
       onSubmit: () => setTimeout(setShowTx, 100),
       onNextStep: () => confirmBroadcast(),
     })
-  const onSubmitSwap = useCallback(() => {
+  const onSubmitSwap = useCallback(async () => {
     setError('', { token0: false, token1: false })
 
     if (isProgressCall) {
@@ -635,12 +653,34 @@ export function SwapForm() {
     setTimeout(setShowTx, 100)
     */
 
-    broadcast()
-  }, [isProgressCall, validateTokenSelect, inputToken, outputToken, typedField, inputValue, outputValue, routeId, routes, balances, nativeAddress, broadcast])
+    if (!config.selectable && !isFinishApprove) {
+      await handleApprove(needApprove[0])
+      return
+    }
+
+    await broadcast()
+  }, [
+    isProgressCall,
+    validateTokenSelect,
+    inputToken,
+    outputToken,
+    typedField,
+    inputValue,
+    outputValue,
+    routeId,
+    routes,
+    balances,
+    nativeAddress,
+    config,
+    broadcast,
+    isFinishApprove,
+    needApprove,
+    handleApprove
+  ])
 
   const submitText = useMemo(() => {
-    return config.selectable ? t('General.DoSwap') : (mode === 'buy' ? t('Widget.Buy') : t('Widget.Sell'))
-  }, [config, mode])
+    return !isFinishApprove ? t('General.TxSubmitApprove') : config.selectable ? t('General.DoSwap') : (mode === 'buy' ? t('Widget.Buy') : t('Widget.Sell'))
+  }, [config, mode, isFinishApprove])
   const {
     handleSubmit,
     disableSubmitUi
