@@ -779,6 +779,12 @@ export function SwapForm() {
           {isProgressCall && <Image sx={{ width: '28px', height: '28px' }} src={ProgressIcon as string} alt="progress"/>}
         </FormSubmit>
 
+        {!isFinishApprove && (
+          <div style={{ marginTop: '10px', textAlign: 'center' }}>
+            <Text color="gray">{mode === 'buy' ? t('General.ApproveBeforeBuy') : t('General.ApproveBeforeSell')}</Text>
+          </div>
+        )}
+
         {show && portal
           ? createPortal(
             (
