@@ -310,7 +310,7 @@ export function SwapForm() {
 
     // init mode
     if (!config.selectable) {
-      setMode(config?.defaultMode ?? 'buy')
+      setMode(config?.swapPurpose ?? 'buy')
     }
     else if (config.swapType === 'outputOnly') {
       focusOnField(1)
