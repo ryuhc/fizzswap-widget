@@ -310,10 +310,10 @@ export function SwapForm() {
 
     // init mode
     if (!config.selectable) {
-      setMode(config.inputTokenAddress ? 'buy' : 'sell')
+      setMode(config?.defaultMode ?? 'buy')
     }
-    if (config.swapType === 'outputOnly') {
-      config.selectable ? focusOnField(1) : setMode('sell')
+    else if (config.swapType === 'outputOnly') {
+      focusOnField(1)
     }
 
     // init currency

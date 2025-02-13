@@ -1,12 +1,9 @@
 import React, { useCallback, useEffect, useMemo } from 'react'
 import { createPortal } from 'react-dom'
 
-import { useLocalStorage } from '@uidotdev/usehooks'
 import { find } from 'lodash'
-import { DateTime } from 'luxon'
 import useBus from 'use-bus'
 import { useAccount, useConnect } from 'wagmi'
-
 
 import useModal from '@/hooks/useModal'
 import { useSearchParams } from '@/hooks/useSearchParams'
@@ -97,21 +94,7 @@ export default function WalletActionProvider() {
     if (isConnected) {
       persistConnector()
     }
-  }, [isConnected, connectingWalletId])
-
-  const [showRiskModal, setShowRiskModal, riskPortal, closeRiskModal] = useModal()
-  const [disableUntil, setDisableUntil] = useLocalStorage('swap.risk', 0)
-  const handleShowRisk = useCallback(() => {
-    const now = Number(DateTime.now().toFormat('X'))
-
-    if (now > disableUntil) {
-      // setShowRiskModal()
-    }
-  }, [disableUntil])
-  const onDisableRiskModal = useCallback(() => {
-    const now = Number(DateTime.now().toFormat('X'))
-    setDisableUntil(now + (86400 + 7))
-  }, [])
+  }, [isConnected])
 
   const searchParams = useSearchParams()
 
@@ -140,16 +123,12 @@ export default function WalletActionProvider() {
       })
 
       if (persistedConnector && persistedConnector?.type !== 'injected') {
-        connectAsync({ connector: persistedConnector }).then(res => {
-          if (res && supportChains.find(item => item.id === res.chainId)) {
-            handleShowRisk()
-          }
-        }).catch(() => {
+        connectAsync({ connector: persistedConnector }).catch(() => {
           localStorage.setItem('wagmi.recentConnectorId', '')
         })
       }
     }
-  }, [connectors, config, currentConnectors, handleShowRisk, searchParams, supportChains])
+  }, [connectors, config, currentConnectors, searchParams, supportChains])
   useEffect(() => {
     initConnector()
   }, [])
@@ -164,7 +143,7 @@ export default function WalletActionProvider() {
 
   return (
     <>
-      {showConnectWallet && portal ? createPortal(<SelectWalletModal onShowRisk={handleShowRisk} onClose={closeConnectWallet} /> as any, portal) : null}
+      {showConnectWallet && portal ? createPortal(<SelectWalletModal onShowRisk={() => {}} onClose={closeConnectWallet} /> as any, portal) : null}
 
       {showA2A && a2aPortal && a2aModal ? createPortal(a2aModal as any, a2aPortal) : null}
 

@@ -23,7 +23,8 @@ declare type SwapWidgetProps = {
   state?: State
   onConnect?: () => void
   language?: string
-  swapType: SwapType
+  swapType: SwapType,
+  defaultMode?: 'buy' | 'sell'
 }
 
 declare type SwapWidget = (props: SwapWidgetProps) => JSX.Element
