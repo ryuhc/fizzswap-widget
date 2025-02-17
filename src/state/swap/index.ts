@@ -85,7 +85,9 @@ export const useSwapState = create<ISwapStore>()(
     },
     mode: 'buy',
     setMode: (mode: string) => {
-      set({ mode, inputToken: get().outputToken, outputToken: get().inputToken })
+      if (mode !== get().mode) {
+        set({ mode, inputToken: get().outputToken, outputToken: get().inputToken })
+      }
     }
   } as ISwapStore)
 )
