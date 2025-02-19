@@ -4,7 +4,7 @@ import { map } from 'lodash'
 
 import { useFetchRoutes } from '@/hooks/useFetchRoutes'
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
-import { divBN, dprec, mulBN, toWritableUnit } from '@/utils/number'
+import { addComma, divBN, dprec, mulBN, toWritableUnit } from '@/utils/number'
 
 import { EstimateAboutTx } from '@/components/EstimateAboutTx'
 import { SwapPath } from '@/components/SwapPath'
@@ -104,7 +104,7 @@ export function SwapEstimated() {
             {isSelected ? (
               <div>
                 <Paragraph data-testid="estimated-swap-amount">
-                  {dprec(typedField === 0 ? outputValue : inputValue, 6)} {aboutFixedAmount.token?.symbol}
+                  {addComma(dprec(typedField === 0 ? outputValue : inputValue, 6))} {aboutFixedAmount.token?.symbol}
                 </Paragraph>
               </div>
             ) : <Text>-</Text>}
@@ -120,7 +120,7 @@ export function SwapEstimated() {
             {isSelected ? (
               <div>
                 <Paragraph data-testid="estimated-swap-minAmount">
-                  {dprec(aboutFixedAmount.value, 6)} {aboutFixedAmount.token?.symbol}
+                  {addComma(dprec(aboutFixedAmount.value, 6))} {aboutFixedAmount.token?.symbol}
                 </Paragraph>
               </div>
             ) : <Text>-</Text>}
