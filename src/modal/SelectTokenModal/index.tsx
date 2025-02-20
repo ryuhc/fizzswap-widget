@@ -97,7 +97,7 @@ export function SelectTokenModal({ selectedToken, hideNative, version, onSearch,
     setTotalLength(total)
   }, [total])
 
-  const balances = useTokenBalances(tokens.map(token => token.address))
+  const { balances } = useTokenBalances(tokens.map(token => token.address))
   const handleShowOnlyHave = useCallback(() => {
     setShowOnlyHave(!showOnlyHave)
 

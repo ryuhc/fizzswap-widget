@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 
 import { isValidAddress } from '@ethereumjs/util'
-import { useQuery } from '@tanstack/react-query'
+import { QueryObserverBaseResult, useQuery } from '@tanstack/react-query'
 import { useAccount, useChainId } from 'wagmi'
 
 import { isSameAddress } from '@/utils/address'
@@ -13,7 +13,10 @@ import { contractAddresses, SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { useApiUrl } from '@/hooks/network/useApiUrl'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 
-export function useTokenBalances(addresses: `0x${string}`[]): Record<`0x${string}`, bigint> {
+export function useTokenBalances(addresses: `0x${string}`[]): {
+  balances: Record<`0x${string}`, bigint>,
+  refetch: QueryObserverBaseResult['result']['refetch']
+} {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const { address: userAddress } = useAccount()
   const nativeToken = useNativeToken(chainId)
@@ -44,7 +47,7 @@ export function useTokenBalances(addresses: `0x${string}`[]): Record<`0x${string
   }, [chainId, userAddress, addresses, nativeToken])
 
   const apiPath = useApiUrl()
-  const { data } = useQuery({
+  const { data, refetch } = useQuery({
     queryKey: ['balanceOf', userAddress, chainId, callParams.map(param => param.address).join(',')],
     queryFn: () => callAndDecodeContractFunctions(apiPath, contractAddresses.multicall[chainId], callParams) as Promise<bigint[]>,
     enabled: !!userAddress && addresses.length > 0,
@@ -63,5 +66,5 @@ export function useTokenBalances(addresses: `0x${string}`[]): Record<`0x${string
     return balances
   }, [data, callParams, nativeToken])
 
-  return result
+  return { balances: result, refetch }
 }

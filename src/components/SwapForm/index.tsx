@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 
 import { isValidAddress } from '@ethereumjs/util'
 import { useDebounce, usePrevious } from '@uidotdev/usehooks'
+import { SendTransactionParameters } from '@wagmi/core'
 import BN from 'bignumber.js'
 import { DateTime } from 'luxon'
 import { Abi } from 'viem'
@@ -99,7 +100,7 @@ export function SwapForm() {
 
     return res
   }, [inputToken, outputToken, nativeAddress])
-  const balances = useTokenBalances(selectedTokens)
+  const { balances, refetch } = useTokenBalances(selectedTokens)
 
   const {
     data: routes,
@@ -424,7 +425,7 @@ export function SwapForm() {
       to: swapCall.to as `0x${string}`,
       value: BigInt(swapCall.value),
       data: swapCall.data as `0x${string}`,
-    },
+    } as SendTransactionParameters,
     action: 'swap',
     balance: nativeBalance,
     chainId,
@@ -434,6 +435,7 @@ export function SwapForm() {
       close()
       clearInput()
       setPriceHandler({ show: false, callback: () => {} })
+      setTimeout(() => refetch(), 2000)
     },
   })
 
