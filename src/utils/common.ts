@@ -18,7 +18,9 @@ export function getCompoundedAPY(apr: string) {
 
   const dailyTotalRewardRate = Number(apr || 0) / 365 / 100
 
-  return new BN(String(((1 + dailyTotalRewardRate) ** 365 - 1) * 100)).toString()
+  return new BN(
+    String(((1 + dailyTotalRewardRate) ** 365 - 1) * 100)
+  ).toString()
 }
 
 export function isMobileOS() {
@@ -41,14 +43,16 @@ export function isAndroid() {
 
 // 가변화?
 export function calcTxDeadline() {
-  return Math.ceil(new Date().valueOf() / 1000) + (60 * 1000)
+  return Math.ceil(new Date().valueOf() / 1000) + 60 * 1000
 }
 
 export function pickTokenName(token: ITokenItem, locale: string) {
-  return {
-    en: token.nameEn,
-    ko: token.nameKo
-  }[locale] ?? token.nameEn
+  return (
+    {
+      en: token.nameEn,
+      ko: token.nameKo
+    }[locale] ?? token.nameEn
+  )
 }
 
 export function debugLog(content: any, profile: string) {

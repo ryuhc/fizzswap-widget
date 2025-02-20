@@ -7,7 +7,6 @@ import { dprec } from '@/utils/number'
 
 import { Paragraph, Text } from '@/styles/common'
 
-
 const StyledPriceImpaction = styled('div')``
 
 interface IProps {
@@ -15,7 +14,7 @@ interface IProps {
 }
 
 export function PriceImpaction({ priceImpact }: IProps) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
   const valueColor = useMemo(() => {
     if (priceImpact < 5) {
       return 'paleGreen'
@@ -37,7 +36,9 @@ export function PriceImpaction({ priceImpact }: IProps) {
     <StyledPriceImpaction>
       <Paragraph size={12}>
         <Text color="gray">{t('General.DiffFromCurrentRate')} </Text>
-        <Text color={valueColor} weight={700} data-testid="priceimpact-value">{formattedValue}%</Text>
+        <Text color={valueColor} weight={700} data-testid="priceimpact-value">
+          {formattedValue}%
+        </Text>
       </Paragraph>
     </StyledPriceImpaction>
   )

@@ -10,7 +10,9 @@ import { useSupportChains } from '@/hooks/network/useSupportChains'
 export function useWrongNetwork() {
   const env = useEnvContext()
   const { connector } = useAccount()
-  const [connectorChainId, setConnectorChainId] = useState<number>(Number(env.DEFAULT_CHAIN))
+  const [connectorChainId, setConnectorChainId] = useState<number>(
+    Number(env.DEFAULT_CHAIN)
+  )
 
   const providerRef = useRef<any>(null)
   useEffect(() => {
@@ -21,20 +23,26 @@ export function useWrongNetwork() {
           setConnectorChainId(parseInt(id))
         })
 
-        provider.request({ method: 'eth_chainId' }).then((chainId: `0x${string}`) => {
-          setConnectorChainId(parseInt(chainId))
-        })
+        provider
+          .request({ method: 'eth_chainId' })
+          .then((chainId: `0x${string}`) => {
+            setConnectorChainId(parseInt(chainId))
+          })
       })
     }
 
     return () => {
-      providerRef.current?.removeAllListeners && providerRef.current?.removeAllListeners('chainChanged')
+      providerRef.current?.removeAllListeners &&
+        providerRef.current?.removeAllListeners('chainChanged')
     }
   }, [connector])
 
   const supportChains = useSupportChains()
   const isWrongNetwork = useMemo(() => {
-    return connectorChainId && !supportChains.find(item => item.id === connectorChainId)
+    return (
+      connectorChainId &&
+      !supportChains.find((item) => item.id === connectorChainId)
+    )
   }, [connectorChainId, supportChains])
   const showWrongNetwork = useCallback(() => {
     dispatch(OPEN_WRONG_NETWORK)

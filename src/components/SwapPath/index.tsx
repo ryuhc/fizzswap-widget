@@ -12,12 +12,12 @@ import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 
 interface IProps {
-  isSelected: boolean,
+  isSelected: boolean
   routes: ITokenItem[]
 }
 
 export function SwapPath({ isSelected, routes }: IProps) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
 
   return (
     <StyledSwapPath>
@@ -25,22 +25,33 @@ export function SwapPath({ isSelected, routes }: IProps) {
         <Text>-</Text>
       ) : routes.length < 2 ? (
         <Text>
-          <Image src={ErrorIcon} alt="error" sx={{ marginRight: '5px' }} type="vector" />
+          <Image
+            src={ErrorIcon}
+            alt="error"
+            sx={{ marginRight: '5px' }}
+            type="vector"
+          />
           {t('General.IsEmptyRoute')}
         </Text>
-      ) : routes.map((token, i) => {
-        return token.address && (
-          <StyledSwapPathToken key={`${i}_${token.address}`}>
-            <TokenIcon token={token} size={18} />
-            <StyledSwapPathTokenSymbol>{token.symbol}</StyledSwapPathTokenSymbol>
-            {i < routes.length - 1 && (
-              <StyledSwapPathTokenNext>
-                <Image src={ChevronIcon} alt="next" type="vector" />
-              </StyledSwapPathTokenNext>
-            )}
-          </StyledSwapPathToken>
-        )
-      })}
+      ) : (
+        routes.map((token, i) => {
+          return (
+            token.address && (
+              <StyledSwapPathToken key={`${i}_${token.address}`}>
+                <TokenIcon token={token} size={18} />
+                <StyledSwapPathTokenSymbol>
+                  {token.symbol}
+                </StyledSwapPathTokenSymbol>
+                {i < routes.length - 1 && (
+                  <StyledSwapPathTokenNext>
+                    <Image src={ChevronIcon} alt="next" type="vector" />
+                  </StyledSwapPathTokenNext>
+                )}
+              </StyledSwapPathToken>
+            )
+          )
+        })
+      )}
     </StyledSwapPath>
   )
 }

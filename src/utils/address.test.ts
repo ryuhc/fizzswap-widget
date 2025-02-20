@@ -4,7 +4,11 @@ import * as AddressUtil from '@/utils/address'
 
 import { testAccount } from '../../vitest-setup'
 
-import { contractAddresses, silicon, SUPPORT_CHAIN_IDS } from '@/constants/chain'
+import {
+  contractAddresses,
+  silicon,
+  SUPPORT_CHAIN_IDS
+} from '@/constants/chain'
 
 const chainId = silicon.id as SUPPORT_CHAIN_IDS
 const nativeToken = contractAddresses.native[chainId]
@@ -20,21 +24,31 @@ describe('test isSameAddress()', () => {
 
 describe('test getMaskedAddress()', () => {
   it('validate result', () => {
-    expect(AddressUtil.getMaskedAddress(testAccount, 4, 4, 4)).toBe(`${testAccount.slice(0, 4)}∙∙∙∙${testAccount.slice(-4)}`)
+    expect(AddressUtil.getMaskedAddress(testAccount, 4, 4, 4)).toBe(
+      `${testAccount.slice(0, 4)}∙∙∙∙${testAccount.slice(-4)}`
+    )
   })
 })
 
 describe('test getReadableTokenAddress()', () => {
   it('convert wNative address to native address', () => {
-    expect(AddressUtil.getReadableTokenAddress(wNativeToken, chainId)).toBe(nativeToken)
-    expect(AddressUtil.getReadableTokenAddress(govToken, chainId)).toBe(govToken)
+    expect(AddressUtil.getReadableTokenAddress(wNativeToken, chainId)).toBe(
+      nativeToken
+    )
+    expect(AddressUtil.getReadableTokenAddress(govToken, chainId)).toBe(
+      govToken
+    )
   })
 })
 
 describe('test getWritableTokenAddress()', () => {
   it('convert native address to wNative address', () => {
-    expect(AddressUtil.getWritableTokenAddress(nativeToken, chainId)).toBe(wNativeToken)
-    expect(AddressUtil.getWritableTokenAddress(govToken, chainId)).toBe(govToken)
+    expect(AddressUtil.getWritableTokenAddress(nativeToken, chainId)).toBe(
+      wNativeToken
+    )
+    expect(AddressUtil.getWritableTokenAddress(govToken, chainId)).toBe(
+      govToken
+    )
   })
 })
 
@@ -45,7 +59,9 @@ describe('test getWritablePoolAddress()', () => {
     expect(AddressUtil.getWritablePoolAddress(pool, 'v3')).toBe(pool)
   })
   it('v2 pool must use ZERO_ADDRESS', () => {
-    expect(AddressUtil.getWritablePoolAddress(pool, 'v2')).toBe(AddressUtil.ZERO_ADDRESS)
+    expect(AddressUtil.getWritablePoolAddress(pool, 'v2')).toBe(
+      AddressUtil.ZERO_ADDRESS
+    )
   })
 })
 
@@ -74,10 +90,26 @@ describe('test computePoolAddressV3()', () => {
   const result = '0x0BeE80A94b801C1626853EA1466A638673483c47'
 
   it('calculate v3 pool address with uniswap v3 sdk', () => {
-    expect(AddressUtil.computePoolAddressV3(params.factory, params.fee, params.token0, params.token1, params.chainId)).toBe(result)
+    expect(
+      AddressUtil.computePoolAddressV3(
+        params.factory,
+        params.fee,
+        params.token0,
+        params.token1,
+        params.chainId
+      )
+    ).toBe(result)
   })
 
   it('calculate same result even if token order is reversed', () => {
-    expect(AddressUtil.computePoolAddressV3(params.factory, params.fee, params.token1, params.token0, params.chainId)).toBe(result)
+    expect(
+      AddressUtil.computePoolAddressV3(
+        params.factory,
+        params.fee,
+        params.token1,
+        params.token0,
+        params.chainId
+      )
+    ).toBe(result)
   })
 })

@@ -32,7 +32,7 @@ export function WrongNetworkModal({ onClose }: IProps) {
   }, [connector])
 
   const { disconnect } = useConnectWallet()
-  const onChangeNetwork = useCallback( () => {
+  const onChangeNetwork = useCallback(() => {
     if (!connector) {
       return
     }
@@ -48,34 +48,53 @@ export function WrongNetworkModal({ onClose }: IProps) {
     connector.getProvider().then((provider: any) => {
       provider.request({
         method: 'wallet_addEthereumChain',
-        params: [{
-          chainId: toHex(silicon.id),
-          chainName: silicon.name,
-          nativeCurrency: silicon.nativeCurrency,
-          rpcUrls: silicon.rpcUrls.public.http,
-          blockExplorerUrls: [silicon.blockExplorers?.default.url],
-          iconUrls: []
-        }]
+        params: [
+          {
+            chainId: toHex(silicon.id),
+            chainName: silicon.name,
+            nativeCurrency: silicon.nativeCurrency,
+            rpcUrls: silicon.rpcUrls.public.http,
+            blockExplorerUrls: [silicon.blockExplorers?.default.url],
+            iconUrls: []
+          }
+        ]
       })
     })
   }, [connector, onClose, allowSwitchChain, disconnect])
 
   return (
-    <ModalWrapper customStyle={{
-      background: 'rgba(0, 0, 0, 0.2)'
-    }}>
+    <ModalWrapper
+      customStyle={{
+        background: 'rgba(0, 0, 0, 0.2)'
+      }}
+    >
       <StyledWrongNetworkModal>
         <ModalClose onClose={onClose} />
         <StyledModalTitle>{t('Asset.DoChangeNetwork')}</StyledModalTitle>
 
         <WrongNetworkNotice>
           <Image src={ErrorIcon} alt="error" />
-          <Paragraph color="primaryActive" weight={700}>{t('Asset.AboutWrongNetworkNotice1')}</Paragraph>
-          <Paragraph color="gray" className="mt-[15px]" dangerouslySetInnerHTML={{ __html: t('Asset.AboutWrongNetworkNotice2') }} />
+          <Paragraph color="primaryActive" weight={700}>
+            {t('Asset.AboutWrongNetworkNotice1')}
+          </Paragraph>
+          <Paragraph
+            color="gray"
+            className="mt-[15px]"
+            dangerouslySetInnerHTML={{
+              __html: t('Asset.AboutWrongNetworkNotice2')
+            }}
+          />
         </WrongNetworkNotice>
 
-        <WrongNetworkAction type="bodyBackground" onClick={() => onChangeNetwork()}>
-          <Text size={14} color="secondary" weight={700}>{allowSwitchChain ? t('Asset.DoChangeNetwork') : t('Asset.DoRetryConnectWallet')}</Text>
+        <WrongNetworkAction
+          type="bodyBackground"
+          onClick={() => onChangeNetwork()}
+        >
+          <Text size={14} color="secondary" weight={700}>
+            {allowSwitchChain
+              ? t('Asset.DoChangeNetwork')
+              : t('Asset.DoRetryConnectWallet')}
+          </Text>
         </WrongNetworkAction>
       </StyledWrongNetworkModal>
     </ModalWrapper>

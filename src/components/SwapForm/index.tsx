@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 import { createPortal } from 'react-dom'
 
 import { isValidAddress } from '@ethereumjs/util'
@@ -18,7 +24,14 @@ import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
 import { useTxPolicy } from '@/hooks/useTxPolicy'
 import { isSameAddress } from '@/utils/address'
 import { fetchTokenList } from '@/utils/fetch'
-import { divBN, dprec, mulBN, safeDiv, toReadableBN, toWritableUnit } from '@/utils/number'
+import {
+  divBN,
+  dprec,
+  mulBN,
+  safeDiv,
+  toReadableBN,
+  toWritableUnit
+} from '@/utils/number'
 
 import { ExchangeRate } from '@/components/ExchangeRate'
 import { Image } from '@/components/Image/'
@@ -116,7 +129,7 @@ export function SwapForm() {
         : toWritableUnit(outputValue, outputToken.decimal),
     isPos: typedField === 0,
     updateValue,
-    setPriceImpact,
+    setPriceImpact
   })
   const [routeId, setRouteId] = useState<number>(0)
   const debouncedRouteId = useDebounce(routeId, 1000)
@@ -134,7 +147,7 @@ export function SwapForm() {
         ) {
           return setError(t('General.IsEmptyRoute'), {
             token0: false,
-            token1: false,
+            token1: false
           })
         }
       })
@@ -155,7 +168,7 @@ export function SwapForm() {
     callback: Function
   }>({
     show: false,
-    callback: () => {},
+    callback: () => {}
   })
 
   const apiPath = useApiUrl()
@@ -173,23 +186,23 @@ export function SwapForm() {
     const newInput = toReadableBN(
       newRoute.best.fromAmount,
       inputToken.decimal,
-      inputToken.decimal,
+      inputToken.decimal
     )
     const newOutput = toReadableBN(
       newRoute.best.toAmount,
       outputToken.decimal,
-      outputToken.decimal,
+      outputToken.decimal
     )
 
     const isRevertPos =
       isPos &&
       new BN(mulBN(outputValue, safeDiv(100 - slippage, 100))).comparedTo(
-        mulBN(newOutput, safeDiv(100 - slippage, 100)),
+        mulBN(newOutput, safeDiv(100 - slippage, 100))
       ) === 1
     const isRevertNeg =
       !isPos &&
       new BN(mulBN(inputValue, safeDiv(100 + slippage, 100))).comparedTo(
-        mulBN(newInput, safeDiv(100 + slippage, 100)),
+        mulBN(newInput, safeDiv(100 + slippage, 100))
       ) === -1
 
     if (isRevertPos || isRevertNeg) {
@@ -201,10 +214,19 @@ export function SwapForm() {
           setPriceImpact(Number(newRoute.best.priceImpact))
 
           setPriceHandler({ show: false, callback: () => {} })
-        },
+        }
       })
     }
-  }, [routes, typedField, fetchRoute, inputToken, inputValue, outputToken, outputValue, slippage])
+  }, [
+    routes,
+    typedField,
+    fetchRoute,
+    inputToken,
+    inputValue,
+    outputToken,
+    outputValue,
+    slippage
+  ])
   useEffect(() => {
     const timeout = setInterval(refreshRoute, 1000 * 15)
 
@@ -225,7 +247,7 @@ export function SwapForm() {
         setRouteId(routeId + 1)
       }
     },
-    [routeId, inputToken, outputToken, inputValue, outputValue],
+    [routeId, inputToken, outputToken, inputValue, outputValue]
   )
 
   const onInput = useCallback(
@@ -251,7 +273,7 @@ export function SwapForm() {
     }
     */
     },
-    [typedField, routeId],
+    [typedField, routeId]
   )
 
   const account = useCurrentAccount()
@@ -272,12 +294,12 @@ export function SwapForm() {
           chainId,
           (idx === 0
             ? inputToken.address
-            : outputToken.address) as `0x${string}`,
+            : outputToken.address) as `0x${string}`
         ),
-        idx,
+        idx
       ).finally()
     },
-    [chainId, inputToken, outputToken, isMaxInput, typedField, onInput],
+    [chainId, inputToken, outputToken, isMaxInput, typedField, onInput]
   )
 
   // about initialize
@@ -298,7 +320,7 @@ export function SwapForm() {
     const initialTokens = await fetchTokenList(apiPath, {
       skip: 0,
       take: 10,
-      addresses,
+      addresses
     }).then((res) => res.tokens)
 
     // init amount
@@ -312,8 +334,7 @@ export function SwapForm() {
     // init mode
     if (!config.selectable) {
       setMode(config?.swapPurpose ?? 'buy')
-    }
-    else if (config.swapType === 'outputOnly') {
+    } else if (config.swapType === 'outputOnly') {
       focusOnField(1)
     }
 
@@ -387,7 +408,7 @@ export function SwapForm() {
         setRouteId(routeId + 1)
       }
     },
-    [inputToken, outputToken, inputValue, outputValue, routeId],
+    [inputToken, outputToken, inputValue, outputValue, routeId]
   )
   const { onSwitch } = useSwitchToken({
     inputToken,
@@ -400,7 +421,7 @@ export function SwapForm() {
     isMaxInput,
     nativeAddress,
     balances,
-    isFetching,
+    isFetching
   })
 
   // tx modal
@@ -418,13 +439,13 @@ export function SwapForm() {
     outputToken,
     outputValue,
     isPos: typedField === 0,
-    routes,
+    routes
   })
   const { broadcast, isLoading } = useSendTx({
     tx: {
       to: swapCall.to as `0x${string}`,
       value: BigInt(swapCall.value),
-      data: swapCall.data as `0x${string}`,
+      data: swapCall.data as `0x${string}`
     } as SendTransactionParameters,
     action: 'swap',
     balance: nativeBalance,
@@ -436,7 +457,7 @@ export function SwapForm() {
       clearInput()
       setPriceHandler({ show: false, callback: () => {} })
       setTimeout(() => refetch(), 2000)
-    },
+    }
   })
 
   const validateTokenSelect = useCallback(
@@ -458,7 +479,7 @@ export function SwapForm() {
 
       return true
     },
-    [],
+    []
   )
 
   const confirmParams = useMemo(() => {
@@ -478,7 +499,7 @@ export function SwapForm() {
             <Text size={18} color="black">
               {dprec(inputValue, 6)} {inputToken.symbol}
             </Text>
-          ),
+          )
         },
         {
           title: t('General.To'),
@@ -486,8 +507,8 @@ export function SwapForm() {
             <Text size={18} color="black">
               {dprec(outputValue, 6)} {outputToken.symbol}
             </Text>
-          ),
-        },
+          )
+        }
       ],
       estimateData: [
         {
@@ -502,7 +523,7 @@ export function SwapForm() {
                 version={3}
               />
             </div>
-          ),
+          )
         },
         {
           title:
@@ -511,29 +532,43 @@ export function SwapForm() {
               : t('General.MaxInputOfSwap'),
           value: `${dprec(fixedAmount, 6)} ${
             typedField === 0 ? outputToken.symbol : inputToken.symbol
-          }`,
+          }`
         },
         {
           title: t('General.DiffFromCurrentRate'),
           value: `${dprec(priceImpact, 2)} %`
-        },
+        }
       ],
       approvals:
         inputToken.address === nativeAddress || !inputToken.address
           ? undefined
           : {
-            ids: [inputToken.address],
-            symbols: [inputToken.symbol],
-            amounts: [BigInt(toWritableUnit(mulBN(inputValue || '0', typedField === 0 ? 1 : (100 + slippage) / 100), inputToken.decimal))],
-            spender: swapCall.to,
-            nativeBalance,
-          },
-      submitText: config.selectable ? t('General.DoSwap') : (mode === 'buy' ? t('Widget.Buy') : t('Widget.Sell')),
+              ids: [inputToken.address],
+              symbols: [inputToken.symbol],
+              amounts: [
+                BigInt(
+                  toWritableUnit(
+                    mulBN(
+                      inputValue || '0',
+                      typedField === 0 ? 1 : (100 + slippage) / 100
+                    ),
+                    inputToken.decimal
+                  )
+                )
+              ],
+              spender: swapCall.to,
+              nativeBalance
+            },
+      submitText: config.selectable
+        ? t('General.DoSwap')
+        : mode === 'buy'
+          ? t('Widget.Buy')
+          : t('Widget.Sell'),
       isLoading,
       priceHandler: {
         show: priceHandler.show,
-        callback: priceHandler.callback,
-      },
+        callback: priceHandler.callback
+      }
     }
   }, [
     nativeAddress,
@@ -560,9 +595,16 @@ export function SwapForm() {
   }, [isLoading, isFetching, delayed, isEstimatingFee])
 
   const approveParams = useMemo(() => {
-    const defaultData: any = { ids: [], symbols: [], amounts: [], spender: '0x' }
+    const defaultData: any = {
+      ids: [],
+      symbols: [],
+      amounts: [],
+      spender: '0x'
+    }
 
-    return !config.selectable ? (confirmParams?.approvals ?? defaultData) : defaultData
+    return !config.selectable
+      ? (confirmParams?.approvals ?? defaultData)
+      : defaultData
   }, [config, confirmParams])
   const { needApprove, handleApprove } = useApproveToken({
     ids: approveParams?.ids ?? [],
@@ -570,17 +612,20 @@ export function SwapForm() {
     amounts: approveParams?.amounts ?? [],
     spender: approveParams?.spender ?? '0x',
     nftAddress: approveParams?.nftAddress ?? undefined,
-    nativeBalance,
+    nativeBalance
   })
   const isFinishApprove = useMemo(() => {
-    return needApprove?.length === 0 || needApprove?.filter(item => !item.finished).length === 0
+    return (
+      needApprove?.length === 0 ||
+      needApprove?.filter((item) => !item.finished).length === 0
+    )
   }, [needApprove])
 
   const { confirmBroadcast, txPolicyModal, aboutPriceImpactModal } =
     useTxPolicy({
       policy: locale === 'ko' ? 'SwapFinal' : 'en_SwapFinal',
       onSubmit: () => setTimeout(setShowTx, 100),
-      onNextStep: () => confirmBroadcast(),
+      onNextStep: () => confirmBroadcast()
     })
   const onSubmitSwap = useCallback(async () => {
     setError('', { token0: false, token1: false })
@@ -594,13 +639,13 @@ export function SwapForm() {
     }
 
     // 수량 미입력. 빈 필드 핸들링
-    if ((
-      typedField === 0 && (!inputValue || parseFloat(inputValue) <= 0)
-    ) || (
-      typedField === 1 && (!outputValue || parseFloat(outputValue) <= 0)
-    ) || (
-      typedField === -1 && (!inputValue || parseFloat(inputValue) <= 0) && (!outputValue || parseFloat(outputValue) <= 0)
-    )) {
+    if (
+      (typedField === 0 && (!inputValue || parseFloat(inputValue) <= 0)) ||
+      (typedField === 1 && (!outputValue || parseFloat(outputValue) <= 0)) ||
+      (typedField === -1 &&
+        (!inputValue || parseFloat(inputValue) <= 0) &&
+        (!outputValue || parseFloat(outputValue) <= 0))
+    ) {
       const fields: Record<string, boolean> = {}
 
       if (typedField === 0) fields.token0 = true
@@ -613,7 +658,7 @@ export function SwapForm() {
     if (routeId > 0 && !routes.best.path.length) {
       return setError(t('Widget.ErrMessage3'), {
         token0: false,
-        token1: false,
+        token1: false
       })
     }
 
@@ -628,8 +673,8 @@ export function SwapForm() {
         toReadableBN(
           balances[inputToken.address],
           inputToken.decimal,
-          inputToken.decimal,
-        ),
+          inputToken.decimal
+        )
       )
     ) {
       return setError(t('Widget.ErrMessage2'), { token0: true })
@@ -681,12 +726,15 @@ export function SwapForm() {
   ])
 
   const submitText = useMemo(() => {
-    return !isFinishApprove ? t('General.TxSubmitApprove') : config.selectable ? t('General.DoSwap') : (mode === 'buy' ? t('Widget.Buy') : t('Widget.Sell'))
+    return !isFinishApprove
+      ? t('General.TxSubmitApprove')
+      : config.selectable
+        ? t('General.DoSwap')
+        : mode === 'buy'
+          ? t('Widget.Buy')
+          : t('Widget.Sell')
   }, [config, mode, isFinishApprove])
-  const {
-    handleSubmit,
-    disableSubmitUi
-  } = useFormSubmit({
+  const { handleSubmit, disableSubmitUi } = useFormSubmit({
     text: submitText,
     error,
     loading: isProgressCall,
@@ -697,13 +745,20 @@ export function SwapForm() {
 
   const visibleInput = useMemo(() => {
     return {
-      token0: config.swapType !== 'outputOnly' && (config.selectable || typedField === 0),
-      token1: config.swapType !== 'inputOnly' && (config.selectable || typedField === 1)
+      token0:
+        config.swapType !== 'outputOnly' &&
+        (config.selectable || typedField === 0),
+      token1:
+        config.swapType !== 'inputOnly' &&
+        (config.selectable || typedField === 1)
     }
   }, [config, typedField])
 
   const isDirty = useMemo(() => {
-    return ((typedField === 0 && Number(inputValue) > 0) || (typedField === 1 && Number(outputValue) > 0))
+    return (
+      (typedField === 0 && Number(inputValue) > 0) ||
+      (typedField === 1 && Number(outputValue) > 0)
+    )
   }, [typedField, inputValue, outputValue])
 
   return (
@@ -711,13 +766,20 @@ export function SwapForm() {
       <SwapConfigArea>
         <SlippageSetting />
         <div style={{ margin: '0 10px 0 auto' }}>
-          <Text size={12} color="gray">{t('Widget.LastUpdate')} : {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}</Text>
+          <Text size={12} color="gray">
+            {t('Widget.LastUpdate')} :{' '}
+            {DateTime.fromMillis(updatedAt).toFormat('HH:mm:ss')}
+          </Text>
         </div>
         <RefreshRouteButton onClick={fetchRoute}>
-          <Image src={RefreshIcon} alt="refresh" className={isFetching ? 'fetching' : ''} />
+          <Image
+            src={RefreshIcon}
+            alt="refresh"
+            className={isFetching ? 'fetching' : ''}
+          />
         </RefreshRouteButton>
       </SwapConfigArea>
-      
+
       <StyledSwapForm>
         {visibleInput.token0 && (
           <FormRow
@@ -736,10 +798,18 @@ export function SwapForm() {
             onSelect={onSelectToken}
           />
         )}
-        {(config.swapType === 'normal' && config.selectable) && (
-          <FormDivider onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
+        {config.swapType === 'normal' && config.selectable && (
+          <FormDivider
+            onMouseEnter={() => setHovered(true)}
+            onMouseLeave={() => setHovered(false)}
+          >
             <div onClick={onSwitch} style={{ cursor: 'pointer' }}>
-              <Image src={(hovered ? ConvertHoveredIcon : ConvertDefaultIcon) as string} alt="plus" />
+              <Image
+                src={
+                  (hovered ? ConvertHoveredIcon : ConvertDefaultIcon) as string
+                }
+                alt="plus"
+              />
             </div>
           </FormDivider>
         )}
@@ -766,7 +836,11 @@ export function SwapForm() {
           <SwapInputOption
             token={typedField === 0 ? inputToken : outputToken}
             amount={typedField === 0 ? inputValue : outputValue}
-            balance={balances[(typedField === 0 ? inputToken : outputToken)?.address ?? ''] ?? 0n}
+            balance={
+              balances[
+                (typedField === 0 ? inputToken : outputToken)?.address ?? ''
+              ] ?? 0n
+            }
             typedField={typedField}
             onSelect={onInput}
           />
@@ -774,30 +848,57 @@ export function SwapForm() {
 
         {isDirty ? <SwapEstimated /> : <div style={{ margin: '20px 0' }} />}
 
-        {error.message && <FormError><Text color="red">{error.message}</Text></FormError>}
+        {error.message && (
+          <FormError>
+            <Text color="red">{error.message}</Text>
+          </FormError>
+        )}
 
-        <FormSubmit type={isProgressCall ? 'pending' : disableSubmitUi || error.message ? 'gray2' : (config.selectable || mode === 'buy' ? 'red' : 'blue')} onClick={handleSubmit}>
-          <Text size={16} weight={700}>{submitText}</Text>
-          {isProgressCall && <Image sx={{ width: '28px', height: '28px' }} src={ProgressIcon as string} alt="progress"/>}
+        <FormSubmit
+          type={
+            isProgressCall
+              ? 'pending'
+              : disableSubmitUi || error.message
+                ? 'gray2'
+                : config.selectable || mode === 'buy'
+                  ? 'red'
+                  : 'blue'
+          }
+          onClick={handleSubmit}
+        >
+          <Text size={16} weight={700}>
+            {submitText}
+          </Text>
+          {isProgressCall && (
+            <Image
+              sx={{ width: '28px', height: '28px' }}
+              src={ProgressIcon as string}
+              alt="progress"
+            />
+          )}
         </FormSubmit>
 
         {!isFinishApprove && (
           <div style={{ marginTop: '10px', textAlign: 'center' }}>
-            <Text color="gray">{mode === 'buy' ? t('General.ApproveBeforeBuy') : t('General.ApproveBeforeSell')}</Text>
+            <Text color="gray">
+              {mode === 'buy'
+                ? t('General.ApproveBeforeBuy')
+                : t('General.ApproveBeforeSell')}
+            </Text>
           </div>
         )}
 
         {show && portal
           ? createPortal(
-            (
-              <TxConfirmModal
-                {...confirmParams}
-                onSubmit={broadcast}
-                onClose={close}
-              />
-            ) as any,
-            portal,
-          )
+              (
+                <TxConfirmModal
+                  {...confirmParams}
+                  onSubmit={broadcast}
+                  onClose={close}
+                />
+              ) as any,
+              portal
+            )
           : null}
 
         {txPolicyModal}

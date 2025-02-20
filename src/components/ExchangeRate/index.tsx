@@ -12,13 +12,13 @@ import ConvertIcon from '@/assets/img/icon/ic-convert-secondary.svg'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 
 interface IProps {
-  version?: number,
-  tokenA: ITokenItem,
-  tokenB: ITokenItem,
-  rate: string,
-  type?: number,
-  defaultReverse?: boolean,
-  onReverse?: (reverse: boolean) => void,
+  version?: number
+  tokenA: ITokenItem
+  tokenB: ITokenItem
+  rate: string
+  type?: number
+  defaultReverse?: boolean
+  onReverse?: (reverse: boolean) => void
 }
 
 const StyledExchangeRate = styled('div')`
@@ -43,7 +43,7 @@ export function ExchangeRate({
   rate,
   type,
   defaultReverse,
-  onReverse,
+  onReverse
 }: IProps) {
   const [reverse, setReverse] = useState<boolean>(false)
   const onClickReverse = useCallback(() => {
@@ -71,16 +71,24 @@ export function ExchangeRate({
   return (
     <StyledExchangeRate className="exchange-rate">
       {version === 2 && (
-        <StyledExchangeRateConvert data-testid="exchange-rate-convert" onClick={() => onClickReverse()}>
+        <StyledExchangeRateConvert
+          data-testid="exchange-rate-convert"
+          onClick={() => onClickReverse()}
+        >
           <Image src={ConvertIcon as string} alt="convert" type="vector" />
         </StyledExchangeRateConvert>
       )}
 
-      {(tokenA.address && tokenB.address) ? (
+      {tokenA.address && tokenB.address ? (
         <Text size={type === 1 ? 12 : 14} weight={700}>
-          <Text weight={700} data-testid="exchange-rate-value">{addComma(dprec(selectedRate, getSignificantFigures(selectedRate)))}</Text> {tokens.tokenB.symbol}
+          <Text weight={700} data-testid="exchange-rate-value">
+            {addComma(dprec(selectedRate, getSignificantFigures(selectedRate)))}
+          </Text>{' '}
+          {tokens.tokenB.symbol}
         </Text>
-      ) : <Text>-</Text>}
+      ) : (
+        <Text>-</Text>
+      )}
     </StyledExchangeRate>
   )
 }

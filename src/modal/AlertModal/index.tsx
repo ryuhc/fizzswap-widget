@@ -12,7 +12,11 @@ import { IAlert } from '@/state/common'
 
 import { Text } from '@/styles/common'
 import { device } from '@/styles/createBreakPoints'
-import { ModalSubmitButton, StyledModal, StyledModalSubmitArea } from '@/styles/modal'
+import {
+  ModalSubmitButton,
+  StyledModal,
+  StyledModalSubmitArea
+} from '@/styles/modal'
 
 interface IProps extends IAlert {
   onClose: () => void
@@ -63,34 +67,46 @@ export function AlertModal({
       <StyledAlertModal>
         {!hideIcon && (
           <AlertModalIcon>
-            <Image src={icon ?? '/img/icon/ic-modal-error.svg'} alt="alert" type="vector" />
+            <Image
+              src={icon ?? '/img/icon/ic-modal-error.svg'}
+              alt="alert"
+              type="vector"
+            />
           </AlertModalIcon>
         )}
 
         <AlertModalText>
-          <Text size={14} color="black4" dangerouslySetInnerHTML={{__html: text}}/>
+          <Text
+            size={14}
+            color="black4"
+            dangerouslySetInnerHTML={{ __html: text }}
+          />
         </AlertModalText>
 
         <StyledModalSubmitArea data-type="alert">
           {cancelTitle && (
             <ModalSubmitButton
               type="gray2"
-              style={{width: '50%'}}
+              style={{ width: '50%' }}
               onClick={() => {
                 onClose()
                 onCancel && onCancel()
               }}
             >
-              <Text size={16} weight={700}>{cancelTitle ?? t('General.Cancel')}</Text>
+              <Text size={16} weight={700}>
+                {cancelTitle ?? t('General.Cancel')}
+              </Text>
             </ModalSubmitButton>
           )}
 
           <ModalSubmitButton
             type="secondary"
-            style={{width: cancelTitle ? '50%' : '100%'}}
+            style={{ width: cancelTitle ? '50%' : '100%' }}
             onClick={() => handleSubmit()}
           >
-            <Text size={16} weight={700}>{submitTitle ?? t('General.Confirm')}</Text>
+            <Text size={16} weight={700}>
+              {submitTitle ?? t('General.Confirm')}
+            </Text>
           </ModalSubmitButton>
         </StyledModalSubmitArea>
       </StyledAlertModal>

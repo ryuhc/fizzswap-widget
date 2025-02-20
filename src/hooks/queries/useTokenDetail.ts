@@ -1,5 +1,3 @@
-
-
 import { useQuery } from '@tanstack/react-query'
 import { useChainId } from 'wagmi'
 
@@ -14,7 +12,7 @@ export function useTokenDetail(address: `0x${string}`): ITokenItem {
   const { data } = useQuery({
     queryKey: ['tokenDetail', chainId, address],
     queryFn: async () => {
-      return fetch(`${path}/tokens/${address.toLowerCase()}`).then(res => {
+      return fetch(`${path}/tokens/${address.toLowerCase()}`).then((res) => {
         return res.json()
       })
     },

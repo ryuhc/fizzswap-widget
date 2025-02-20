@@ -8,7 +8,11 @@ import { useEffect } from 'react'
  * @param leading by default, the callback will be invoked immediately (on the leading edge);
  *                if false, the callback will not be invoked until a first delay
  */
-export default function useInterval(callback: () => void | Promise<void>, delay: null | number, leading = true) {
+export default function useInterval(
+  callback: () => void | Promise<void>,
+  delay: null | number,
+  leading = true
+) {
   useEffect(() => {
     if (delay === null) {
       return

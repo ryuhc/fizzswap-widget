@@ -6,7 +6,7 @@ import { Text } from '@/styles/common'
 import { StyledFullModal } from '@/styles/modal'
 
 interface IProps {
-  content: string,
+  content: string
   onClose: Function
 }
 
@@ -21,7 +21,9 @@ export function TooltipModal({ content, onClose }: IProps) {
         </section>
 
         <TooltipModalFooter>
-          <Text size={12} weight={700} color="white" onClick={() => onClose()}>Close</Text>
+          <Text size={12} weight={700} color="white" onClick={() => onClose()}>
+            Close
+          </Text>
         </TooltipModalFooter>
       </StyledTooltipModal>
     </ModalWrapper>

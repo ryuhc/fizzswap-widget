@@ -1,6 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach,describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { Checkbox } from '@/components/Checkbox'
 
@@ -23,7 +23,9 @@ describe('test render <Checkbox />', () => {
 
     expect(screen.getByTestId('checkbox-label').innerHTML).toBe(props.label)
     // @ts-ignore
-    expect(screen.getByTestId('checkbox-label').attributes.color?.value ?? '').toBe(props.color)
+    expect(
+      screen.getByTestId('checkbox-label').attributes.color?.value ?? ''
+    ).toBe(props.color)
   })
 })
 

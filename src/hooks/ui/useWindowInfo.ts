@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 
-import { useDebounce,useWindowSize } from '@uidotdev/usehooks'
+import { useDebounce, useWindowSize } from '@uidotdev/usehooks'
 
 import { useCommonStore } from '@/state/common'
 

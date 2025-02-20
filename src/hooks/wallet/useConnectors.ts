@@ -8,15 +8,14 @@ import { isMobileOS } from '@/utils/common'
 
 import { disableByPlatform } from '@/context/WalletActionProvider'
 
-
 export const priorityForUI: {
-  desktop: Record<string, number>,
+  desktop: Record<string, number>
   mobile: Record<string, number>
 } = {
   desktop: {
     metaMask: 1,
     teleport: 2,
-    walletConnect: 3,
+    walletConnect: 3
   },
   mobile: {
     metaMask: 1,
@@ -27,7 +26,12 @@ export const priorityForUI: {
 
 const supportWallets = ['metaMask', 'walletConnect', 'teleport']
 
-export function mergeConnector(env: any, connector: Connector, name: string, providerType: string) {
+export function mergeConnector(
+  env: any,
+  connector: Connector,
+  name: string,
+  providerType: string
+) {
   let mergedConnector: any
 
   switch (connector.id) {
@@ -75,15 +79,21 @@ export function useConnectors() {
     const _isMobileOS = isMobileOS()
     const priority = _isMobileOS ? priorityForUI.mobile : priorityForUI.desktop
 
-    list = filter(list, provider => {
-      return supportWallets.find(supportId => {
-        return supportId === provider.id
-      }) && !find(_isMobileOS ? disableByPlatform.mobile : disableByPlatform.desktop, id => {
-        return id === (provider?.providerType ?? provider.id)
-      })
+    list = filter(list, (provider) => {
+      return (
+        supportWallets.find((supportId) => {
+          return supportId === provider.id
+        }) &&
+        !find(
+          _isMobileOS ? disableByPlatform.mobile : disableByPlatform.desktop,
+          (id) => {
+            return id === (provider?.providerType ?? provider.id)
+          }
+        )
+      )
     })
 
-    return orderBy(list, connector => {
+    return orderBy(list, (connector) => {
       // @ts-ignore
       return priority[connector?.providerType ?? connector?.id ?? ''] ?? 100
     }) as Connector[]

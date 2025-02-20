@@ -10,8 +10,8 @@ declare type SwapWidgetProps = {
   outputTokenAddress?: `0x${string}`
   outputAmount?: string
   theme?: {
-    light: { [p:string]: string },
-    dark: { [p:string]: string }
+    light: { [p: string]: string }
+    dark: { [p: string]: string }
   }
   selectable?: boolean
   apiUrl?: {
@@ -23,7 +23,7 @@ declare type SwapWidgetProps = {
   state?: State
   onConnect?: () => void
   language?: string
-  swapType: SwapType,
+  swapType: SwapType
   swapPurpose?: 'buy' | 'sell'
 }
 

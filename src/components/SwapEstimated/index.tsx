@@ -14,31 +14,55 @@ import { useSwapState } from '@/state/swap'
 
 import { Paragraph, Text } from '@/styles/common'
 
-import { EstimateAboutTxItem, EstimateAboutTxItems, EstimateAboutTxItemTitle, EstimateAboutTxItemValue } from '@/components/EstimateAboutTx/styles'
+import {
+  EstimateAboutTxItem,
+  EstimateAboutTxItems,
+  EstimateAboutTxItemTitle,
+  EstimateAboutTxItemValue
+} from '@/components/EstimateAboutTx/styles'
 import { useConfigContext } from '@/context/ConfigProvider'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 
 export function SwapEstimated() {
   const { t } = useTranslationSimplify()
   const { slippage } = useCommonStore()
-  const { inputToken, outputToken, typedField, inputValue, outputValue, priceImpact, updateValue, setPriceImpact } = useSwapState()
+  const {
+    inputToken,
+    outputToken,
+    typedField,
+    inputValue,
+    outputValue,
+    priceImpact,
+    updateValue,
+    setPriceImpact
+  } = useSwapState()
 
   // TODO : util
   const aboutFixedAmount = useMemo(() => {
     return {
       title: t('Widget.MinAmount'),
-      tooltip: typedField === 0 ? t('General.MinOutputNotice', {
-        slippage: slippage
-      }) : t('General.MaxInputNotice', {
-        slippage: slippage
-      }),
+      tooltip:
+        typedField === 0
+          ? t('General.MinOutputNotice', {
+              slippage: slippage
+            })
+          : t('General.MaxInputNotice', {
+              slippage: slippage
+            }),
       token: typedField === 0 ? outputToken : inputToken,
-      value: typedField === 0 ? mulBN(outputValue || 0, (100 - slippage) / 100) : mulBN(inputValue || 0,(100 + slippage) / 100)
+      value:
+        typedField === 0
+          ? mulBN(outputValue || 0, (100 - slippage) / 100)
+          : mulBN(inputValue || 0, (100 + slippage) / 100)
     }
   }, [inputToken, outputToken, typedField, inputValue, outputValue, slippage])
 
   const isSelected = useMemo(() => {
-    return !!inputToken.address && !!outputToken.address && (Number(inputValue) > 0 || Number(outputValue) > 0)
+    return (
+      !!inputToken.address &&
+      !!outputToken.address &&
+      (Number(inputValue) > 0 || Number(outputValue) > 0)
+    )
   }, [inputToken, outputToken, inputValue, outputValue])
 
   const rateInfo = useMemo(() => {
@@ -52,7 +76,10 @@ export function SwapEstimated() {
   const { data: routes } = useFetchRoutes({
     inputToken,
     outputToken,
-    amount: typedField === 0 ? toWritableUnit(inputValue, inputToken.decimal) : toWritableUnit(outputValue, outputToken.decimal),
+    amount:
+      typedField === 0
+        ? toWritableUnit(inputValue, inputToken.decimal)
+        : toWritableUnit(outputValue, outputToken.decimal),
     isPos: typedField === 0,
     updateValue,
     setPriceImpact
@@ -96,18 +123,21 @@ export function SwapEstimated() {
       <EstimateAboutTxItems>
         <EstimateAboutTxItem>
           <EstimateAboutTxItemTitle>
-            <Text>
-              {t('Widget.EstimatedAmount')}
-            </Text>
+            <Text>{t('Widget.EstimatedAmount')}</Text>
           </EstimateAboutTxItemTitle>
           <EstimateAboutTxItemValue>
             {isSelected ? (
               <div>
                 <Paragraph data-testid="estimated-swap-amount">
-                  {addComma(dprec(typedField === 0 ? outputValue : inputValue, 6))} {aboutFixedAmount.token?.symbol}
+                  {addComma(
+                    dprec(typedField === 0 ? outputValue : inputValue, 6)
+                  )}{' '}
+                  {aboutFixedAmount.token?.symbol}
                 </Paragraph>
               </div>
-            ) : <Text>-</Text>}
+            ) : (
+              <Text>-</Text>
+            )}
           </EstimateAboutTxItemValue>
         </EstimateAboutTxItem>
         <EstimateAboutTxItem>
@@ -120,10 +150,13 @@ export function SwapEstimated() {
             {isSelected ? (
               <div>
                 <Paragraph data-testid="estimated-swap-minAmount">
-                  {addComma(dprec(aboutFixedAmount.value, 6))} {aboutFixedAmount.token?.symbol}
+                  {addComma(dprec(aboutFixedAmount.value, 6))}{' '}
+                  {aboutFixedAmount.token?.symbol}
                 </Paragraph>
               </div>
-            ) : <Text>-</Text>}
+            ) : (
+              <Text>-</Text>
+            )}
           </EstimateAboutTxItemValue>
         </EstimateAboutTxItem>
         <EstimateAboutTxItem>
@@ -131,7 +164,13 @@ export function SwapEstimated() {
             <Text>{t('Widget.PriceImpact')}</Text>
           </EstimateAboutTxItemTitle>
           <EstimateAboutTxItemValue>
-            {isSelected ? <Text color={piColor} weight={700}>{dprec(priceImpact, 2)} %</Text> : <Text>-</Text>}
+            {isSelected ? (
+              <Text color={piColor} weight={700}>
+                {dprec(priceImpact, 2)} %
+              </Text>
+            ) : (
+              <Text>-</Text>
+            )}
           </EstimateAboutTxItemValue>
         </EstimateAboutTxItem>
         {/*

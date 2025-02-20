@@ -5,7 +5,6 @@ import { PlacesType, Tooltip as ReactTooltip } from 'react-tooltip'
 import ReactDOMServer from 'react-dom/server'
 import styled from 'styled-components'
 
-
 import useModal from '@/hooks/useModal'
 
 import './index.scss'
@@ -18,10 +17,12 @@ import QuestionIcon from '@/assets/img/icon/ic-question.svg'
 import { useIsMobile } from '@/hooks/ui/useIsMobile'
 
 interface IProps {
-  tooltipId: string,
-  content: string | { article: { title: string, value: string }[], notice: string[] },
-  spacing?: number,
-  showIcon?: boolean,
+  tooltipId: string
+  content:
+    | string
+    | { article: { title: string; value: string }[]; notice: string[] }
+  spacing?: number
+  showIcon?: boolean
   children?: ReactNode
   place?: PlacesType
 }
@@ -37,7 +38,13 @@ const StyledTooltipWrapper = styled('span')`
   }
 `
 
-export function CommonTooltip({ tooltipId, content, showIcon = true, children, place }: IProps) {
+export function CommonTooltip({
+  tooltipId,
+  content,
+  showIcon = true,
+  children,
+  place
+}: IProps) {
   const styles = useMemo(() => {
     return {
       maxWidth: '270px',
@@ -59,14 +66,19 @@ export function CommonTooltip({ tooltipId, content, showIcon = true, children, p
       return content
     }
 
-    if (typeof content === 'object' && ('article' in content || 'notice' in content)) {
+    if (
+      typeof content === 'object' &&
+      ('article' in content || 'notice' in content)
+    ) {
       const markup = (
         <div>
           <ul className="common-tooltip__content">
             {content.article.map((text, i) => {
               return (
                 <li key={i} style={{ marginBottom: '10px', fontSize: '12px' }}>
-                  <h6 style={{ fontWeight: 700, marginBottom: '5px' }}>{i + 1}. {text.title}</h6>
+                  <h6 style={{ fontWeight: 700, marginBottom: '5px' }}>
+                    {i + 1}. {text.title}
+                  </h6>
                   <p>- {text.value}</p>
                 </li>
               )
@@ -76,12 +88,14 @@ export function CommonTooltip({ tooltipId, content, showIcon = true, children, p
           <ul className="common-tooltip__notice">
             {content.notice.map((text, i) => {
               return (
-                <li key={i} style={{ marginBottom: '10px', fontSize: '12px' }}><span>* {text}</span></li>
+                <li key={i} style={{ marginBottom: '10px', fontSize: '12px' }}>
+                  <span>* {text}</span>
+                </li>
               )
             })}
           </ul>
-        </div> as any
-      )
+        </div>
+      ) as any
 
       return ReactDOMServer.renderToStaticMarkup(markup)
     }
@@ -110,14 +124,28 @@ export function CommonTooltip({ tooltipId, content, showIcon = true, children, p
         data-tooltip-place={place ?? 'top'}
       >
         {children ? children : null}
-        {showIcon && <Image src={QuestionIcon} alt="tooltip" sx={{ cursor: 'pointer'}} type="vector" />}
-        <ReactTooltip id={tooltipId} content={contentView} style={styles} noArrow={true} />
+        {showIcon && (
+          <Image
+            src={QuestionIcon}
+            alt="tooltip"
+            sx={{ cursor: 'pointer' }}
+            type="vector"
+          />
+        )}
+        <ReactTooltip
+          id={tooltipId}
+          content={contentView}
+          style={styles}
+          noArrow={true}
+        />
       </StyledTooltipWrapper>
 
-
-      {show && portal ? (
-        createPortal(<TooltipModal content={contentView} onClose={close} /> as any, portal)
-      ) : null}
+      {show && portal
+        ? createPortal(
+            (<TooltipModal content={contentView} onClose={close} />) as any,
+            portal
+          )
+        : null}
     </>
   )
 }

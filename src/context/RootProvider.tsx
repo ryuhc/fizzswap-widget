@@ -24,8 +24,8 @@ import '@/styles/toast.scss'
 
 // @ts-ignore
 BigInt.prototype.toJSON = function () {
-  return this.toString();
-};
+  return this.toString()
+}
 
 interface IProps {
   config: SwapWidgetProps
@@ -41,27 +41,35 @@ export default function RootProvider(props: IProps) {
   const [wagmiConfig, setWagmiConfig] = useState<any>(null)
 
   const supportChains = useMemo(() => {
-    return props.config?.supportChains ?? (PROFILE === 'dev' ? [silicon, siliconSepolia] : [silicon])
+    return (
+      props.config?.supportChains ??
+      (PROFILE === 'dev' ? [silicon, siliconSepolia] : [silicon])
+    )
   }, [props.config])
   useEffect(() => {
-    const projectId = props.config?.wcApiKey ?? import.meta.env.VITE_WALLETCONNECT_KEY ?? ''
-    const metadata =  {
+    const projectId =
+      props.config?.wcApiKey ?? import.meta.env.VITE_WALLETCONNECT_KEY ?? ''
+    const metadata = {
       name: 'Fizzswap',
-      description: 'Fizzswap extends the Silicon DeFi ecosystem through liquidity pool-based ETH, WBTC, USDT instant token swapping and liquidity mining.',
+      description:
+        'Fizzswap extends the Silicon DeFi ecosystem through liquidity pool-based ETH, WBTC, USDT instant token swapping and liquidity mining.',
       url: 'https://fizzswap.io',
       icons: ['https://fizzswap.io/logo/logo.svg']
     }
 
     const teleport = (args: any) => {
-      return Object.assign(walletConnect({
-        projectId,
-        metadata,
-        showQrModal: false,
-        customStoragePrefix: 'teleport',
-        name: 'Teleport'
-      })(args), {
-        id: 'teleport'
-      })
+      return Object.assign(
+        walletConnect({
+          projectId,
+          metadata,
+          showQrModal: false,
+          customStoragePrefix: 'teleport',
+          name: 'Teleport'
+        })(args),
+        {
+          id: 'teleport'
+        }
+      )
     }
 
     const wagmiConfig = createConfig({
@@ -85,10 +93,16 @@ export default function RootProvider(props: IProps) {
   const env = useMemo(() => {
     return {
       PROFILE,
-      DEFAULT_CHAIN: Number(props.config?.chainId ?? import.meta.env.VITE_DEFAULT_CHAIN),
-      API_PATH_2355: (props.config?.apiUrl ?? {})['2355'] ?? import.meta.env.VITE_API_2355,
-      API_PATH_1722641160: (props.config?.apiUrl ?? {})['1722641160'] ?? import.meta.env.VITE_API_1722641160,
-      OPERATOR_PATH: props.config?.operatorUrl ?? import.meta.env.VITE_OPERATOR_PATH,
+      DEFAULT_CHAIN: Number(
+        props.config?.chainId ?? import.meta.env.VITE_DEFAULT_CHAIN
+      ),
+      API_PATH_2355:
+        (props.config?.apiUrl ?? {})['2355'] ?? import.meta.env.VITE_API_2355,
+      API_PATH_1722641160:
+        (props.config?.apiUrl ?? {})['1722641160'] ??
+        import.meta.env.VITE_API_1722641160,
+      OPERATOR_PATH:
+        props.config?.operatorUrl ?? import.meta.env.VITE_OPERATOR_PATH,
       TELEPORT_PATH: import.meta.env.VITE_TELEPORT_PATH,
       SUPPORT_CHAINS: supportChains
     }
@@ -110,24 +124,26 @@ export default function RootProvider(props: IProps) {
     }
   }, [props.config.language, prevLang])
 
-  return wagmiConfig && (
-    <WagmiConfig config={wagmiConfig}>
-      <QueryClientProvider client={rootQueryClient}>
-        <EnvProvider env={env}>
-          <ConfigProvider config={props.config}>
-            <GlobalHooksProvider />
-            <StyleProvider theme={props.config.theme}>
-              <AlertContainer/>
-              <WalletActionProvider/>
-              <ToastContainer autoClose={5000} closeButton={false}/>
+  return (
+    wagmiConfig && (
+      <WagmiConfig config={wagmiConfig}>
+        <QueryClientProvider client={rootQueryClient}>
+          <EnvProvider env={env}>
+            <ConfigProvider config={props.config}>
+              <GlobalHooksProvider />
+              <StyleProvider theme={props.config.theme}>
+                <AlertContainer />
+                <WalletActionProvider />
+                <ToastContainer autoClose={5000} closeButton={false} />
 
-              {children}
+                {children}
 
-              <div id="modal-overlay" />
-            </StyleProvider>
-          </ConfigProvider>
-        </EnvProvider>
-      </QueryClientProvider>
-    </WagmiConfig>
+                <div id="modal-overlay" />
+              </StyleProvider>
+            </ConfigProvider>
+          </EnvProvider>
+        </QueryClientProvider>
+      </WagmiConfig>
+    )
   )
 }

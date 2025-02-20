@@ -9,7 +9,7 @@ import { TxPolicyModal } from '@/modal/TxPolicyModal'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 
 interface IProps {
-  policy?: string,
+  policy?: string
   onSubmit: () => void
   onNextStep?: () => void
 }
@@ -28,25 +28,25 @@ export function useTxPolicy({ policy, onSubmit, onNextStep }: IProps) {
     showAboutPriceImpact,
     setShowAboutPriceImpact,
     _,
-    closeShowAboutPriceImpact,
+    closeShowAboutPriceImpact
   ] = useModal()
   const [showTxPolicy, setShowTxPolicy, txPolicyPortal, closeTxPolicy] =
     useModal()
   const txPolicyModal = useMemo(() => {
     return showTxPolicy && txPolicyPortal
       ? createPortal(
-        (
-          <TxPolicyModal
-            policy={policy}
-            onSubmit={() => {
-              closeTxPolicy()
-              onSubmit()
-            }}
-            onClose={closeTxPolicy}
-          />
-        ) as any,
-        txPolicyPortal,
-      )
+          (
+            <TxPolicyModal
+              policy={policy}
+              onSubmit={() => {
+                closeTxPolicy()
+                onSubmit()
+              }}
+              onClose={closeTxPolicy}
+            />
+          ) as any,
+          txPolicyPortal
+        )
       : null
   }, [policy, showTxPolicy, txPolicyPortal, onSubmit])
 
@@ -66,7 +66,7 @@ export function useTxPolicy({ policy, onSubmit, onNextStep }: IProps) {
               }}
             />
           ) as any,
-          txPolicyPortal,
+          txPolicyPortal
         )
       : null
   }, [showAboutPriceImpact, txPolicyPortal, onNextStep])
@@ -80,12 +80,12 @@ export function useTxPolicy({ policy, onSubmit, onNextStep }: IProps) {
 
       return setShowTxPolicy()
     },
-    [],
+    []
   )
 
   return {
     txPolicyModal,
     aboutPriceImpactModal,
-    confirmBroadcast,
+    confirmBroadcast
   }
 }

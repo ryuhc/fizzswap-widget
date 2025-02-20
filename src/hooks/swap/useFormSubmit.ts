@@ -11,9 +11,9 @@ import { useCurrentAccount } from '@/hooks/wallet/useCurrentAccount'
 import { IFormError } from '@/state/swap/index'
 
 interface IProps {
-  text: string,
-  error: IFormError,
-  loading: boolean,
+  text: string
+  error: IFormError
+  loading: boolean
   onSubmit: Function
 }
 

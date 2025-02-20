@@ -4,7 +4,7 @@ import {
   SetStateAction,
   useEffect,
   useRef,
-  useState,
+  useState
 } from 'react'
 
 export const useScrollTo = <T extends Element>() => {
@@ -20,6 +20,6 @@ export const useScrollTo = <T extends Element>() => {
 
   return [ref, setShouldScrollTo] as [
     RefObject<T>,
-    Dispatch<SetStateAction<boolean>>,
+    Dispatch<SetStateAction<boolean>>
   ]
 }

@@ -29,10 +29,10 @@ export const FormDivider = styled('div')`
     transition: background 0.2s ease-out;
     
     &:hover {
-      background: ${({ theme}) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.primary};
     }
     &:active {
-      background: ${({ theme}) => theme.colors.primaryActive};
+      background: ${({ theme }) => theme.colors.primaryActive};
     }
   }
 `
@@ -117,7 +117,7 @@ export const FormSelectToken = styled('div')<{ $selectable: boolean }>`
     return $selectable ? '4px 8px' : 0
   }};
   border-radius: 32px;
-  background: ${({ theme, $selectable }) => $selectable ? theme.colors.white : ''};
+  background: ${({ theme, $selectable }) => ($selectable ? theme.colors.white : '')};
   cursor: pointer;
   
   span {
@@ -136,7 +136,7 @@ export const FormRowInputField = styled(`input`)<{ error: boolean }>`
   transition: .4s cubic-bezier(.25,.8,.25,1); 
   transition-property: color;
   line-height: 32px;
-  color: ${({ theme, error }: any) => error ? theme.colors.red : theme.colors.black};
+  color: ${({ theme, error }: any) => (error ? theme.colors.red : theme.colors.black)};
   display: block;
   border: none;
   background: none;

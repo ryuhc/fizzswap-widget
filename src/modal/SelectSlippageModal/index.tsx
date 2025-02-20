@@ -23,7 +23,7 @@ import { Text } from '@/styles/common'
 import { ModalSubmitButton } from '@/styles/modal'
 
 interface IProps {
-  onClose: () => void,
+  onClose: () => void
   onSelect: (newValue: number) => void
 }
 
@@ -36,45 +36,49 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
     setTypedValue(value)
     handleSlippageValue(value)
   }, [])
-  const handleSlippageValue = useCallback((_value?: string) => {
-    const valueToStr = _value ?? typedValue
+  const handleSlippageValue = useCallback(
+    (_value?: string) => {
+      const valueToStr = _value ?? typedValue
 
-    // 에러 초기화
-    let newError = ''
-    let fixedInput = parseFloat(valueToStr)
-    const prevValueUnderZero = valueToStr.split('.')[1] || ''
+      // 에러 초기화
+      let newError = ''
+      let fixedInput = parseFloat(valueToStr)
+      const prevValueUnderZero = valueToStr.split('.')[1] || ''
 
-    if(valueToStr === '' || fixedInput === 0 || valueToStr.endsWith('.')) {
+      if (valueToStr === '' || fixedInput === 0 || valueToStr.endsWith('.')) {
+        setError(newError)
+        return
+      }
+
+      // 소수점 1자리까지만 입력 허용
+      if (prevValueUnderZero.length > 1) {
+        // fixedInput = parseFloat(String(parseInt(valueToStr)) + '.' + prevValueUnderZero.slice(0, 1))
+      }
+
+      if (fixedInput >= 0.3 && fixedInput < 0.5) {
+        // 애매하게 낮은 값 입력 시
+        newError = t('General.WarningLowSlippage')
+      } else if (fixedInput > 1 && fixedInput <= 50) {
+        // 애매하게 높은 값 입력 시
+        newError = t('General.WarningHighSlippage')
+      } else if (fixedInput > 50) {
+        // 너무 높은 값 입력 시
+        fixedInput = 50
+        newError = t('General.MaxSlippageError')
+      }
+
+      // 버튼 옵션 값중 하나가 아니라면 초기화
       setError(newError)
-      return
-    }
 
-    // 소수점 1자리까지만 입력 허용
-    if(prevValueUnderZero.length > 1) {
-      // fixedInput = parseFloat(String(parseInt(valueToStr)) + '.' + prevValueUnderZero.slice(0, 1))
-    }
+      if (valueToStr === String(fixedInput)) {
+        return
+      }
 
-    if(fixedInput >= 0.3 && fixedInput < 0.5) { // 애매하게 낮은 값 입력 시
-      newError = t('General.WarningLowSlippage')
-    }
-    else if(fixedInput > 1 && fixedInput <= 50) {  // 애매하게 높은 값 입력 시
-      newError = t('General.WarningHighSlippage')
-    }
-    else if(fixedInput > 50) { // 너무 높은 값 입력 시
-      fixedInput = 50
-      newError = t('General.MaxSlippageError')
-    }
-
-    // 버튼 옵션 값중 하나가 아니라면 초기화
-    setError(newError)
-
-    if(valueToStr === String(fixedInput)) {
-      return
-    }
-
-    // @ts-ignore
-    setTypedValue(Number.isNaN(fixedInput) ? 0.3 : fixedInput)
-  }, [typedValue])
+      // @ts-ignore
+      setTypedValue(Number.isNaN(fixedInput) ? 0.3 : fixedInput)
+    },
+    [typedValue]
+  )
 
   const [error, setError] = useState<string>('')
 
@@ -96,12 +100,16 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
         <ModalClose onClose={onClose} />
 
         <SelectSlippageTitle>
-          <Text size={20} weight={700}>{t('Widget.SlippagePop1')}</Text>
+          <Text size={20} weight={700}>
+            {t('Widget.SlippagePop1')}
+          </Text>
         </SelectSlippageTitle>
 
         <SelectSlippageBody>
           <SelectSlippageDesc>
-            <Text size={14} color="black2">{t('Widget.SlippagePop2')}</Text>
+            <Text size={14} color="black2">
+              {t('Widget.SlippagePop2')}
+            </Text>
           </SelectSlippageDesc>
 
           <SelectSlippageInput>
@@ -110,8 +118,8 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
               value={typedValue}
               inputMode="decimal"
               placeholder={t('General.SelfInput')}
-              onChange={e => onInputSlippage(e.target.value)}
-              onKeyDown={e => {
+              onChange={(e) => onInputSlippage(e.target.value)}
+              onKeyDown={(e) => {
                 if (e.code === 'KeyE') {
                   e.preventDefault()
                   return false
@@ -119,7 +127,9 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
               }}
             />
             <SelectSlippageInputUnit>
-              <Text size={18} color="gray" weight={700}>%</Text>
+              <Text size={18} color="gray" weight={700}>
+                %
+              </Text>
             </SelectSlippageInputUnit>
           </SelectSlippageInput>
 
@@ -130,9 +140,24 @@ export function SelectSlippageModal({ onClose, onSelect }: IProps) {
         */}
 
           <SelectSlippageWarning>
-            <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop3')}</Text></li>
-            <li><Text size={14} weight={500} color="black2" dangerouslySetInnerHTML={{ __html: t('Widget.SlippagePop4') }} /></li>
-            <li><Text size={14} weight={500} color="black2">{t('Widget.SlippagePop5')}</Text></li>
+            <li>
+              <Text size={14} weight={500} color="black2">
+                {t('Widget.SlippagePop3')}
+              </Text>
+            </li>
+            <li>
+              <Text
+                size={14}
+                weight={500}
+                color="black2"
+                dangerouslySetInnerHTML={{ __html: t('Widget.SlippagePop4') }}
+              />
+            </li>
+            <li>
+              <Text size={14} weight={500} color="black2">
+                {t('Widget.SlippagePop5')}
+              </Text>
+            </li>
           </SelectSlippageWarning>
         </SelectSlippageBody>
 

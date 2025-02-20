@@ -52,14 +52,14 @@ export function useFetchRoutes({
   amount,
   isPos,
   updateValue,
-  setPriceImpact,
+  setPriceImpact
 }: IProps) {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const { data, refetch, isFetching } = useSwapRoutes({
     inputToken,
     outputToken,
     amount,
-    isPos,
+    isPos
   })
 
   const [updatedAt, setUpdatedAt] = useState<number>(0)
@@ -74,9 +74,9 @@ export function useFetchRoutes({
       toReadableBN(
         isPos ? res.best.toAmount : res.best.fromAmount,
         outputDecimal,
-        outputDecimal,
+        outputDecimal
       ),
-      isPos ? 1 : 0,
+      isPos ? 1 : 0
     )
 
     return { ...res, isPos }

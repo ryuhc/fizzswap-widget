@@ -5,21 +5,32 @@ import { Image } from '@/components/Image'
 import SearchIcon from '@/assets/img/icon/ic-search-btn.svg'
 
 interface IProps {
-  typedValue: string,
-  placeholder?: string,
-  isActive?: boolean,
+  typedValue: string
+  placeholder?: string
+  isActive?: boolean
   onInput: (value: string) => void
 }
 
-export function SearchBar({ typedValue, placeholder, isActive, onInput }: IProps) {
+export function SearchBar({
+  typedValue,
+  placeholder,
+  isActive,
+  onInput
+}: IProps) {
   return (
-    <StyledSearchBar className={'searchbar' + (isActive !== undefined ? ' highlight' : '') + (isActive ? ' active' : '')}>
+    <StyledSearchBar
+      className={
+        'searchbar' +
+        (isActive !== undefined ? ' highlight' : '') +
+        (isActive ? ' active' : '')
+      }
+    >
       <Image src={SearchIcon} alt="search" />
       <StyledSearchInput
         type="text"
         value={typedValue}
         placeholder={placeholder ?? ''}
-        onChange={e => onInput(e.target.value)}
+        onChange={(e) => onInput(e.target.value)}
       />
     </StyledSearchBar>
   )
@@ -31,12 +42,12 @@ export const StyledSearchBar = styled('div')`
   height: 32px;
   padding: 0 16px;
   border-radius: ${({ round }: any) => {
-  if (round) {
-    return `${round}px`
-  }
+    if (round) {
+      return `${round}px`
+    }
 
-  return '20px'
-}};
+    return '20px'
+  }};
   background-color: ${({ theme }) => theme.colors.white};
   border: 1px solid ${({ theme }) => theme.colors.secondaryLight};
   

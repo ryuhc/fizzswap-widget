@@ -9,7 +9,9 @@ import { EVENT_TX_FINISHED } from '@/constants/events'
 
 const timeout = 5 * 60 * 1000
 
-export function useA2AModalActions({ onClose }: {
+export function useA2AModalActions({
+  onClose
+}: {
   onClose: () => void
 }) {
   const [startedAt] = useState(new Date().valueOf())
@@ -20,20 +22,26 @@ export function useA2AModalActions({ onClose }: {
       return { minutes: 0, seconds: 0 }
     }
 
-    const diff = DateTime.fromMillis(startedAt + timeout).diff(DateTime.fromMillis(now), ['minutes', 'seconds']).toObject()
+    const diff = DateTime.fromMillis(startedAt + timeout)
+      .diff(DateTime.fromMillis(now), ['minutes', 'seconds'])
+      .toObject()
 
     return {
       minutes: Math.floor(diff.minutes ?? 0),
-      seconds: Math.floor(diff.seconds ?? 0),
+      seconds: Math.floor(diff.seconds ?? 0)
     }
   }, [startedAt, now])
   const isFinished = useMemo(() => {
     return startedAt + timeout <= now
   }, [startedAt, now])
 
-  useInterval(() => {
-    setNow(new Date().valueOf())
-  }, 1000, false)
+  useInterval(
+    () => {
+      setNow(new Date().valueOf())
+    },
+    1000,
+    false
+  )
 
   useBus(EVENT_TX_FINISHED, () => onClose())
 

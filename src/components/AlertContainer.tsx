@@ -17,14 +17,18 @@ export function AlertContainer() {
     }
   }, [alertData])
 
-  return (alertData && showAlert && portal) ? createPortal(
-    <AlertModal
-      {...alertData}
-      onClose={() => {
-        hideAlert()
-        setShowAlert()
-      }}
-    /> as any,
-    portal
-  ) : null
+  return alertData && showAlert && portal
+    ? createPortal(
+        (
+          <AlertModal
+            {...alertData}
+            onClose={() => {
+              hideAlert()
+              setShowAlert()
+            }}
+          />
+        ) as any,
+        portal
+      )
+    : null
 }

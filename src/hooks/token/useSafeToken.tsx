@@ -14,7 +14,8 @@ import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 
 export function useSafeToken(tokens: ITokenItem[], callback?: Function) {
-  const [showSafeAlert, setShowSafeAlert, safeAlertPortal, closeSafeAlert] = useModal()
+  const [showSafeAlert, setShowSafeAlert, safeAlertPortal, closeSafeAlert] =
+    useModal()
 
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const nativeToken = useNativeToken(chainId)
@@ -26,39 +27,46 @@ export function useSafeToken(tokens: ITokenItem[], callback?: Function) {
   const unsafeTokens = useMemo(() => {
     const now = new Date().valueOf()
 
-    return filter(tokens, token => {
+    return filter(tokens, (token) => {
       const hideUntil = hideTokenAlert[token.address]
 
       return token.grade !== 'A' && (!hideUntil || now >= hideUntil)
     })
   }, [tokens, nativeToken, hideTokenAlert])
   const safeAlert = useMemo(() => {
-    return (showSafeAlert && safeAlertPortal) ? createPortal(
-      <SafeTokenModal
-        tokens={unsafeTokens}
-        onConfirm={(tokensForHide?: ITokenItem[]) => {
-          callback && callback()
-          closeSafeAlert()
+    return showSafeAlert && safeAlertPortal
+      ? createPortal(
+          (
+            <SafeTokenModal
+              tokens={unsafeTokens}
+              onConfirm={(tokensForHide?: ITokenItem[]) => {
+                callback && callback()
+                closeSafeAlert()
 
-          if (tokensForHide) {
-            addHideToken(tokensForHide)
-          }
-        }}
-        onClose={closeSafeAlert}
-      /> as any,
-      safeAlertPortal
-    ) : null
+                if (tokensForHide) {
+                  addHideToken(tokensForHide)
+                }
+              }}
+              onClose={closeSafeAlert}
+            />
+          ) as any,
+          safeAlertPortal
+        )
+      : null
   }, [showSafeAlert, safeAlertPortal, unsafeTokens, callback])
 
-  const addHideToken = useCallback((tokensForHide: ITokenItem[]) => {
-    const newState = cloneDeep(hideTokenAlert)
+  const addHideToken = useCallback(
+    (tokensForHide: ITokenItem[]) => {
+      const newState = cloneDeep(hideTokenAlert)
 
-    for (const token of tokensForHide) {
-      newState[token.address] = new Date().valueOf() + (7 * 86400 * 1000)
-    }
+      for (const token of tokensForHide) {
+        newState[token.address] = new Date().valueOf() + 7 * 86400 * 1000
+      }
 
-    setHideTokenAlert(newState)
-  }, [hideTokenAlert])
+      setHideTokenAlert(newState)
+    },
+    [hideTokenAlert]
+  )
   const clearHideTokenAlert = useCallback(() => {
     const now = new Date().valueOf()
     const newState = cloneDeep(hideTokenAlert)

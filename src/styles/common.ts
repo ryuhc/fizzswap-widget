@@ -1,5 +1,3 @@
-
-
 import styled from 'styled-components'
 
 export const CommonMenuLabel = styled('div')`
@@ -240,32 +238,32 @@ export const Divider = styled('div')<{
   shadow?: boolean
 }>`
   background: ${({ theme, color }) => {
-      if (color === undefined) {
-        return `${theme.colros.black}`
-      }
-      if (color.startsWith('#')) {
-        return `${color}`
-      }
-      return `${theme.colors[color]}`
-    }};
+    if (color === undefined) {
+      return `${theme.colros.black}`
+    }
+    if (color.startsWith('#')) {
+      return `${color}`
+    }
+    return `${theme.colors[color]}`
+  }};
 
   ${({ align }) => {
     if (align === 'vertical') {
       return {
         width: '1px',
-        height: '100%',
+        height: '100%'
       }
     }
     return {
       height: '1px',
-      width: '100%',
+      width: '100%'
     }
   }}
 
   ${({ shadow }) =>
     shadow
       ? {
-          'box-shadow': '0px 10px 20px 0px #0000001a',
+          'box-shadow': '0px 10px 20px 0px #0000001a'
         }
       : {}}
 `

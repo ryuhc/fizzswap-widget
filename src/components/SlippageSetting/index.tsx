@@ -26,20 +26,25 @@ export function SlippageSetting() {
     <StyledSlippageSetting className="slippage-setting">
       <StyledSlippageSettingContent onClick={() => setShow()}>
         <StyledSlippageLabel>
-          <Text color="black4" size={12}>{t('General.Slippage')}</Text>
+          <Text color="black4" size={12}>
+            {t('General.Slippage')}
+          </Text>
         </StyledSlippageLabel>
         <div>
-          <Text color="black4" size={12} weight={700}>{slippage}%</Text>
+          <Text color="black4" size={12} weight={700}>
+            {slippage}%
+          </Text>
         </div>
       </StyledSlippageSettingContent>
 
-      {
-        show && portal ? (
-          createPortal((
-            <SelectSlippageModal onClose={close} onSelect={handleSelect} /> as any
-          ), portal)
-        ) : null
-      }
+      {show && portal
+        ? createPortal(
+            (
+              <SelectSlippageModal onClose={close} onSelect={handleSelect} />
+            ) as any,
+            portal
+          )
+        : null}
     </StyledSlippageSetting>
   )
 }

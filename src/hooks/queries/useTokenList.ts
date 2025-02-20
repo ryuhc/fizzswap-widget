@@ -12,32 +12,36 @@ import { contractAddresses, SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { useApiUrl } from '@/hooks/network/useApiUrl'
 
 export interface ITokenList {
-  skip: number,
-  take: number,
-  total: number,
+  skip: number
+  take: number
+  total: number
   tokens: ITokenItem[]
 }
 
 export interface ITokenItem {
-  address: `0x${string}`,
-  nameKo: string,
-  nameEn: string,
-  symbol: string,
-  image: string,
-  decimal: number,
-  price: string,
-  bridgeType: string,
-  grade: string,
-  isStable?: boolean,
-  originChain?: string,
+  address: `0x${string}`
+  nameKo: string
+  nameEn: string
+  symbol: string
+  image: string
+  decimal: number
+  price: string
+  bridgeType: string
+  grade: string
+  isStable?: boolean
+  originChain?: string
   bridgeConfig?: IBridgeMinter
-  yesterdayPrice?: string,
+  yesterdayPrice?: string
   weeklyPrice?: number[]
 }
 
-async function fetchListOverLimit({ queryOptions, limit, apiPath }: {
-  queryOptions: IFetchListOptions,
-  limit: number,
+async function fetchListOverLimit({
+  queryOptions,
+  limit,
+  apiPath
+}: {
+  queryOptions: IFetchListOptions
+  limit: number
   apiPath: string
 }) {
   const take = queryOptions?.take ?? 0
@@ -47,7 +51,7 @@ async function fetchListOverLimit({ queryOptions, limit, apiPath }: {
   }
 
   const result: ITokenList = { skip: 0, take, total: 0, tokens: [] }
-  const queries =  []
+  const queries = []
   const pages = Math.ceil(take / limit)
 
   for (let i = 0; i < pages; i++) {
@@ -59,7 +63,7 @@ async function fetchListOverLimit({ queryOptions, limit, apiPath }: {
   }
 
   const fetchedEntireTokens = await Promise.allSettled(
-    queries.map(query => fetchTokenList(apiPath, query))
+    queries.map((query) => fetchTokenList(apiPath, query))
   )
 
   for (const fetchedData of fetchedEntireTokens) {
@@ -73,9 +77,12 @@ async function fetchListOverLimit({ queryOptions, limit, apiPath }: {
 }
 
 export function useTokenList(
-  options?: IFetchListOptions & { useWeekly?: boolean } | null,
+  options?: (IFetchListOptions & { useWeekly?: boolean }) | null,
   initialData?: ITokenList,
-  pollingOptions?: { staleTime: number | undefined, refetchInterval: number | undefined },
+  pollingOptions?: {
+    staleTime: number | undefined
+    refetchInterval: number | undefined
+  },
   queryKey?: string[]
 ): ITokenList {
   const chainId = useChainId()
@@ -85,7 +92,13 @@ export function useTokenList(
   const queryOptions = options ?? { skip: 0, take: limit, keyword: '' }
 
   const { data } = useQuery({
-    queryKey: queryKey ?? ['tokenList', chainId, queryOptions.skip, queryOptions.take, queryOptions.keyword],
+    queryKey: queryKey ?? [
+      'tokenList',
+      chainId,
+      queryOptions.skip,
+      queryOptions.take,
+      queryOptions.keyword
+    ],
     queryFn: () => fetchListOverLimit({ queryOptions, limit, apiPath }),
     staleTime: pollingOptions?.staleTime ?? 15 * 1000,
     refetchInterval: pollingOptions?.refetchInterval ?? 15 * 1000,
@@ -94,10 +107,10 @@ export function useTokenList(
   const result = data ?? { skip: 0, take: 0, total: 0, tokens: [] }
 
   if (options?.useWeekly) {
-    result.tokens = map(result.tokens, token => {
+    result.tokens = map(result.tokens, (token) => {
       return {
         ...token,
-        weeklyPrice: map(token.weeklyPrice, price => Number(price))
+        weeklyPrice: map(token.weeklyPrice, (price) => Number(price))
       }
     })
   }
@@ -120,7 +133,7 @@ export function useTokenListDefault() {
     queryKey: ['initialTokens', chainId],
     queryFn: () => fetchTokenList(apiPath, queryOptions),
     staleTime: 60 * 1000,
-    refetchInterval: 60 * 1000,
+    refetchInterval: 60 * 1000
   })
 
   return data ?? { skip: 0, take: 0, total: 0, tokens: [] }
@@ -140,16 +153,27 @@ export function useTokenListPicked(addresses: `0x${string}`[]) {
     queryKey: ['initialTokens', apiPath],
     queryFn: () => fetchTokenList(apiPath, queryOptions),
     staleTime: 60 * 1000,
-    refetchInterval: 60 * 1000,
+    refetchInterval: 60 * 1000
   })
 
   return data ?? { skip: 0, take: 0, total: 0, tokens: [] }
 }
 
-export function useTokenListInfinite({ take, keyword }: { take?: number, keyword: string }) {
+export function useTokenListInfinite({
+  take,
+  keyword
+}: { take?: number; keyword: string }) {
   const apiPath = useApiUrl()
-  const { data, refetch, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage } = useInfiniteQuery({
-    initialData: undefined, initialPageParam: undefined,
+  const {
+    data,
+    refetch,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage
+  } = useInfiniteQuery({
+    initialData: undefined,
+    initialPageParam: undefined,
     queryKey: ['tokenListInfinite', apiPath],
     queryFn: (params) => {
       if (params.pageParam) {
@@ -188,5 +212,13 @@ export function useTokenListInfinite({ take, keyword }: { take?: number, keyword
     return res
   }, [data?.pages])
 
-  return { data: tokens, total: data?.pages[0]?.total ?? 0, refetch, isFetching, hasNextPage, fetchNextPage, isFetchingNextPage }
+  return {
+    data: tokens,
+    total: data?.pages[0]?.total ?? 0,
+    refetch,
+    isFetching,
+    hasNextPage,
+    fetchNextPage,
+    isFetchingNextPage
+  }
 }

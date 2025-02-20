@@ -16,8 +16,8 @@ const StyledCheckboxBtn: any = styled('div')`
   width: 18px;
   height: 18px;
   border: 1px solid ${({ theme }) => theme.colors.gray5};
-  background-color: ${({ theme, checked }: any) => checked ? theme.colors.primary : ''};
-  border-color: ${({ theme, checked }: any) => checked ? theme.colors.primary : theme.colors.gray5};
+  background-color: ${({ theme, checked }: any) => (checked ? theme.colors.primary : '')};
+  border-color: ${({ theme, checked }: any) => (checked ? theme.colors.primary : theme.colors.gray5)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -33,21 +33,27 @@ const StyledCheckboxLabel = styled('div')`
 `
 
 interface IProps {
-  label: string,
-  color?: string,
-  checked: boolean,
+  label: string
+  color?: string
+  checked: boolean
   onCheck: () => void
 }
 
 export function Checkbox({ label, color, checked, onCheck }: IProps) {
   return (
     <StyledCheckbox className="checkbox">
-      <StyledCheckboxBtn data-testid="checkbox-btn" checked={checked} onClick={() => onCheck()}>
+      <StyledCheckboxBtn
+        data-testid="checkbox-btn"
+        checked={checked}
+        onClick={() => onCheck()}
+      >
         <Image src={CheckIcon as string} alt="check" />
       </StyledCheckboxBtn>
 
       <StyledCheckboxLabel onClick={() => onCheck()}>
-        <Text color={color ?? 'gray'} size={12} data-testid="checkbox-label">{label}</Text>
+        <Text color={color ?? 'gray'} size={12} data-testid="checkbox-label">
+          {label}
+        </Text>
       </StyledCheckboxLabel>
     </StyledCheckbox>
   )

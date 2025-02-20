@@ -14,29 +14,31 @@ export const silicon = defineChain({
   nativeCurrency: {
     decimals: 18,
     name: 'Ether',
-    symbol: 'ETH',
+    symbol: 'ETH'
   },
   contracts: {
     multicall2: {
       address: '0x566da61a4D0841a67bA8F2c7e5975885fa0Af4DA',
-      blockCreated: 96002415,
-    },
+      blockCreated: 96002415
+    }
   },
   rpcUrls: {
     public: {
-      http: [siliconRpc],
+      http: [siliconRpc]
     },
     default: {
-      http: [siliconRpc],
-    },
+      http: [siliconRpc]
+    }
   },
   blockExplorers: {
     etherscan: { name: 'Siliconscope', url: 'https://scope.silicon.network' },
-    default: { name: 'Siliconscope', url: 'https://scope.silicon.network' },
+    default: { name: 'Siliconscope', url: 'https://scope.silicon.network' }
   },
   fees: {
     async estimateFeesPerGas({ multiply, type, client }) {
-      const gasPrice = await client.request({ method: 'eth_gasPrice' }).then(BigInt)
+      const gasPrice = await client
+        .request({ method: 'eth_gasPrice' })
+        .then(BigInt)
       // const baseFeePerGas = 1000000000n
       // const maxPriorityFeePerGas = 1n
 
@@ -59,25 +61,31 @@ export const siliconSepolia = defineChain({
   nativeCurrency: {
     decimals: 18,
     name: 'Ether',
-    symbol: 'ETH',
+    symbol: 'ETH'
   },
   contracts: {
     multicall2: {
       address: '0x18b6bBBcc719E666f3763386E02F20fE4d90bF62',
-      blockCreated: 96002415,
-    },
+      blockCreated: 96002415
+    }
   },
   rpcUrls: {
     public: {
-      http: [siliconSepoliaRPC],
+      http: [siliconSepoliaRPC]
     },
     default: {
-      http: [siliconSepoliaRPC],
-    },
+      http: [siliconSepoliaRPC]
+    }
   },
   blockExplorers: {
-    etherscan: { name: 'Siliconscope', url: 'https://scope-sepolia.silicon.network' },
-    default: { name: 'Siliconscope', url: 'https://scope-sepolia.silicon.network' }
+    etherscan: {
+      name: 'Siliconscope',
+      url: 'https://scope-sepolia.silicon.network'
+    },
+    default: {
+      name: 'Siliconscope',
+      url: 'https://scope-sepolia.silicon.network'
+    }
   },
   fees: {
     async estimateFeesPerGas({ multiply, type }) {

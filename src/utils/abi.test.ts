@@ -21,7 +21,11 @@ describe('test getInterface()', () => {
 
 describe('test decodeEventOnReceipt()', () => {
   it('get decoded event from receipt', () => {
-    const decoded = decodeEventOnReceipt(exampleTx.receipt, exampleTx.abi as Abi, exampleTx.eventName)
+    const decoded = decodeEventOnReceipt(
+      exampleTx.receipt,
+      exampleTx.abi as Abi,
+      exampleTx.eventName
+    )
 
     expect(decoded).toEqual({
       user: '0xd74F8630B8BdBb7b0871FceB7188c9cFAaCB815e',

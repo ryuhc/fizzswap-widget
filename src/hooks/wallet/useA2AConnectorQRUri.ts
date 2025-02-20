@@ -42,19 +42,26 @@ const useA2AConnectorQRUri = () => {
   }, [])
 
   // for teleport wallet
-  const teleportUriHandler = useCallback((message: { type: string, data?: unknown }) => {
-    if (message.type !== 'display_uri') {
-      return
-    }
+  const teleportUriHandler = useCallback(
+    (message: { type: string; data?: unknown }) => {
+      if (message.type !== 'display_uri') {
+        return
+      }
 
-    const uri = `${env.TELEPORT_PATH}?pairing_uri=${encodeURIComponent(String(message?.data ?? ''))}`
+      const uri = `${env.TELEPORT_PATH}?pairing_uri=${encodeURIComponent(String(message?.data ?? ''))}`
 
-    setQrUri(uri)
-  }, [env])
+      setQrUri(uri)
+    },
+    [env]
+  )
 
-  useBus(OPEN_TELEPORT_WALLET, () => {
-    setQrUri(String(env.TELEPORT_PATH))
-  }, [env])
+  useBus(
+    OPEN_TELEPORT_WALLET,
+    () => {
+      setQrUri(String(env.TELEPORT_PATH))
+    },
+    [env]
+  )
 
   useEffect(() => {
     if (isMobile || !isA2AConnector.flag) return
@@ -65,7 +72,7 @@ const useA2AConnectorQRUri = () => {
     initProviderEvtHandler = true
 
     const findConnector = () => {
-      return connectors.find(item => {
+      return connectors.find((item) => {
         return fetchProviderId(item) === isA2AConnector.current
       })
     }
@@ -74,7 +81,7 @@ const useA2AConnectorQRUri = () => {
       case 'teleport': {
         const connector = findConnector()
 
-        connector?.getProvider().then(_provider => {
+        connector?.getProvider().then((_provider) => {
           a2aProviderRef.current = connector
           provider = connector
 
@@ -88,10 +95,9 @@ const useA2AConnectorQRUri = () => {
       }
     }
 
-     
     return () => {
       if (provider) {
-        switch(fetchProviderId(provider)) {
+        switch (fetchProviderId(provider)) {
           case 'teleport': {
             provider.emitter.off('message', teleportUriHandler)
             break
@@ -127,7 +133,10 @@ const useA2AConnectorQRUri = () => {
     setQrUri('')
     setRequestKey('')
 
-    if (a2aProviderRef.current && fetchProviderId(a2aProviderRef.current) !== 'teleport') {
+    if (
+      a2aProviderRef.current &&
+      fetchProviderId(a2aProviderRef.current) !== 'teleport'
+    ) {
       a2aProviderRef.current.events.emit('cancelRequest', requestKey)
     }
   }, [requestKey])

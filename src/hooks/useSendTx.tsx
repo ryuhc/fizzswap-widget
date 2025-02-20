@@ -4,8 +4,11 @@ import { SendTransactionParameters } from '@wagmi/core'
 import { camelCase } from 'lodash'
 import { dispatch } from 'use-bus'
 import { Abi } from 'viem'
-import { useAccount, useSendTransaction, useWaitForTransactionReceipt } from 'wagmi'
-
+import {
+  useAccount,
+  useSendTransaction,
+  useWaitForTransactionReceipt
+} from 'wagmi'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
 import { debugLog, fetchProviderId, isMobileOS } from '@/utils/common'
@@ -39,9 +42,9 @@ export function useSendTx({
   chainId,
   onSuccess,
   methodInterface,
-  methodArgs,
+  methodArgs
 }: IProps) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
   const env = useContext(EnvContext)
 
   const { connect } = useConnectWallet()
@@ -50,7 +53,12 @@ export function useSendTx({
   const client = useHttpClient()
   const { isWrongNetwork } = useWrongNetwork()
 
-  const { data: txHash, isLoading, sendTransactionAsync, reset } = useSendTransaction()
+  const {
+    data: txHash,
+    isLoading,
+    sendTransactionAsync,
+    reset
+  } = useSendTransaction()
   const { addTx, updateTx, setIsEstimatingFee } = useTxHistoryStore()
 
   const broadcast = useCallback(async () => {
@@ -66,14 +74,16 @@ export function useSendTx({
     setIsEstimatingFee(true)
 
     const gas = await Promise.race([
-      client.estimateGas({
-        account,
-        ...tx,
-      } as any).catch(e => {
-        debugLog(e, String(env.PROFILE))
-        return 0n
-      }) as Promise<bigint>,
-      new Promise(resolve => {
+      client
+        .estimateGas({
+          account,
+          ...tx
+        } as any)
+        .catch((e) => {
+          debugLog(e, String(env.PROFILE))
+          return 0n
+        }) as Promise<bigint>,
+      new Promise((resolve) => {
         setTimeout(() => resolve(0n), 60 * 1000)
       }) as Promise<bigint>
     ])
@@ -85,7 +95,10 @@ export function useSendTx({
       return
     }
 
-    const _tx: SendTransactionParameters & { from: `0x${string}` } = { from: account, ...tx }
+    const _tx: SendTransactionParameters & { from: `0x${string}` } = {
+      from: account,
+      ...tx
+    }
     _tx.gas = BigInt(gas)
 
     /*
@@ -102,16 +115,20 @@ export function useSendTx({
     */
 
     if (fetchProviderId(connector) === 'teleport') {
-      isMobileOS() ? window.open(String(env.TELEPORT_PATH)) : dispatch(OPEN_TELEPORT_WALLET)
+      isMobileOS()
+        ? window.open(String(env.TELEPORT_PATH))
+        : dispatch(OPEN_TELEPORT_WALLET)
     }
 
     sendTransactionAsync(_tx)
-      .then(txHash => {
+      .then((txHash) => {
         addTx(txHash, action)
         return txHash
       })
-      .catch(error => {
-        const errorType = error?.shortMessage?.includes('User rejected') ? 'cancel' : 'fail'
+      .catch((error) => {
+        const errorType = error?.shortMessage?.includes('User rejected')
+          ? 'cancel'
+          : 'fail'
 
         dispatch(EVENT_TX_FINISHED)
         showToast(createTxToast(errorType, camelCase(errorType), t))
@@ -135,12 +152,12 @@ export function useSendTx({
   const {
     data: receipt,
     isFetching: isConfirming,
-    isSuccess: isConfirmed,
+    isSuccess: isConfirmed
   } = useWaitForTransactionReceipt({
     hash: txHash ?? '0x',
     pollingInterval: 2_000,
     query: {
-      enabled: (txHash ?? '0x') !== '0x',
+      enabled: (txHash ?? '0x') !== '0x'
     }
   })
 
@@ -155,29 +172,32 @@ export function useSendTx({
     updateTx(txHash as `0x${string}`, ITxState.fail)
     showToast(createTxToast('fail', 'Fail', t))
   }, [executedTx, txHash])
-  const handleReceipt = useCallback((receipt: any) => {
-    if (receipt?.status === 'success') {
-      if (executedTx.has(receipt.transactionHash)) {
-        return
+  const handleReceipt = useCallback(
+    (receipt: any) => {
+      if (receipt?.status === 'success') {
+        if (executedTx.has(receipt.transactionHash)) {
+          return
+        }
+
+        dispatch(EVENT_TX_FINISHED)
+        setExecutedTx(executedTx.add(receipt.transactionHash))
+
+        if (action !== 'approve') {
+          onSuccess && onSuccess(receipt)
+        }
+
+        updateTx(receipt.transactionHash, receipt.status as ITxState)
+        showToast(createTxToast('success', 'Success', t))
       }
 
-      dispatch(EVENT_TX_FINISHED)
-      setExecutedTx(executedTx.add(receipt.transactionHash))
-
-      if (action !== 'approve') {
-        onSuccess && onSuccess(receipt)
+      if (receipt?.status === 'error') {
+        handleTxError()
       }
 
-      updateTx(receipt.transactionHash, receipt.status as ITxState)
-      showToast(createTxToast('success', 'Success', t))
-    }
-
-    if (receipt?.status === 'error') {
-      handleTxError()
-    }
-
-    setTimeout(reset, 1000)
-  }, [action, executedTx, onSuccess, handleTxError])
+      setTimeout(reset, 1000)
+    },
+    [action, executedTx, onSuccess, handleTxError]
+  )
   useEffect(() => {
     handleReceipt(receipt)
   }, [receipt])
@@ -187,6 +207,6 @@ export function useSendTx({
     hash: txHash ?? '0x',
     isLoading: isLoading || isConfirming,
     receipt,
-    isConfirmed,
+    isConfirmed
   }
 }

@@ -50,7 +50,6 @@ export const SelectWalletAreaBorder = styled('section')`
   }
 `
 
-
 export const SelectWalletConnectors = styled('section')``
 
 export const SelectWalletConnector = styled('section')`

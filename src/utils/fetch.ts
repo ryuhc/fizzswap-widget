@@ -5,7 +5,7 @@ import {
   DecodeFunctionDataParameters,
   decodeFunctionResult,
   encodeFunctionData,
-  EncodeFunctionDataParameters,
+  EncodeFunctionDataParameters
 } from 'viem'
 
 import MulticallABI from '@/abi/common/Multicall.json'
@@ -17,39 +17,63 @@ export function createQueryStr(options?: any): string {
 
 /** common data **/
 
-export async function fetchTokenList(path: string, options?: { skip?: number, take?: number, keyword?: string, addresses?: string }) {
+export async function fetchTokenList(
+  path: string,
+  options?: {
+    skip?: number
+    take?: number
+    keyword?: string
+    addresses?: string
+  }
+) {
   try {
     const res = await fetch(`${path}/tokens${createQueryStr(options)}`)
     return await res.json()
   } catch {
-    return {skip: 0, take: 0, total: 0, tokens: []}
+    return { skip: 0, take: 0, total: 0, tokens: [] }
   }
 }
 
 export async function callNativeBalance(path: string, user: `0x${string}`) {
   try {
-    return await axios.post(`${path}/call/balance`, {
-      address: user
-    }, {
-      timeout: 60 * 1000
-    }).then(res => {
-      return BigInt(res.data.balance)
-    })
+    return await axios
+      .post(
+        `${path}/call/balance`,
+        {
+          address: user
+        },
+        {
+          timeout: 60 * 1000
+        }
+      )
+      .then((res) => {
+        return BigInt(res.data.balance)
+      })
   } catch {
     return 0n
   }
 }
 
-export async function callContractFunction(path: string, data: `0x${string}`, contract: `0x${string}`) {
+export async function callContractFunction(
+  path: string,
+  data: `0x${string}`,
+  contract: `0x${string}`
+) {
   try {
-    return await axios.post(`${path}/call/contract`, {
-      data,
-      to: contract
-    }, {
-      timeout: 60 * 1000
-    }).then(res => {
-      return res.data.result
-    })
+    return await axios
+      .post(
+        `${path}/call/contract`,
+        {
+          data,
+          to: contract
+        },
+        {
+          timeout: 60 * 1000
+        }
+      )
+      .then((res) => {
+        return res.data.result
+      })
   } catch {
     return '0x0000000000000000000000000000000000000000000000000000000000000000'
   }
@@ -57,7 +81,12 @@ export async function callContractFunction(path: string, data: `0x${string}`, co
 
 export async function callAndDecodeContractFunction(
   path: string,
-  params: { address: `0x${string}`, abi: Abi, functionName: string, args: any[] }
+  params: {
+    address: `0x${string}`
+    abi: Abi
+    functionName: string
+    args: any[]
+  }
 ) {
   const callData = encodeFunctionData({
     abi: params.abi,
@@ -66,7 +95,10 @@ export async function callAndDecodeContractFunction(
   } as EncodeFunctionDataParameters)
   const callResult = await callContractFunction(path, callData, params.address)
 
-  if (callResult === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+  if (
+    callResult ===
+    '0x0000000000000000000000000000000000000000000000000000000000000000'
+  ) {
     return undefined
   }
 
@@ -81,7 +113,12 @@ export async function callAndDecodeContractFunction(
 export async function callAndDecodeContractFunctions(
   path: string,
   multicallAddress: `0x${string}`,
-  params: { address: `0x${string}`, abi: Abi, functionName: string, args: any[] }[]
+  params: {
+    address: `0x${string}`
+    abi: Abi
+    functionName: string
+    args: any[]
+  }[]
 ) {
   try {
     const callDatas = []
@@ -102,12 +139,21 @@ export async function callAndDecodeContractFunctions(
     const aggregateParam = {
       abi: MulticallABI,
       args: [callDatas],
-      functionName: 'aggregate',
+      functionName: 'aggregate'
     }
-    const aggregateData = encodeFunctionData(aggregateParam as EncodeFunctionDataParameters)
-    const aggregateResult = await callContractFunction(path, aggregateData, multicallAddress)
+    const aggregateData = encodeFunctionData(
+      aggregateParam as EncodeFunctionDataParameters
+    )
+    const aggregateResult = await callContractFunction(
+      path,
+      aggregateData,
+      multicallAddress
+    )
 
-    if (aggregateResult === '0x0000000000000000000000000000000000000000000000000000000000000000') {
+    if (
+      aggregateResult ===
+      '0x0000000000000000000000000000000000000000000000000000000000000000'
+    ) {
       return undefined
     }
 
@@ -120,16 +166,21 @@ export async function callAndDecodeContractFunctions(
     const allowZeroDataCalls = ['balanceOf', 'getEthBalance', 'allowance']
 
     for (let i = 0; i < decodedAggregate.length; i++) {
-      const decodedMethodResult = decodedAggregate[i] && decodedAggregate[i] === '0x' && allowZeroDataCalls.includes(params[i].functionName) ? '0' : decodeFunctionResult({
-        ...params[i],
-        data: decodedAggregate[i]
-      } as DecodeFunctionDataParameters)
+      const decodedMethodResult =
+        decodedAggregate[i] &&
+        decodedAggregate[i] === '0x' &&
+        allowZeroDataCalls.includes(params[i].functionName)
+          ? '0'
+          : decodeFunctionResult({
+              ...params[i],
+              data: decodedAggregate[i]
+            } as DecodeFunctionDataParameters)
 
       result.push(decodedMethodResult)
     }
 
     return result
-  } catch(err) {
+  } catch (err) {
     console.log({ err })
     return undefined
   }

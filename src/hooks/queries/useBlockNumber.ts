@@ -20,34 +20,46 @@ export function useBlockNumber() {
     queryKey: ['fetchCurrentBlock', chainId],
     queryFn: () => {
       return fetch(`${apiPath}/state`)
-        .then(async res => {
+        .then(async (res) => {
           const json = await res.json()
           return {
             height: json.provider,
             timestamp: json.timestamp
           }
         })
-        .catch(() => ({ height: 0, timestamp: 0 })) as Promise<{ height: number, timestamp: number }>
+        .catch(() => ({ height: 0, timestamp: 0 })) as Promise<{
+        height: number
+        timestamp: number
+      }>
     },
     refetchInterval: 10 * 1000,
     staleTime: 10 * 1000
   })
 
   const pseudoInterval = useRef<any>(null)
-  const pseudoBlockRef = useRef<any>({ height: 0, timestamp: 0, status: NetworkHealth.health })
+  const pseudoBlockRef = useRef<any>({
+    height: 0,
+    timestamp: 0,
+    status: NetworkHealth.health
+  })
   const pseudoTimer = useCallback(async () => {
     const pseudoBlock = pseudoBlockRef.current
 
-    let status = pseudoBlock.timestamp - (data?.timestamp ?? 0) > 60 ? NetworkHealth.latency : NetworkHealth.health
+    let status =
+      pseudoBlock.timestamp - (data?.timestamp ?? 0) > 60
+        ? NetworkHealth.latency
+        : NetworkHealth.health
     if (status === NetworkHealth.latency) {
       await Promise.race([
-        new Promise(resolve => {
-          refetch().then(resolve).catch(() => resolve(-1))
+        new Promise((resolve) => {
+          refetch()
+            .then(resolve)
+            .catch(() => resolve(-1))
         }),
-        new Promise(resolve => {
+        new Promise((resolve) => {
           setTimeout(() => resolve(-1), 5 * 1000)
         })
-      ]).then(res => {
+      ]).then((res) => {
         if (res === -1) {
           status = NetworkHealth.sick
 
@@ -79,15 +91,17 @@ export function useBlockNumber() {
   useEffect(() => {
     if (data?.height === 0) {
       handleSubscribeError()
-    }
-    else if (data !== undefined && data?.height > 0) {
+    } else if (data !== undefined && data?.height > 0) {
       pseudoBlockRef.current = {
         height: data?.height,
         timestamp: parseInt(String(new Date().valueOf() / 1000)),
         status: NetworkHealth.health
       }
 
-      pseudoInterval.current = setInterval(pseudoTimer, 1000 * BLOCK_INTERVAL[chainId])
+      pseudoInterval.current = setInterval(
+        pseudoTimer,
+        1000 * BLOCK_INTERVAL[chainId]
+      )
     }
 
     return () => {

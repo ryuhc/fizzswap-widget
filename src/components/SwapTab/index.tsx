@@ -12,11 +12,23 @@ export function SwapTab() {
 
   return (
     <StyledSwapTab>
-      <SwapInputModeOption $type="buy" $selected={mode === 'buy'} onClick={() => setMode('buy')}>
-        <Text color={mode === 'buy' ? 'white' : 'gray'} weight={700}>{t('Widget.Buy')}</Text>
+      <SwapInputModeOption
+        $type="buy"
+        $selected={mode === 'buy'}
+        onClick={() => setMode('buy')}
+      >
+        <Text color={mode === 'buy' ? 'white' : 'gray'} weight={700}>
+          {t('Widget.Buy')}
+        </Text>
       </SwapInputModeOption>
-      <SwapInputModeOption $type="sell" $selected={mode === 'sell'} onClick={() => setMode('sell')}>
-        <Text color={mode === 'sell' ? 'white' : 'gray'} weight={700}>{t('Widget.Sell')}</Text>
+      <SwapInputModeOption
+        $type="sell"
+        $selected={mode === 'sell'}
+        onClick={() => setMode('sell')}
+      >
+        <Text color={mode === 'sell' ? 'white' : 'gray'} weight={700}>
+          {t('Widget.Sell')}
+        </Text>
       </SwapInputModeOption>
     </StyledSwapTab>
   )
@@ -27,13 +39,18 @@ const StyledSwapTab = styled('div')`
   gap: 10px;
 `
 
-const SwapInputModeOption = styled('button')<{ $type: string, $selected: boolean }>`
+const SwapInputModeOption = styled('button')<{
+  $type: string
+  $selected: boolean
+}>`
   flex: 2;
   height: 48px;
   border-radius: 8px;
   background: ${({ theme, $type, $selected }) => {
-    return $selected ? (
-      $type === 'buy' ? '#FD5040' : '#007AFF'
-    ) : theme.colors.gray4
+    return $selected
+      ? $type === 'buy'
+        ? '#FD5040'
+        : '#007AFF'
+      : theme.colors.gray4
   }};
 `

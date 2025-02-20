@@ -23,11 +23,15 @@ afterEach(() => {
 describe('test render <FormTokenBalance />', () => {
   it('show balance with decimal, comma', () => {
     render(<FormTokenBalance {...initialProps} />, { wrapper })
-    expect(screen.getByTestId('form-token-balance-value').innerHTML).toBe('1,000.000000')
+    expect(screen.getByTestId('form-token-balance-value').innerHTML).toBe(
+      '1,000.000000'
+    )
   })
 
   it('show max button by props.hideMax', () => {
-    const { rerender } = render(<FormTokenBalance {...initialProps} />, { wrapper })
+    const { rerender } = render(<FormTokenBalance {...initialProps} />, {
+      wrapper
+    })
     expect(isRenderedByTestId('form-token-balance-max')).toBe(true)
 
     rerender(<FormTokenBalance {...initialProps} hideMax={true} />)

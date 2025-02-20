@@ -9,10 +9,8 @@ export default function EnvProvider({ children, env }: any) {
     setTimeout(() => setRender(true), 100)
   }, [])
 
-  return render && (
-    <EnvContext.Provider value={env}>
-      {children}
-    </EnvContext.Provider>
+  return (
+    render && <EnvContext.Provider value={env}>{children}</EnvContext.Provider>
   )
 }
 

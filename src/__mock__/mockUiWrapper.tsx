@@ -1,7 +1,5 @@
 import StyleProvider from '@/context/StyleProvider'
 
-export const uiWrapper  = ({ children }: any) => {
-  return (
-    <StyleProvider>{children}</StyleProvider>
-  )
+export const uiWrapper = ({ children }: any) => {
+  return <StyleProvider>{children}</StyleProvider>
 }

@@ -9,26 +9,30 @@ import { CommonTooltip } from '@/components/Tooltip'
 
 import { Text } from '@/styles/common'
 
-import { EstimateAboutTxItem, EstimateAboutTxItems, EstimateAboutTxItemTitle, EstimateAboutTxItemValue } from '@/components/EstimateAboutTx/styles'
+import {
+  EstimateAboutTxItem,
+  EstimateAboutTxItems,
+  EstimateAboutTxItemTitle,
+  EstimateAboutTxItemValue
+} from '@/components/EstimateAboutTx/styles'
 import { ITokenItem } from '@/hooks/queries/useTokenList'
 
-
 interface IProps {
-  title?: string,
-  tooltip?: string,
-  version?: number,
-  slippage: number,
+  title?: string
+  tooltip?: string
+  version?: number
+  slippage: number
   rateInfo: {
-    tokenA: ITokenItem,
-    tokenB: ITokenItem,
+    tokenA: ITokenItem
+    tokenB: ITokenItem
     rate: string
-  },
-  priceImpact: number,
-  children: React.ReactNode,
-  showTitle?: boolean,
-  showRate?: boolean,
-  showPriceImpaction?: boolean,
-  onReverse?: (flag: boolean) => void,
+  }
+  priceImpact: number
+  children: React.ReactNode
+  showTitle?: boolean
+  showRate?: boolean
+  showPriceImpaction?: boolean
+  onReverse?: (flag: boolean) => void
   defaultReverse?: boolean
 }
 
@@ -54,7 +58,10 @@ export function EstimateAboutTx({
         <StyledEstimateAboutTxTitle>
           <Text color="black2" weight={700}>
             {title || t('General.EstimatedAboutAction')}
-            <CommonTooltip tooltipId="aboutEstimated" content={tooltip || t('General.EstimatedAboutAction')} />
+            <CommonTooltip
+              tooltipId="aboutEstimated"
+              content={tooltip || t('General.EstimatedAboutAction')}
+            />
           </Text>
         </StyledEstimateAboutTxTitle>
       )}

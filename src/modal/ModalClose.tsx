@@ -23,7 +23,11 @@ interface IProps {
 export function ModalClose({ onClose }: IProps) {
   return (
     <StyledModalClose className="modal-close" onClick={() => onClose()}>
-      <Image src={CloseIcon} alt="close" sx={{ width: '14px', height: '14px' }} />
+      <Image
+        src={CloseIcon}
+        alt="close"
+        sx={{ width: '14px', height: '14px' }}
+      />
     </StyledModalClose>
   )
 }

@@ -9,10 +9,12 @@ import { Paragraph, Text } from '@/styles/common'
 import ErrorIcon from '@/assets/img/icon/ic-error-red.svg'
 import RefreshIcon from '@/assets/img/icon/ic-refresh-primary-active.svg'
 
-export function SwapPriceUpdated({ onRefresh }: {
+export function SwapPriceUpdated({
+  onRefresh
+}: {
   onRefresh: Function
 }) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
 
   return (
     <StyledSwapPriceUpdated>
@@ -21,14 +23,20 @@ export function SwapPriceUpdated({ onRefresh }: {
           <Image src={ErrorIcon} alt="error" type="vector" />
         </SwapPriceUpdateBoxIcon>
         <SwapPriceUpdateBoxText>
-          <Text size={12} color="red">{t('General.SwapPriceChanged')}</Text>
+          <Text size={12} color="red">
+            {t('General.SwapPriceChanged')}
+          </Text>
         </SwapPriceUpdateBoxText>
         <SwapPriceUpdateBoxButton onClick={() => onRefresh()}>
           <Image src={RefreshIcon} alt="refresh" type="vector" />
-          <Text size={12} color="primaryActive" weight={700}>{t('General.Refresh')}</Text>
+          <Text size={12} color="primaryActive" weight={700}>
+            {t('General.Refresh')}
+          </Text>
         </SwapPriceUpdateBoxButton>
       </SwapPriceUpdateBox>
-      <Paragraph size={12} color="gray">{t('General.SwapPriceChangedDesc')}</Paragraph>
+      <Paragraph size={12} color="gray">
+        {t('General.SwapPriceChangedDesc')}
+      </Paragraph>
     </StyledSwapPriceUpdated>
   )
 }

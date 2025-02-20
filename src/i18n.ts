@@ -14,10 +14,14 @@ for (const locale in TranslationData) {
   }
 
   // @ts-ignore
-  for (const [namespaceId, namespaceValues] of Object.entries(TranslationData[locale] ?? {})) {
+  for (const [namespaceId, namespaceValues] of Object.entries(
+    TranslationData[locale] ?? {}
+  )) {
     const parsedValues: Record<string, string> = {}
 
-    for (const [key, value] of Object.entries((namespaceValues ?? {}) as Record<string, string>)) {
+    for (const [key, value] of Object.entries(
+      (namespaceValues ?? {}) as Record<string, string>
+    )) {
       if (!key.includes('.')) {
         parsedValues[key] = value.replace(/{/g, '{{').replace(/}/g, '}}')
       }
@@ -29,17 +33,20 @@ for (const locale in TranslationData) {
   messages[locale] = namespaces
 }
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      ko: messages.ko,
-      en: messages.en
-    },
-    lng: typeof window !== 'undefined' ? ((navigator?.language?.toLowerCase() ?? '').includes('en') ? 'en' : 'ko') : 'en',
-    interpolation: {
-      escapeValue: false // react already safes from xss
-    }
-  });
+i18n.use(initReactI18next).init({
+  resources: {
+    ko: messages.ko,
+    en: messages.en
+  },
+  lng:
+    typeof window !== 'undefined'
+      ? (navigator?.language?.toLowerCase() ?? '').includes('en')
+        ? 'en'
+        : 'ko'
+      : 'en',
+  interpolation: {
+    escapeValue: false // react already safes from xss
+  }
+})
 
-export default i18n;
+export default i18n

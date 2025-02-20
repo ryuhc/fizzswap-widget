@@ -1,6 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
-import { afterEach,describe, expect, it, vi } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 
 import { dprec } from '@/utils/number'
 
@@ -31,7 +31,10 @@ afterEach(() => {
 describe('test render <FormRow />', () => {
   it('show title was given. if no title, hide element', () => {
     const title = 'From Token'
-    const { rerender } = render(<FormRow {...initialProps} title={title} selectable={true} />, { wrapper })
+    const { rerender } = render(
+      <FormRow {...initialProps} title={title} selectable={true} />,
+      { wrapper }
+    )
 
     expect(screen.getByTestId('form-row-title').innerHTML).toBe(title)
 
@@ -42,12 +45,16 @@ describe('test render <FormRow />', () => {
 
   it('show value with decimal (default 6)', () => {
     render(<FormRow {...initialProps} />, { wrapper })
-    expect(screen.getByTestId('form-row-input')).toHaveValue(Number(dprec(initialProps.inputValue, 6)))
+    expect(screen.getByTestId('form-row-input')).toHaveValue(
+      Number(dprec(initialProps.inputValue, 6))
+    )
   })
 
   it('show token symbol', () => {
     render(<FormRow {...initialProps} />, { wrapper })
-    expect(screen.getByTestId('form-row-symbol').innerHTML).toBe(initialProps.token.symbol)
+    expect(screen.getByTestId('form-row-symbol').innerHTML).toBe(
+      initialProps.token.symbol
+    )
   })
 })
 
@@ -63,15 +70,25 @@ describe('test action <FormRow />', () => {
 
   it('when input, call onChange() with html event', () => {
     const mockOnInput = vi.fn()
-    render(<FormRow {...initialProps} selectable={true} onInput={mockOnInput} />, { wrapper })
+    render(
+      <FormRow {...initialProps} selectable={true} onInput={mockOnInput} />,
+      { wrapper }
+    )
 
-    fireEvent.change(screen.getByTestId('form-row-input'), { target: { value: '5000' } })
-    expect(mockOnInput).toHaveBeenCalledWith(expect.objectContaining({ type: 'change', _reactName: 'onChange' }))
+    fireEvent.change(screen.getByTestId('form-row-input'), {
+      target: { value: '5000' }
+    })
+    expect(mockOnInput).toHaveBeenCalledWith(
+      expect.objectContaining({ type: 'change', _reactName: 'onChange' })
+    )
   })
 
   it('click token symbol or icon, open SelectTokenModal', async () => {
     const user = userEvent.setup()
-    const { container, rerender } = render(<FormRow {...initialProps} selectable={true} />, { wrapper })
+    const { container, rerender } = render(
+      <FormRow {...initialProps} selectable={true} />,
+      { wrapper }
+    )
 
     const modalOverlay = document.createElement('div')
     modalOverlay.setAttribute('id', 'modal-overlay')

@@ -7,7 +7,9 @@ export function useSiteNotices() {
   const { data } = useQuery({
     queryKey: ['siteNotices'],
     queryFn: async () => {
-      return await fetch(`${env.OPERATOR_PATH}/info/notice/noticeInfo.json`).then(async res => {
+      return await fetch(
+        `${env.OPERATOR_PATH}/info/notice/noticeInfo.json`
+      ).then(async (res) => {
         return res.json()
       })
     },

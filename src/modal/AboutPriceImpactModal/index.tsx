@@ -17,7 +17,7 @@ import {
   ModalSubmitButton,
   StyledFullModal,
   StyledModalSubmitArea,
-  StyledModalTitle,
+  StyledModalTitle
 } from '@/styles/modal'
 
 import { useIsMobile } from '@/hooks/ui/useIsMobile'
@@ -25,13 +25,13 @@ import { useIsMobile } from '@/hooks/ui/useIsMobile'
 export function AboutPriceImpactModal({
   params,
   onClose,
-  onSubmit,
+  onSubmit
 }: {
   params: IAboutPriceImpact
   onClose: () => void
   onSubmit: () => void
 }) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
 
   const { pool, assetType, token0, token1 } = params
 
@@ -54,7 +54,7 @@ export function AboutPriceImpactModal({
             dangerouslySetInnerHTML={{
               __html: t
                 .raw('General.PIWarnPop1')
-                .replace('{rate}', dprec(params.value, 2)),
+                .replace('{rate}', dprec(params.value, 2))
             }}
           />
         </AboutPriceImpactWarning>

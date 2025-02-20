@@ -15,16 +15,24 @@ import { ModalWrapper } from '@/modal/ModalWrapper'
 
 import { Text } from '@/styles/common'
 import { device } from '@/styles/createBreakPoints'
-import { ModalSubmitButton, StyledFullModal, StyledModalSubmitArea } from '@/styles/modal'
+import {
+  ModalSubmitButton,
+  StyledFullModal,
+  StyledModalSubmitArea
+} from '@/styles/modal'
 
 import { useSiteNotices } from '@/hooks/queries/useSiteNotices'
 
-export function TxPolicyModal({ policy, onClose, onSubmit }: {
-  policy?: string,
-  onClose: () => void,
+export function TxPolicyModal({
+  policy,
+  onClose,
+  onSubmit
+}: {
+  policy?: string
+  onClose: () => void
   onSubmit: () => void
 }) {
-  const {t, locale} = useTranslationSimplify()
+  const { t, locale } = useTranslationSimplify()
 
   const notice = useSiteNotices()
   const [checkedPolicy, setCheckedPolicy] = useState<boolean>(false)
@@ -53,9 +61,14 @@ export function TxPolicyModal({ policy, onClose, onSubmit }: {
       }
     }
 
-    return find(notice, item => {
-      return item.key === (locale == 'ko' ? 'ko_final_agreement' : 'en_final_agreement')
-    })?.content ?? ''
+    return (
+      find(notice, (item) => {
+        return (
+          item.key ===
+          (locale == 'ko' ? 'ko_final_agreement' : 'en_final_agreement')
+        )
+      })?.content ?? ''
+    )
   }, [locale, notice, policy])
 
   return (
@@ -63,9 +76,7 @@ export function TxPolicyModal({ policy, onClose, onSubmit }: {
       <StyledTxPolicyModal>
         <ModalClose onClose={onClose} />
 
-        <article
-          dangerouslySetInnerHTML={{ __html: articleData }}
-        />
+        <article dangerouslySetInnerHTML={{ __html: articleData }} />
 
         <ConfirmOnModal
           checked={checkedPolicy}
@@ -101,14 +112,14 @@ export function TxPolicyModal({ policy, onClose, onSubmit }: {
 
       {showDetail && portal && notice.length >= 2
         ? createPortal(
-          (
-            <RiskDetail
-              article={locale === 'ko' ? notice[1] : notice[3]}
-              onClose={close}
-            />
-          ) as any,
-          portal,
-        )
+            (
+              <RiskDetail
+                article={locale === 'ko' ? notice[1] : notice[3]}
+                onClose={close}
+              />
+            ) as any,
+            portal
+          )
         : null}
     </ModalWrapper>
   )

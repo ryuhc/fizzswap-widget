@@ -24,7 +24,7 @@ button {
 
   * {
     ::selection {
-      background: #B4D5FE;
+      background: #b4d5fe;
     }
   }
 
@@ -46,7 +46,7 @@ button {
     -webkit-appearance: none;
     color: #333;
 
-    &[type=number] {
+    &[type="number"] {
       -moz-appearance: textfield;
     }
 
@@ -60,7 +60,8 @@ button {
       color: #ccc;
     }
   }
-  textarea:focus, input:focus {
+  textarea:focus,
+  input:focus {
     outline: none;
   }
 
@@ -82,7 +83,8 @@ button {
     }
   }
 
-  button, select {
+  button,
+  select {
     text-transform: none;
   }
 
@@ -99,7 +101,12 @@ button {
     justify-content: center;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-size: 1em;
     font-weight: normal;
     margin: 0;
@@ -130,7 +137,7 @@ button {
 
   /* place the element with after, which will get animated */
   &::after {
-    content: '';
+    content: "";
     /* make small white invisible circle, let background shine through */
     opacity: 0;
     background: rgba(0, 0, 0, 0.1);

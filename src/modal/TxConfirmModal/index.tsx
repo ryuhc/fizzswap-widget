@@ -1,4 +1,10 @@
-import React, { ReactNode, useCallback, useEffect, useMemo, useState } from 'react'
+import React, {
+  ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState
+} from 'react'
 
 import { filter } from 'lodash'
 
@@ -12,11 +18,10 @@ import { TxAgreement } from '@/components/TxAgreement'
 import { ModalClose } from '@/modal/ModalClose'
 import { ModalWrapper } from '@/modal/ModalWrapper'
 
-
 import { useTxHistoryStore } from '@/state/txHistory'
 
 import { Paragraph, Text } from '@/styles/common'
-import { ModalSubmitButton,StyledModalSubmitArea } from '@/styles/modal'
+import { ModalSubmitButton, StyledModalSubmitArea } from '@/styles/modal'
 
 import { useApproveToken } from '@/hooks/token/useApproveToken'
 import {
@@ -38,49 +43,49 @@ import {
 } from '@/modal/TxConfirmModal/styles'
 
 export interface ITxConfirmParams {
-  event: string,
-  title?: string,
-  isMax?: boolean,
-  eventNotice?: string,
-  eventData?: ITxEvent[],
-  estimateData?: ITxEstimate[],
-  notice?: string,
-  notices?: string[],
-  approvals?: IApproveOptions,
-  submitText?: string,
-  isLoading: boolean,
-  nativeBalance: bigint,
-  needAgreement?: boolean,
-  isSummary?: boolean,
-  onSubmit: () => void,
-  onClose: () => void,
+  event: string
+  title?: string
+  isMax?: boolean
+  eventNotice?: string
+  eventData?: ITxEvent[]
+  estimateData?: ITxEstimate[]
+  notice?: string
+  notices?: string[]
+  approvals?: IApproveOptions
+  submitText?: string
+  isLoading: boolean
+  nativeBalance: bigint
+  needAgreement?: boolean
+  isSummary?: boolean
+  onSubmit: () => void
+  onClose: () => void
   priceHandler?: {
-    show: boolean,
+    show: boolean
     callback?: Function
   }
 }
 
 export interface ITxEvent {
-  title: string,
-  value?: string,
-  childNode?: ReactNode,
+  title: string
+  value?: string
+  childNode?: ReactNode
   style?: any
 }
 
 interface ITxEstimate {
-  title: string,
-  tooltip?: string,
-  value?: string,
-  childNode?: ReactNode,
+  title: string
+  tooltip?: string
+  value?: string
+  childNode?: ReactNode
   align?: string
 }
 
 interface IApproveOptions {
-  ids: `0x${string}`[] | number[],
-  symbols: string[],
-  amounts?: bigint[],
-  spender: `0x${string}`,
-  nftAddress?: `0x${string}`,
+  ids: `0x${string}`[] | number[]
+  symbols: string[]
+  amounts?: bigint[]
+  spender: `0x${string}`
+  nftAddress?: `0x${string}`
   nativeBalance: bigint
 }
 
@@ -127,62 +132,65 @@ export function TxConfirmModal(props: ITxConfirmParams) {
     })
   }, [])
 
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
   const eventTitle = useMemo(() => {
-    return {
-      swap: t('General.TxTitleSwap'),
-      deposit: t('General.Deposit'),
-      prepareZap: t('General.Deposit'),
-      zap: t('General.Deposit'),
-      VaultDeposit: t('General.Deposit'),
-      withdraw: t('General.Withdraw'),
-      bridgeWithdraw: t('General.Withdraw'),
-      VaultWithdraw: t('General.Withdraw'),
-      approve: t('General.ApproveToken'),
-      claim: t('General.TxTitleClaim'),
-      claimToken: t('General.ClaimAsset'),
-      claimStakingReward: t('General.TxTitleClaim'),
-      claimVotingReward: t('General.TxTitleClaim'),
-      createPool: t('General.TxTitleCreatePool'),
-      stakingKSP: t('Staking.Staking'),
-      unstakingKSP: t('Staking.Unstaking'),
-      extendStakingKSP: t('Ecopot.ExtendStaking'),
-      resetStakingBoost: t('Ecopot.ResetStakingBoost'),
-      // addVoting: t('Staking.Vote'),
-      // removeVoting: t('Staking.RetractVoteOfPool'),
-      // removeAllVoting: t('Staking.RetractVoteOfAll'),
-      claimAllTokenRewards: t('Staking.ClaimAll'),
-      propose: t('Gov.VotingProposalTitle'),
-      plusDeposit: t('Vault.PlusDeposit'),
-      plusDepositConfirm: t('Vault.PlusDeposit'),
-      plusWithdraw: t('Vault.PlusWithdraw'),
-      plusWithdrawConfirm: t('Vault.PlusWithdraw'),
-      ecoPotAddVoting: t('Ecopot.ParticipatedEcopot'),
-      ecoPotRemove: t('Ecopot.EcoPotRemove'),
-      addPositionCollat: t('General.ShortLongTxPopupAddDeposit'),
-      addPositionLong: t('General.ShortLongTxPopupLongDeposit'),
-      addPositionShort: t('General.ShortLongTxPopupShortDeposit'),
-      closePosition: t('General.ShortLongTxPopupClosePosition'),
-      voting: t('Gov.Voting'),
-      convert: t('Asset.ConvertGuideTitle'),
-      concentrated: t('General.Deposit'),
-      migrateVersion: t('General.Deposit'),
-      migrateTick: t('General.Deposit'),
-      createdClp: t('V3.CreatePoolTXTitle'),
-      finalDeposit: t('General.Deposit'),
-    }[event] ?? ''
+    return (
+      {
+        swap: t('General.TxTitleSwap'),
+        deposit: t('General.Deposit'),
+        prepareZap: t('General.Deposit'),
+        zap: t('General.Deposit'),
+        VaultDeposit: t('General.Deposit'),
+        withdraw: t('General.Withdraw'),
+        bridgeWithdraw: t('General.Withdraw'),
+        VaultWithdraw: t('General.Withdraw'),
+        approve: t('General.ApproveToken'),
+        claim: t('General.TxTitleClaim'),
+        claimToken: t('General.ClaimAsset'),
+        claimStakingReward: t('General.TxTitleClaim'),
+        claimVotingReward: t('General.TxTitleClaim'),
+        createPool: t('General.TxTitleCreatePool'),
+        stakingKSP: t('Staking.Staking'),
+        unstakingKSP: t('Staking.Unstaking'),
+        extendStakingKSP: t('Ecopot.ExtendStaking'),
+        resetStakingBoost: t('Ecopot.ResetStakingBoost'),
+        // addVoting: t('Staking.Vote'),
+        // removeVoting: t('Staking.RetractVoteOfPool'),
+        // removeAllVoting: t('Staking.RetractVoteOfAll'),
+        claimAllTokenRewards: t('Staking.ClaimAll'),
+        propose: t('Gov.VotingProposalTitle'),
+        plusDeposit: t('Vault.PlusDeposit'),
+        plusDepositConfirm: t('Vault.PlusDeposit'),
+        plusWithdraw: t('Vault.PlusWithdraw'),
+        plusWithdrawConfirm: t('Vault.PlusWithdraw'),
+        ecoPotAddVoting: t('Ecopot.ParticipatedEcopot'),
+        ecoPotRemove: t('Ecopot.EcoPotRemove'),
+        addPositionCollat: t('General.ShortLongTxPopupAddDeposit'),
+        addPositionLong: t('General.ShortLongTxPopupLongDeposit'),
+        addPositionShort: t('General.ShortLongTxPopupShortDeposit'),
+        closePosition: t('General.ShortLongTxPopupClosePosition'),
+        voting: t('Gov.Voting'),
+        convert: t('Asset.ConvertGuideTitle'),
+        concentrated: t('General.Deposit'),
+        migrateVersion: t('General.Deposit'),
+        migrateTick: t('General.Deposit'),
+        createdClp: t('V3.CreatePoolTXTitle'),
+        finalDeposit: t('General.Deposit')
+      }[event] ?? ''
+    )
   }, [event])
 
   const { isEstimatingFee } = useTxHistoryStore()
-  const { needApprove, isApproving, handleApprove, step, isFetched } = useApproveToken({
-    ids: approvals?.ids ?? [],
-    symbols: approvals?.symbols ?? [],
-    amounts: approvals?.amounts ?? [],
-    spender: approvals?.spender ?? '0x',
-    nftAddress: approvals?.nftAddress ?? undefined,
-    nativeBalance,
-    isSummary,
-  })
+  const { needApprove, isApproving, handleApprove, step, isFetched } =
+    useApproveToken({
+      ids: approvals?.ids ?? [],
+      symbols: approvals?.symbols ?? [],
+      amounts: approvals?.amounts ?? [],
+      spender: approvals?.spender ?? '0x',
+      nftAddress: approvals?.nftAddress ?? undefined,
+      nativeBalance,
+      isSummary
+    })
   const isProgressApproving = useMemo(() => {
     return !isFetched || step < needApprove.length
   }, [isFetched, step, needApprove])
@@ -207,9 +215,9 @@ export function TxConfirmModal(props: ITxConfirmParams) {
 
     onSubmit()
   }, [needAgreement, checked, isProgressApproving, isLoading, isEstimatingFee])
-  
+
   const needApprovalCount = useMemo(() => {
-    return filter(needApprove, item => !item.initialized).length
+    return filter(needApprove, (item) => !item.initialized).length
   }, [needApprove])
 
   const handlePriceChange = useCallback(() => {
@@ -221,12 +229,10 @@ export function TxConfirmModal(props: ITxConfirmParams) {
       <StyledTxConfirmModal>
         <ModalClose onClose={onClose} />
 
-        <StyledTxConfirmTitle>
-          {modalTitle}
-        </StyledTxConfirmTitle>
+        <StyledTxConfirmTitle>{modalTitle}</StyledTxConfirmTitle>
 
         <StyledTxConfirmEventLabel>
-          {function() {
+          {(function () {
             if (isProgressApproving) {
               return (
                 <article>
@@ -255,7 +261,7 @@ export function TxConfirmModal(props: ITxConfirmParams) {
                 </Text>
               </article>
             )
-          }()}
+          })()}
         </StyledTxConfirmEventLabel>
 
         {isProgressApproving ? (
@@ -263,16 +269,29 @@ export function TxConfirmModal(props: ITxConfirmParams) {
             <StyledTxEventDetail>
               <StyledTxEventRow>
                 <StyledTxEventRowTitle>
-                  <Text weight={700} color="secondaryLight">Token</Text>
+                  <Text weight={700} color="secondaryLight">
+                    Token
+                  </Text>
                 </StyledTxEventRowTitle>
                 <StyledTxEventRowValue>
-                  <Text size={18} dangerouslySetInnerHTML={{ __html: (approvals?.symbols ?? [])[step] ?? '' }} />
+                  <Text
+                    size={18}
+                    dangerouslySetInnerHTML={{
+                      __html: (approvals?.symbols ?? [])[step] ?? ''
+                    }}
+                  />
                 </StyledTxEventRowValue>
               </StyledTxEventRow>
             </StyledTxEventDetail>
 
             <StyledTxEventNotice style={{ marginBottom: '30px' }}>
-              <Paragraph size={12} color="gray" dangerouslySetInnerHTML={{ __html: t('General.ApproveTxNotice') }} />
+              <Paragraph
+                size={12}
+                color="gray"
+                dangerouslySetInnerHTML={{
+                  __html: t('General.ApproveTxNotice')
+                }}
+              />
             </StyledTxEventNotice>
           </StyledTxEventBody>
         ) : (
@@ -283,10 +302,20 @@ export function TxConfirmModal(props: ITxConfirmParams) {
                   return (
                     <StyledTxEventRow key={i} style={row?.style ?? {}}>
                       <StyledTxEventRowTitle>
-                        <Text weight={700} color="secondaryLight">{row.title}</Text>
+                        <Text weight={700} color="secondaryLight">
+                          {row.title}
+                        </Text>
                       </StyledTxEventRowTitle>
                       <StyledTxEventRowValue>
-                        {row.childNode ? row.childNode : <Text size={18} color="gray" dangerouslySetInnerHTML={{ __html: row.value }} />}
+                        {row.childNode ? (
+                          row.childNode
+                        ) : (
+                          <Text
+                            size={18}
+                            color="gray"
+                            dangerouslySetInnerHTML={{ __html: row.value }}
+                          />
+                        )}
                       </StyledTxEventRowValue>
                     </StyledTxEventRow>
                   )
@@ -296,26 +325,47 @@ export function TxConfirmModal(props: ITxConfirmParams) {
 
             {notice && (
               <StyledTxEventNotice>
-                <Paragraph size={12} color="gray">{notice}</Paragraph>
+                <Paragraph size={12} color="gray">
+                  {notice}
+                </Paragraph>
               </StyledTxEventNotice>
             )}
 
             <StyledTxEventEstimated>
-              {estimateData && estimateData.map((item, i) => {
-                return (
-                  <StyledTxEventEstimatedRow key={i} style={{
-                    alignItems: item?.align ?? 'center'
-                  }}>
-                    <StyledTxEventEstimatedRowTitle>
-                      <Text size={12} color="gray">{item.title}</Text>
-                      {item.tooltip && <CommonTooltip tooltipId={`about_${item.title}_i`} content={item.tooltip} />}
-                    </StyledTxEventEstimatedRowTitle>
-                    <StyledTxEventEstimatedRowValue>
-                      {item.childNode ? item.childNode : <Text size={12} color="gray" dangerouslySetInnerHTML={{ __html: item.value }} />}
-                    </StyledTxEventEstimatedRowValue>
-                  </StyledTxEventEstimatedRow>
-                )
-              })}
+              {estimateData &&
+                estimateData.map((item, i) => {
+                  return (
+                    <StyledTxEventEstimatedRow
+                      key={i}
+                      style={{
+                        alignItems: item?.align ?? 'center'
+                      }}
+                    >
+                      <StyledTxEventEstimatedRowTitle>
+                        <Text size={12} color="gray">
+                          {item.title}
+                        </Text>
+                        {item.tooltip && (
+                          <CommonTooltip
+                            tooltipId={`about_${item.title}_i`}
+                            content={item.tooltip}
+                          />
+                        )}
+                      </StyledTxEventEstimatedRowTitle>
+                      <StyledTxEventEstimatedRowValue>
+                        {item.childNode ? (
+                          item.childNode
+                        ) : (
+                          <Text
+                            size={12}
+                            color="gray"
+                            dangerouslySetInnerHTML={{ __html: item.value }}
+                          />
+                        )}
+                      </StyledTxEventEstimatedRowValue>
+                    </StyledTxEventEstimatedRow>
+                  )
+                })}
             </StyledTxEventEstimated>
 
             {notices && (
@@ -324,7 +374,11 @@ export function TxConfirmModal(props: ITxConfirmParams) {
                   {notices.map((item, i) => {
                     return (
                       <StyledTxEventNoticeItem key={i}>
-                        <Text size={12} color="gray" dangerouslySetInnerHTML={{ __html: item }} />
+                        <Text
+                          size={12}
+                          color="gray"
+                          dangerouslySetInnerHTML={{ __html: item }}
+                        />
                       </StyledTxEventNoticeItem>
                     )
                   })}
@@ -334,33 +388,61 @@ export function TxConfirmModal(props: ITxConfirmParams) {
           </StyledTxEventBody>
         )}
 
-        {!priceHandler?.show || isLoading || isEstimatingFee || isApproving ? null : (
+        {!priceHandler?.show ||
+        isLoading ||
+        isEstimatingFee ||
+        isApproving ? null : (
           <SwapPriceUpdated onRefresh={handlePriceChange} />
         )}
 
         {needAgreement && (
-          <TxAgreement checked={checked} isError={errorAboutAgreement} onCheck={handleChecked} />
+          <TxAgreement
+            checked={checked}
+            isError={errorAboutAgreement}
+            onCheck={handleChecked}
+          />
         )}
 
         <StyledModalSubmitArea>
           {needApprove.map((approval, i) => {
-            return !approval.initialized && (
-              <ModalSubmitButton key={approval.id} type={step !== i || approval.finished ? 'gray2' : 'secondary'} onClick={() => handleApprove(approval)} style={{
-                width: `${100 / (needApprovalCount + 1)}%`
-              }}>
-                {step === i && (isApproving || (step <= needApprove.length - 1 && isEstimatingFee)) ? (
-                  <CircleProgress size={32} />
-                ) : (
-                  <Text weight={700}>{approval.finished ? t('General.ApproveFinished') : t('General.TxSubmitApprove')}</Text>
-                )}
-              </ModalSubmitButton>
+            return (
+              !approval.initialized && (
+                <ModalSubmitButton
+                  key={approval.id}
+                  type={step !== i || approval.finished ? 'gray2' : 'secondary'}
+                  onClick={() => handleApprove(approval)}
+                  style={{
+                    width: `${100 / (needApprovalCount + 1)}%`
+                  }}
+                >
+                  {step === i &&
+                  (isApproving ||
+                    (step <= needApprove.length - 1 && isEstimatingFee)) ? (
+                    <CircleProgress size={32} />
+                  ) : (
+                    <Text weight={700}>
+                      {approval.finished
+                        ? t('General.ApproveFinished')
+                        : t('General.TxSubmitApprove')}
+                    </Text>
+                  )}
+                </ModalSubmitButton>
+              )
             )
           })}
 
-          <ModalSubmitButton type={isProgressApproving ? 'gray2' : 'secondary'} onClick={() => handleSubmit()} style={{
-            width: needApprovalCount === 0 ? '100%' : `${100 / (needApprovalCount + 1)}%`
-          }}>
-            {(needApprove.length === 0 || step >= needApprove.length) && (isLoading || isEstimatingFee || !isFetched) ? (
+          <ModalSubmitButton
+            type={isProgressApproving ? 'gray2' : 'secondary'}
+            onClick={() => handleSubmit()}
+            style={{
+              width:
+                needApprovalCount === 0
+                  ? '100%'
+                  : `${100 / (needApprovalCount + 1)}%`
+            }}
+          >
+            {(needApprove.length === 0 || step >= needApprove.length) &&
+            (isLoading || isEstimatingFee || !isFetched) ? (
               <CircleProgress size={32} />
             ) : (
               <Text weight={700}>{submitText ?? t('General.Confirm')}</Text>

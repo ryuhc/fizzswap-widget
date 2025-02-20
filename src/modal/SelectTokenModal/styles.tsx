@@ -64,7 +64,7 @@ export const StyledTokenTableScrollable = styled('div')`
 export const StyledTokenTableRow = styled('div')<{ selected: boolean }>`
   transition: all .2s ease-out;
   background-color: ${({ theme }) => theme.colors.bodyBackground};
-  border: 1px solid ${({ theme, selected }) => selected ? theme.colors.primary : 'transparent'};
+  border: 1px solid ${({ theme, selected }) => (selected ? theme.colors.primary : 'transparent')};
   padding: 0 16px;
   height: 60px;
   margin-bottom: 10px;

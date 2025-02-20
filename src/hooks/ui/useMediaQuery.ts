@@ -33,21 +33,21 @@ function useMediaQueryImpl(query: string) {
         return () => {
           mediaQueryList.removeListener(notify)
         }
-      },
+      }
     ]
   }, [getDefaultSnapshot, query])
 
   const match = maybeReactUseSyncExternalStore(
     subscribe,
     getSnapshot,
-    getServerSnapshot,
+    getServerSnapshot
   )
 
   return match
 }
 
 export default function useMediaQuery(
-  queryInput: string | ((theme: DefaultTheme) => string),
+  queryInput: string | ((theme: DefaultTheme) => string)
 ) {
   const theme = useTheme()
 

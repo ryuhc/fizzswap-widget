@@ -14,7 +14,7 @@ import { useApiUrl } from '@/hooks/network/useApiUrl'
 import { useNativeToken } from '@/hooks/token/useNativeToken'
 
 export function useTokenBalances(addresses: `0x${string}`[]): {
-  balances: Record<`0x${string}`, bigint>,
+  balances: Record<`0x${string}`, bigint>
   refetch: QueryObserverBaseResult['result']['refetch']
 } {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
@@ -40,7 +40,9 @@ export function useTokenBalances(addresses: `0x${string}`[]): {
       }
     }
 
-    const nativeIndex = addresses.findIndex(address => isSameAddress(address, nativeToken))
+    const nativeIndex = addresses.findIndex((address) =>
+      isSameAddress(address, nativeToken)
+    )
     res.splice(nativeIndex, 0, nativeParam)
 
     return res
@@ -48,8 +50,18 @@ export function useTokenBalances(addresses: `0x${string}`[]): {
 
   const apiPath = useApiUrl()
   const { data, refetch } = useQuery({
-    queryKey: ['balanceOf', userAddress, chainId, callParams.map(param => param.address).join(',')],
-    queryFn: () => callAndDecodeContractFunctions(apiPath, contractAddresses.multicall[chainId], callParams) as Promise<bigint[]>,
+    queryKey: [
+      'balanceOf',
+      userAddress,
+      chainId,
+      callParams.map((param) => param.address).join(',')
+    ],
+    queryFn: () =>
+      callAndDecodeContractFunctions(
+        apiPath,
+        contractAddresses.multicall[chainId],
+        callParams
+      ) as Promise<bigint[]>,
     enabled: !!userAddress && addresses.length > 0,
     refetchInterval: 15 * 1000,
     staleTime: 15 * 1000
@@ -59,7 +71,10 @@ export function useTokenBalances(addresses: `0x${string}`[]): {
     const balances: Record<`0x${string}`, bigint> = {}
 
     for (let i = 0; i < callParams.length; i++) {
-      const address = callParams[i].functionName === 'getEthBalance' ? nativeToken : callParams[i].address
+      const address =
+        callParams[i].functionName === 'getEthBalance'
+          ? nativeToken
+          : callParams[i].address
       balances[address] = (data ?? [])[i] ?? 0n
     }
 

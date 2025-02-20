@@ -2,7 +2,7 @@ export const size = {
   xs: 0,
   sm: 576,
   md: 1024,
-  lg: 1200,
+  lg: 1200
 }
 export const device = {
   xs: `screen and (max-width: ${size.xs}px)`,
@@ -12,15 +12,15 @@ export const device = {
 }
 
 export default function createBreakpoints(
-  breakpoints: { values?: { [key: string]: number }; unit?: string, step?: number } = {},
+  breakpoints: {
+    values?: { [key: string]: number }
+    unit?: string
+    step?: number
+  } = {}
 ) {
-  const {
-    values = size as any,
-    unit = 'px',
-    step = 5
-  } = breakpoints
+  const { values = size as any, unit = 'px', step = 5 } = breakpoints
 
-  const keys = Object.keys(values);
+  const keys = Object.keys(values)
 
   function up(key: string | number) {
     const value = typeof values[key] === 'number' ? values[key] : key
@@ -28,7 +28,8 @@ export default function createBreakpoints(
   }
 
   function down(key: string | number) {
-    const value = typeof values[key] === 'number' ? values[key] : key as number
+    const value =
+      typeof values[key] === 'number' ? values[key] : (key as number)
     return `@media (max-width:${value - step / 100}${unit})`
   }
 
@@ -68,7 +69,7 @@ export default function createBreakpoints(
 
     return between(key, keys[keys.indexOf(key) + 1]).replace(
       '@media',
-      '@media not all and',
+      '@media not all and'
     )
   }
   return {

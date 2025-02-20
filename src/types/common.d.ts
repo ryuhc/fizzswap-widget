@@ -12,15 +12,18 @@ export interface IFetchUserListOptions {
 }
 
 export interface IBridgeMinter {
-  minAmount: string,
-  minter: `0x${string}`,
-  taxRate: string,
-  originChain: string,
+  minAmount: string
+  minter: `0x${string}`
+  taxRate: string
+  originChain: string
   toChains: BridgeChain
 }
 
-export type BridgeChain = Record<string, {
-  chainFee: string,
-  chainFeeWithData: string,
-  usable: boolean
-}>
+export type BridgeChain = Record<
+  string,
+  {
+    chainFee: string
+    chainFeeWithData: string
+    usable: boolean
+  }
+>

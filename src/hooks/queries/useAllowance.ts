@@ -1,5 +1,3 @@
-
-
 import { useQuery } from '@tanstack/react-query'
 import { map } from 'lodash'
 import { useAccount } from 'wagmi'
@@ -13,11 +11,11 @@ import { contractAddresses, SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { useApiUrl } from '@/hooks/network/useApiUrl'
 
 interface IProps {
-  chainId: SUPPORT_CHAIN_IDS,
-  params: number[] | string[],
-  isNft: boolean,
-  spender: `0x${string}`,
-  nftAddress?: string,
+  chainId: SUPPORT_CHAIN_IDS
+  params: number[] | string[]
+  isNft: boolean
+  spender: `0x${string}`
+  nftAddress?: string
   amounts?: bigint[]
 }
 
@@ -32,7 +30,16 @@ export function useAllowance({
   const { address: owner } = useAccount()
   const apiPath = useApiUrl()
   const { data, isFetched, refetch } = useQuery({
-    queryKey: ['allowance', chainId, owner, spender, isNft, nftAddress, params.join(','), (amounts ?? []).map(amount => String(amount)).join(',')],
+    queryKey: [
+      'allowance',
+      chainId,
+      owner,
+      spender,
+      isNft,
+      nftAddress,
+      params.join(','),
+      (amounts ?? []).map((amount) => String(amount)).join(',')
+    ],
     queryFn: async () => {
       const callParams: any[] = []
 
@@ -56,7 +63,11 @@ export function useAllowance({
         }
       }
 
-      const res = await callAndDecodeContractFunctions(apiPath, contractAddresses.multicall[chainId], callParams)
+      const res = await callAndDecodeContractFunctions(
+        apiPath,
+        contractAddresses.multicall[chainId],
+        callParams
+      )
 
       if (isNft) {
         return map(res, (address: string) => {

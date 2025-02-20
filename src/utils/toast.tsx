@@ -27,7 +27,11 @@ export function createTxToast(type: string, message: string, $t: any) {
       <div className="snotify-tx">
         <p>{$t('General.Progressing')}</p>
         <p>
-          <div className="snotify-wave-dot"><p className="dot"></p><p className="dot"></p><p className="dot"></p></div>
+          <div className="snotify-wave-dot">
+            <p className="dot"></p>
+            <p className="dot"></p>
+            <p className="dot"></p>
+          </div>
         </p>
       </div>
     )
@@ -36,8 +40,14 @@ export function createTxToast(type: string, message: string, $t: any) {
   if (type === 'success' || type === 'login') {
     result = (
       <div className="snotify-tx">
-        <p>{type === 'success' ? $t('General.Success') : $t('General.LoginSuccess')}</p>
-        <p><Image src={SuccessIcon} /></p>
+        <p>
+          {type === 'success'
+            ? $t('General.Success')
+            : $t('General.LoginSuccess')}
+        </p>
+        <p>
+          <Image src={SuccessIcon} />
+        </p>
       </div>
     )
   }
@@ -46,7 +56,9 @@ export function createTxToast(type: string, message: string, $t: any) {
     result = (
       <div className="snotify-tx">
         <p>{$t(`General.${capitalize(type)}`)}</p>
-        <p><Image src={ErrorIcon} /></p>
+        <p>
+          <Image src={ErrorIcon} />
+        </p>
       </div>
     )
   }
@@ -55,7 +67,9 @@ export function createTxToast(type: string, message: string, $t: any) {
     result = (
       <div className="snotify-tx ltr">
         <p>{message}</p>
-        <p><Image src={ErrorIcon} /></p>
+        <p>
+          <Image src={ErrorIcon} />
+        </p>
       </div>
     )
   }
@@ -64,7 +78,9 @@ export function createTxToast(type: string, message: string, $t: any) {
     result = (
       <div className="snotify-tx ltr">
         <p>{message}</p>
-        <p><Image src={ErrorIcon} /></p>
+        <p>
+          <Image src={ErrorIcon} />
+        </p>
       </div>
     )
   }

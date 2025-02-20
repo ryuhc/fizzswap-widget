@@ -11,26 +11,43 @@ import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { fetchSwapRoutes } from '@/state/swap/fetch/fetchSwapRoutes'
 
 interface IProps {
-  inputToken: ITokenItem,
-  outputToken: ITokenItem,
-  amount: string,
+  inputToken: ITokenItem
+  outputToken: ITokenItem
+  amount: string
   isPos: boolean
 }
 
 const initialRoute = {
   best: { fromAmount: '0', toAmount: '0', path: [], priceImpact: '0' },
   others: [],
-  fee: '0',
+  fee: '0'
 } as unknown as ISwapRoutes
 
-export function useSwapRoutes({ inputToken, outputToken, amount, isPos }: IProps) {
+export function useSwapRoutes({
+  inputToken,
+  outputToken,
+  amount,
+  isPos
+}: IProps) {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const apiPath = useApiUrl()
-  const queryKey = ['swapRoute', chainId, inputToken.address ?? '-', outputToken.address ?? '-', amount, isPos]
+  const queryKey = [
+    'swapRoute',
+    chainId,
+    inputToken.address ?? '-',
+    outputToken.address ?? '-',
+    amount,
+    isPos
+  ]
   const { data, refetch, isFetching } = useQuery({
     queryKey,
     queryFn: () => {
-      if (amount === '0' || !amount || !outputToken.address || !inputToken.address) {
+      if (
+        amount === '0' ||
+        !amount ||
+        !outputToken.address ||
+        !inputToken.address
+      ) {
         return initialRoute
       }
 
@@ -39,7 +56,7 @@ export function useSwapRoutes({ inputToken, outputToken, amount, isPos }: IProps
         to: outputToken.address,
         amount,
         useOutput: !isPos
-      }).then(res => {
+      }).then((res) => {
         let currentInput = res.best.fromAmount
 
         for (const path of res.best.path) {
@@ -51,7 +68,10 @@ export function useSwapRoutes({ inputToken, outputToken, amount, isPos }: IProps
         return res
       }) as Promise<ISwapRoutes>
     },
-    enabled: isValidAddress(inputToken.address) && isValidAddress(outputToken.address) && Number(amount) > 0,
+    enabled:
+      isValidAddress(inputToken.address) &&
+      isValidAddress(outputToken.address) &&
+      Number(amount) > 0,
     staleTime: 60 * 1000,
     initialData: initialRoute
   })

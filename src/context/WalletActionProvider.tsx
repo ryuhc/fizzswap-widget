@@ -32,8 +32,14 @@ export const disableByPlatform = {
 }
 
 export default function WalletActionProvider() {
-  const { isConnectingWallet, setIsConnectingWallet, connectingWalletId } = useCommonStore()
-  const [showConnectWallet, setShowConnectWallet, portal, closeConnectWalletModal] = useModal()
+  const { isConnectingWallet, setIsConnectingWallet, connectingWalletId } =
+    useCommonStore()
+  const [
+    showConnectWallet,
+    setShowConnectWallet,
+    portal,
+    closeConnectWalletModal
+  ] = useModal()
 
   const { qrUri, clearRequest } = useA2AConnectorQRUri()
   const [showA2A, setShowA2A, a2aPortal, closeA2A] = useModal()
@@ -57,11 +63,18 @@ export default function WalletActionProvider() {
   }, [connectingWalletId, connector])
   const { connectAsync, connectors } = useConnect()
 
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
   const a2aModal = useMemo(() => {
     switch (connectorId) {
       case 'teleport': {
-        return <SwapA2AModal requestKey={qrUri} onClose={closeConnectWallet} connectorId={connectorId} connectorName={t('General.NameTeleport')} />
+        return (
+          <SwapA2AModal
+            requestKey={qrUri}
+            onClose={closeConnectWallet}
+            connectorId={connectorId}
+            connectorName={t('General.NameTeleport')}
+          />
+        )
       }
       default: {
         return null
@@ -87,7 +100,7 @@ export default function WalletActionProvider() {
     if (processByConnector.includes(connectorId ?? '')) {
       localStorage.setItem('address', account ?? '')
     }
-  },[connector, account])
+  }, [connector, account])
   useEffect(() => {
     closeA2A()
 
@@ -109,16 +122,24 @@ export default function WalletActionProvider() {
       return
     }
 
-    const persistedConnectorId = searchParams.get('connect') ?? localStorage.getItem('wagmi.recentConnectorId') ?? ''
+    const persistedConnectorId =
+      searchParams.get('connect') ??
+      localStorage.getItem('wagmi.recentConnectorId') ??
+      ''
 
-    if (persistedConnectorId && !disableAutoConnect.includes(persistedConnectorId)) {
-      const isOnlyDesktop = !!disableByPlatform.mobile.find(id => id === persistedConnectorId)
+    if (
+      persistedConnectorId &&
+      !disableAutoConnect.includes(persistedConnectorId)
+    ) {
+      const isOnlyDesktop = !!disableByPlatform.mobile.find(
+        (id) => id === persistedConnectorId
+      )
 
       if (isMobileOS() && isOnlyDesktop) {
         return
       }
 
-      const persistedConnector = find(currentConnectors, connector => {
+      const persistedConnector = find(currentConnectors, (connector) => {
         return fetchProviderId(connector) === persistedConnectorId
       })
 
@@ -143,13 +164,35 @@ export default function WalletActionProvider() {
 
   return (
     <>
-      {showConnectWallet && portal ? createPortal(<SelectWalletModal onShowRisk={() => {}} onClose={closeConnectWallet} /> as any, portal) : null}
+      {showConnectWallet && portal
+        ? createPortal(
+            (
+              <SelectWalletModal
+                onShowRisk={() => {}}
+                onClose={closeConnectWallet}
+              />
+            ) as any,
+            portal
+          )
+        : null}
 
-      {showA2A && a2aPortal && a2aModal ? createPortal(a2aModal as any, a2aPortal) : null}
+      {showA2A && a2aPortal && a2aModal
+        ? createPortal(a2aModal as any, a2aPortal)
+        : null}
 
-      {showBlockStatus && portal ? createPortal(<BlockStatusModal onClose={closeBlockStatus} /> as any, portal) : null}
+      {showBlockStatus && portal
+        ? createPortal(
+            (<BlockStatusModal onClose={closeBlockStatus} />) as any,
+            portal
+          )
+        : null}
 
-      {showChainStatus && portal ? createPortal(<WrongNetworkModal onClose={closeChainStatus} /> as any, portal) : null}
+      {showChainStatus && portal
+        ? createPortal(
+            (<WrongNetworkModal onClose={closeChainStatus} />) as any,
+            portal
+          )
+        : null}
     </>
   )
 }

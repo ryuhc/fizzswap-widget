@@ -11,14 +11,20 @@ import UnSelectedIcon from '@/assets/img/icon/ic-unselected-token.svg'
 import DefaultTokenIcon from '@/assets/img/token/default-token.svg'
 
 interface IProps {
-  token: ITokenItem | null,
-  size: string | number,
-  highlightwhenempty?: boolean,
-  lazyload?: boolean,
+  token: ITokenItem | null
+  size: string | number
+  highlightwhenempty?: boolean
+  lazyload?: boolean
   onClickIcon?: () => void
 }
 
-export function TokenIcon({ token, size, highlightwhenempty, lazyload, onClickIcon }: IProps) {
+export function TokenIcon({
+  token,
+  size,
+  highlightwhenempty,
+  lazyload,
+  onClickIcon
+}: IProps) {
   const handleError = useCallback((e: any) => {
     e.target.src = '/img/token/default-token.svg'
     e.target.alt = 'defaultToken'
@@ -48,7 +54,9 @@ export function TokenIcon({ token, size, highlightwhenempty, lazyload, onClickIc
       data-highlight={highlightwhenempty ? '1' : '0'}
     >
       <Image
-        src={!token?.address ? UnSelectedIcon : (token?.image || DefaultTokenIcon)}
+        src={
+          !token?.address ? UnSelectedIcon : token?.image || DefaultTokenIcon
+        }
         alt={token?.symbol}
         onError={handleError}
         loading={lazyload ? 'lazy' : undefined}
@@ -58,7 +66,11 @@ export function TokenIcon({ token, size, highlightwhenempty, lazyload, onClickIc
   )
 }
 
-const StyledIcon = styled('div')<{ size: string | number, token: ITokenItem | null, highlightwhenempty: string }>`
+const StyledIcon = styled('div')<{
+  size: string | number
+  token: ITokenItem | null
+  highlightwhenempty: string
+}>`
   width: ${({ size }) => {
     return !Number.isNaN(size) ? `${size}px` : `${size}`
   }};
@@ -66,7 +78,9 @@ const StyledIcon = styled('div')<{ size: string | number, token: ITokenItem | nu
     return !Number.isNaN(size) ? `${size}px` : `${size}`
   }};
   border: ${({ theme, token, highlightwhenempty }) => {
-    return isEmpty(token) && highlightwhenempty === 'true' ? `1px solid ${theme.colors.primary}` : ''
+    return isEmpty(token) && highlightwhenempty === 'true'
+      ? `1px solid ${theme.colors.primary}`
+      : ''
   }};
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -84,7 +98,7 @@ const StyledIcon = styled('div')<{ size: string | number, token: ITokenItem | nu
     display: flex;
     align-items: center;
     justify-content: center;
-    background: ${({theme}) => theme.colors.primary};
+    background: ${({ theme }) => theme.colors.primary};
     
     img {
       height: 12px;
@@ -102,7 +116,7 @@ const StyledIcon = styled('div')<{ size: string | number, token: ITokenItem | nu
       &:hover, &:active {
         transition: all 0.1s linear;
         padding: 3px;
-        border: 2px solid ${({theme}) => theme.colors.primary}
+        border: 2px solid ${({ theme }) => theme.colors.primary}
       }
     }
   }

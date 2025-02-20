@@ -4,7 +4,6 @@ import { dispatch } from 'use-bus'
 import { BaseError } from 'viem'
 import { useConnect, useConfig } from 'wagmi'
 
-
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
 import { fetchProviderId, isMobileOS } from '@/utils/common'
 
@@ -25,7 +24,11 @@ import { useConfigContext } from '@/context/ConfigProvider'
 import { useEnvContext } from '@/context/EnvProvider'
 import { useSupportChains } from '@/hooks/network/useSupportChains'
 import { useConnectors } from '@/hooks/wallet/useConnectors'
-import { getInstallURL, getWalletIcon, WALLET_NAMES } from '@/hooks/wallet/useWalletMetadata'
+import {
+  getInstallURL,
+  getWalletIcon,
+  WALLET_NAMES
+} from '@/hooks/wallet/useWalletMetadata'
 import {
   SelectWalletConnector,
   SelectWalletConnectorIcon,
@@ -39,7 +42,7 @@ import {
 } from '@/modal/SelectWalletModal/styles'
 
 interface IProps {
-  onShowRisk: () => void,
+  onShowRisk: () => void
   onClose: () => void
 }
 
@@ -47,12 +50,12 @@ const injectedProviders = ['metaMask']
 const a2aProviders: any[] = ['teleport']
 const backgroundColors: Record<string, string> = {
   metaMask: '#ffd3a2',
-  walletConnect:'#ddebff',
+  walletConnect: '#ddebff',
   teleport: '#007AFF4D'
 }
 
 export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
-  const {t,i18n} = useTranslationSimplify()
+  const { t, i18n } = useTranslationSimplify()
   const { connectingWalletId, setConnectingWalletId } = useCommonStore()
 
   const [connectError, setConnectError] = useState<BaseError | null>(null)
@@ -61,16 +64,21 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
       return ''
     }
 
-    if (connectError?.message === 'not_installed' || connectError?.name === 'ConnectorNotFoundError') {
+    if (
+      connectError?.message === 'not_installed' ||
+      connectError?.name === 'ConnectorNotFoundError'
+    ) {
       return t('General.WalletNotInstalled')
     }
 
-    return connectError?.shortMessage ?? connectError?.message ?? 'Internal Error'
+    return (
+      connectError?.shortMessage ?? connectError?.message ?? 'Internal Error'
+    )
   }, [connectError])
 
   const supportChains = useSupportChains()
   const [selectedWallet, setSelectedWallet] = useState<any>(null)
-  const {connect, isLoading} = useConnect({
+  const { connect, isLoading } = useConnect({
     mutation: {
       onError: (error) => {
         setConnectError(error as BaseError)
@@ -86,7 +94,7 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
         setConnectingWalletId('')
         onClose()
 
-        if (supportChains.find(item => item.id === provider.chainId)) {
+        if (supportChains.find((item) => item.id === provider.chainId)) {
           onShowRisk()
         }
       }
@@ -98,55 +106,67 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
   const wagmiConfig = useConfig()
 
   const currentConnectors = useConnectors()
-  const handleConnect = useCallback(async (id: string, connector: any) => {
-    if (isLoading) {
-      return
-    }
-
-    const _isMobileOS = isMobileOS()
-    const provider = await connector.getProvider().catch(() => null)
-    const notInstalled = !provider && injectedProviders.includes(id)
-
-    if (_isMobileOS && notInstalled) {
-      const slicedOrigin = window.origin.split('://')[1]
-      const deepLinkParam = `${slicedOrigin}${window.location.pathname}`
-
-      switch(fetchProviderId(connector)) {
-        case 'metaMask': {
-          window.open(`https://metamask.app.link/dapp/${deepLinkParam}?connect=metaMask`)
-          break
-        }
-        default: {
-          onClose()
-          break
-        }
+  const handleConnect = useCallback(
+    async (id: string, connector: any) => {
+      if (isLoading) {
+        return
       }
 
-      setSelectedWallet(null)
-      return
-    }
+      const _isMobileOS = isMobileOS()
+      const provider = await connector.getProvider().catch(() => null)
+      const notInstalled = !provider && injectedProviders.includes(id)
 
-    setConnectingWalletId(id)
-    setSelectedWallet(connector)
+      if (_isMobileOS && notInstalled) {
+        const slicedOrigin = window.origin.split('://')[1]
+        const deepLinkParam = `${slicedOrigin}${window.location.pathname}`
 
-    if (_isMobileOS && id === 'teleport') {
-      const handleTeleportUri = (message: { type: string, data?: unknown }) => {
-        if (message.type === 'display_uri') {
-          connector.emitter.off('message', handleTeleportUri)
-          window.open(`${env.TELEPORT_PATH}?pairing_uri=${encodeURIComponent(String(message?.data ?? ''))}`)
+        switch (fetchProviderId(connector)) {
+          case 'metaMask': {
+            window.open(
+              `https://metamask.app.link/dapp/${deepLinkParam}?connect=metaMask`
+            )
+            break
+          }
+          default: {
+            onClose()
+            break
+          }
         }
+
+        setSelectedWallet(null)
+        return
       }
 
-      connector.emitter.on('message', handleTeleportUri)
-    }
+      setConnectingWalletId(id)
+      setSelectedWallet(connector)
 
-    if (!_isMobileOS && notInstalled) {
-      setConnectError(new BaseError('not_installed', { name: 'ConnectorNotFoundError' }))
-      return
-    }
+      if (_isMobileOS && id === 'teleport') {
+        const handleTeleportUri = (message: {
+          type: string
+          data?: unknown
+        }) => {
+          if (message.type === 'display_uri') {
+            connector.emitter.off('message', handleTeleportUri)
+            window.open(
+              `${env.TELEPORT_PATH}?pairing_uri=${encodeURIComponent(String(message?.data ?? ''))}`
+            )
+          }
+        }
 
-    connect({ connector })
-  }, [isLoading, onClose, env, wagmiConfig, config])
+        connector.emitter.on('message', handleTeleportUri)
+      }
+
+      if (!_isMobileOS && notInstalled) {
+        setConnectError(
+          new BaseError('not_installed', { name: 'ConnectorNotFoundError' })
+        )
+        return
+      }
+
+      connect({ connector })
+    },
+    [isLoading, onClose, env, wagmiConfig, config]
+  )
   const retryConnect = useCallback(() => {
     setConnectingWalletId('')
     setSelectedWallet(null)
@@ -164,33 +184,47 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
   return (
     <ModalWrapper>
       <StyledSelectWalletModal>
-        <ModalClose onClose={onClose}/>
+        <ModalClose onClose={onClose} />
         <StyledModalTitle>{t('General.AccessWallet')}</StyledModalTitle>
 
         {!selectedWallet ? (
           <section>
             <SelectWalletConnectors style={{ marginTop: '40px' }}>
-              {currentConnectors.map(connector => {
+              {currentConnectors.map((connector) => {
                 const connectorId = fetchProviderId(connector) as string
 
                 return (
                   <SelectWalletConnector
                     key={connectorId}
                     onClick={() => handleConnect(connectorId, connector)}
-                    style={{ backgroundColor: backgroundColors[connectorId]}}
+                    style={{ backgroundColor: backgroundColors[connectorId] }}
                   >
                     <SelectWalletConnectorIcon>
-                      <Image src={getWalletIcon(connector)} alt={connectorId} type="vector" />
+                      <Image
+                        src={getWalletIcon(connector)}
+                        alt={connectorId}
+                        type="vector"
+                      />
                     </SelectWalletConnectorIcon>
-                    <Text size={16} weight={500}>{connectorId === 'teleport' ? t('General.NameTeleport') : (WALLET_NAMES[connectorId] ?? connector.name)}</Text>
+                    <Text size={16} weight={500}>
+                      {connectorId === 'teleport'
+                        ? t('General.NameTeleport')
+                        : (WALLET_NAMES[connectorId] ?? connector.name)}
+                    </Text>
                   </SelectWalletConnector>
                 )
               })}
             </SelectWalletConnectors>
 
             <div style={{ marginTop: '25px' }}>
-              <a href={walletGuideLink} target="_blank" rel="noopener noreferrer">
-                <Text size={12} color="#007AFF">{t('General.GuideCreateWallet')}</Text>
+              <a
+                href={walletGuideLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Text size={12} color="#007AFF">
+                  {t('General.GuideCreateWallet')}
+                </Text>
               </a>
             </div>
           </section>
@@ -198,19 +232,35 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
           <SelectWalletErrorArea>
             <SelectWalletErrorTarget>
               <SelectWalletErrorContent>
-                <Image sx={{ height: errorMessage ? '32px' : '40px' }} src={getWalletIcon(selectedWallet)} alt={connectingWalletId} type="vector" />
+                <Image
+                  sx={{ height: errorMessage ? '32px' : '40px' }}
+                  src={getWalletIcon(selectedWallet)}
+                  alt={connectingWalletId}
+                  type="vector"
+                />
               </SelectWalletErrorContent>
               <SelectWalletErrorContent style={{ marginTop: '20px' }}>
                 {isInstallError ? (
-                  <a href={getInstallURL(connectingWalletId)} target="_blank" rel="noreferrer noopener">
-                    <Text size={12} color="primaryActive">{t('General.InstallKaikasInHere')}</Text>
+                  <a
+                    href={getInstallURL(connectingWalletId)}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                  >
+                    <Text size={12} color="primaryActive">
+                      {t('General.InstallKaikasInHere')}
+                    </Text>
                   </a>
                 ) : errorMessage ? null : (
                   <div>
                     <div style={{ marginBottom: '10px' }}>
                       <CircleProgress size={20} />
                     </div>
-                    <Text size={12} color="primaryActive">{connectingWalletId === 'teleport' ? t('General.NameTeleport') : (WALLET_NAMES[connectingWalletId] ?? selectedWallet.name)}</Text>
+                    <Text size={12} color="primaryActive">
+                      {connectingWalletId === 'teleport'
+                        ? t('General.NameTeleport')
+                        : (WALLET_NAMES[connectingWalletId] ??
+                          selectedWallet.name)}
+                    </Text>
                   </div>
                 )}
               </SelectWalletErrorContent>
@@ -218,10 +268,14 @@ export function SelectWalletModal({ onShowRisk, onClose }: IProps) {
             {connectError && (
               <>
                 <SelectWalletErrorMessage>
-                  <Text size={12} color="black2">{errorMessage}</Text>
+                  <Text size={12} color="black2">
+                    {errorMessage}
+                  </Text>
                 </SelectWalletErrorMessage>
                 <SelectWalletRetryButton onClick={() => retryConnect()}>
-                  <Text size={16} weight={500}>{t('General.ResetWalletSelect')}</Text>
+                  <Text size={16} weight={500}>
+                    {t('General.ResetWalletSelect')}
+                  </Text>
                 </SelectWalletRetryButton>
               </>
             )}

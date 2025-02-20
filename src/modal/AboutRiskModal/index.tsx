@@ -18,7 +18,7 @@ import {
   ModalSubmitButton,
   StyledFullModal,
   StyledModalSubmitArea,
-  StyledModalTitle,
+  StyledModalTitle
 } from '@/styles/modal'
 
 import CheckIconWhite from '@/assets/img/icon/ic-check-wh.svg'
@@ -31,7 +31,7 @@ interface IProps {
 
 export function RiskDetail({
   article,
-  onClose,
+  onClose
 }: {
   article: {
     title: string
@@ -39,7 +39,7 @@ export function RiskDetail({
   }
   onClose: () => void
 }) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
 
   return (
     <ModalWrapper>
@@ -73,7 +73,7 @@ export function AboutRiskModal({ onDisabled, onClose }: IProps) {
   const notice = useSiteNotices()
   const [showDetail, setShowDetail, portal, closeDetail] = useModal()
 
-  const {t, locale} = useTranslationSimplify()
+  const { t, locale } = useTranslationSimplify()
   const handleSubmit = useCallback(() => {
     if (!checked || !confirmed) {
       setError(t('Asset.NeedConfirmOurPolicy'))
@@ -96,7 +96,7 @@ export function AboutRiskModal({ onDisabled, onClose }: IProps) {
             overflowY: 'auto'
           }}
           dangerouslySetInnerHTML={{
-            __html: (locale === 'ko' ? notice[0] : notice[2])?.content ?? '',
+            __html: (locale === 'ko' ? notice[0] : notice[2])?.content ?? ''
           }}
         />
 
@@ -152,7 +152,7 @@ export function AboutRiskModal({ onDisabled, onClose }: IProps) {
                   onClose={closeDetail}
                 />
               ) as any,
-              portal,
+              portal
             )
           : null}
       </StyledAboutRiskModal>

@@ -11,7 +11,7 @@ import { uiWrapper as wrapper } from '@/__mock__/mockUiWrapper'
 const initialProps = {
   tokenA: mockTokens[0],
   tokenB: mockTokens[1],
-  onReverse: vi.fn(),
+  onReverse: vi.fn()
 }
 
 afterEach(() => {
@@ -21,15 +21,22 @@ afterEach(() => {
 describe('test render <ExchangeRate />', () => {
   it('show exchange rate with comma, precision', () => {
     render(<ExchangeRate {...{ ...initialProps, rate: '2500' }} />, { wrapper })
-    expect(screen.getByTestId('exchange-rate-value').innerHTML).toBe('2,500.000000')
+    expect(screen.getByTestId('exchange-rate-value').innerHTML).toBe(
+      '2,500.000000'
+    )
   })
 
   it('if props.version 3, hide convert button', () => {
-    const { rerender } = render(<ExchangeRate {...{ ...initialProps, rate: '2500', version: 3 }} />, { wrapper })
+    const { rerender } = render(
+      <ExchangeRate {...{ ...initialProps, rate: '2500', version: 3 }} />,
+      { wrapper }
+    )
 
     expect(isRenderedByTestId('exchange-rate-convert')).toBe(false)
 
-    rerender(<ExchangeRate {...{ ...initialProps, rate: '2500', version: 2 }} />)
+    rerender(
+      <ExchangeRate {...{ ...initialProps, rate: '2500', version: 2 }} />
+    )
 
     expect(isRenderedByTestId('exchange-rate-convert')).toBe(true)
   })

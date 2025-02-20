@@ -2,9 +2,9 @@
 /// <reference types="vite/types/importMeta.d.ts" />
 
 interface ImportMetaEnv {
-  readonly VITE_IS_LOCAL: number;
+  readonly VITE_IS_LOCAL: number
 }
 
 interface ImportMeta {
-  readonly env: ImportMetaEnv;
+  readonly env: ImportMetaEnv
 }

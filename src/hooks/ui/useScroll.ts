@@ -6,9 +6,12 @@ import { useCommonStore } from '@/state/common'
 
 export function useScroll() {
   const { scroll, setScroll } = useCommonStore()
-  const updateScrollData = useCallback(debounce(() => {
-    setScroll({ x: window.scrollX, y: window.scrollY })
-  }, 50), [])
+  const updateScrollData = useCallback(
+    debounce(() => {
+      setScroll({ x: window.scrollX, y: window.scrollY })
+    }, 50),
+    []
+  )
 
   useEffect(() => {
     window.addEventListener('scroll', updateScrollData)

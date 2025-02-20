@@ -32,17 +32,23 @@ export const WALLET_ICONS: Record<string, string> = {
 export const WALLET_NAMES: Record<string, string> = {}
 
 export function getWalletIcon(connector: any) {
-  return connector?.icon?.startsWith('data:image') ? connector?.icon : WALLET_ICONS[connector?.providerType ?? connector?.id ?? '']
+  return connector?.icon?.startsWith('data:image')
+    ? connector?.icon
+    : WALLET_ICONS[connector?.providerType ?? connector?.id ?? '']
 }
 
 export function getInstallURL(connectorId: string) {
-  return {
-    metaMask: 'https://metamask.app.link'
-  }[connectorId] ?? ''
+  return (
+    {
+      metaMask: 'https://metamask.app.link'
+    }[connectorId] ?? ''
+  )
 }
 
 export function useWalletMetadata({ connector }: IProps) {
-  const [walletMeta, setWalletMeta] = useState<SignClientTypes.Metadata>({ ...defaultWalletMeta })
+  const [walletMeta, setWalletMeta] = useState<SignClientTypes.Metadata>({
+    ...defaultWalletMeta
+  })
 
   const updateState = useCallback(async () => {
     if (!connector) {
@@ -53,21 +59,22 @@ export function useWalletMetadata({ connector }: IProps) {
 
     switch (fetchProviderId(connector)) {
       case 'walletConnect': {
-        connector?.getProvider && await connector.getProvider().then((provider: any) => {
-          const { metadata } = provider.session.peer
+        connector?.getProvider &&
+          (await connector.getProvider().then((provider: any) => {
+            const { metadata } = provider.session.peer
 
-          // icon 예외처리
-          if (metadata.name === 'MetaMask Wallet') {
-            metadata.icons[0] = `/img/icon/ic-service-metamask.svg?v=2`
-          }
+            // icon 예외처리
+            if (metadata.name === 'MetaMask Wallet') {
+              metadata.icons[0] = `/img/icon/ic-service-metamask.svg?v=2`
+            }
 
-          // 예외처리 후에도 빈 경우 walletConnect 기본 아이콘
-          if (!metadata.icons[0]) {
-            metadata.icons[0] = `/img/icon/ic-service-walletconnect.svg?v=2`
-          }
+            // 예외처리 후에도 빈 경우 walletConnect 기본 아이콘
+            if (!metadata.icons[0]) {
+              metadata.icons[0] = `/img/icon/ic-service-walletconnect.svg?v=2`
+            }
 
-          setWalletMeta(metadata)
-        })
+            setWalletMeta(metadata)
+          }))
         break
       }
       default: {

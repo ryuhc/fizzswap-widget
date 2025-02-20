@@ -24,8 +24,8 @@ const StyledTxAgreementCheck: any = styled('div')`
   width: 28px;
   height: 28px;
   transition: all 0.2s ease-out;
-  background-color: ${({ theme, isActive }: any) => isActive ? theme.colors.primary : theme.colors.white};
-  border: 1px solid ${({ theme, isActive }: any) => isActive ? theme.colors.primary : theme.colors.gray2};
+  background-color: ${({ theme, isActive }: any) => (isActive ? theme.colors.primary : theme.colors.white)};
+  border: 1px solid ${({ theme, isActive }: any) => (isActive ? theme.colors.primary : theme.colors.gray2)};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -38,23 +38,29 @@ const StyledTxAgreementText = styled('div')`
 const StyledTxAgreementError = styled('section')``
 
 interface IProps {
-  checked: boolean,
-  isError: boolean,
-  onCheck: () => void,
+  checked: boolean
+  isError: boolean
+  onCheck: () => void
 }
 
 export function TxAgreement({ checked, isError, onCheck }: IProps) {
-  const {t} = useTranslationSimplify()
+  const { t } = useTranslationSimplify()
 
   return (
     <StyledTxAgreement className="tx-agreement">
       <StyledTxAgreementBox onClick={() => onCheck()}>
         <StyledTxAgreementCheck isActive={checked}>
-          <Image src={checked ? CheckIconWhite : CheckIconGray} alt="check" type="vector" />
+          <Image
+            src={checked ? CheckIconWhite : CheckIconGray}
+            alt="check"
+            type="vector"
+          />
         </StyledTxAgreementCheck>
 
         <StyledTxAgreementText>
-          <Text size={14} weight={700}>{t('General.SelectUnsafeTokenAboutConfirm')}</Text>
+          <Text size={14} weight={700}>
+            {t('General.SelectUnsafeTokenAboutConfirm')}
+          </Text>
         </StyledTxAgreementText>
       </StyledTxAgreementBox>
 

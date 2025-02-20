@@ -3,7 +3,6 @@ import { createPortal } from 'react-dom'
 
 import { formatUnits } from 'viem'
 
-
 import { TokenIcon } from '@/components/TokenIcon'
 
 import { SelectTokenModal } from '@/modal/SelectTokenModal'
@@ -26,22 +25,22 @@ import { useFormRow } from '@/hooks/swap/useFormRow'
 import { textEllipsis } from '@/utils'
 
 interface IProps {
-  idx: number,
-  type: 'swap' | 'pool',
-  inputValue: string,
-  token: ITokenItem | null,
-  title?: string,
-  balance?: bigint,
-  hasError: boolean,
-  hideMax?: boolean,
-  isMax: boolean,
-  showSelectIcon?: boolean,
-  hideNative?: boolean,
-  selectable: boolean,
-  onInput: (value: ChangeEvent<HTMLInputElement>) => void,
-  onFocus: (field: number) => void,
+  idx: number
+  type: 'swap' | 'pool'
+  inputValue: string
+  token: ITokenItem | null
+  title?: string
+  balance?: bigint
+  hasError: boolean
+  hideMax?: boolean
+  isMax: boolean
+  showSelectIcon?: boolean
+  hideNative?: boolean
+  selectable: boolean
+  onInput: (value: ChangeEvent<HTMLInputElement>) => void
+  onFocus: (field: number) => void
   onMax: (idx: number, balance: string) => void
-  onSelect?: (idx: number, token: ITokenItem) => void,
+  onSelect?: (idx: number, token: ITokenItem) => void
   onSearch?: (address: string) => Promise<ITokenItem & { balance: bigint }>
 }
 
@@ -65,20 +64,28 @@ export function FormRow({
   onSearch
 }: IProps) {
   const [focused, setFocused] = useState<boolean>(false)
-  const { inputValueView, show, portal, closeSelectToken, showSelectToken } = useFormRow({
-    inputValue,
-    token,
-    showSelectIcon
-  })
+  const { inputValueView, show, portal, closeSelectToken, showSelectToken } =
+    useFormRow({
+      inputValue,
+      token,
+      showSelectIcon
+    })
   const isActiveInput = useMemo(() => {
     return focused || inputValueView
   }, [focused, inputValueView])
 
   return (
     <StyledFormRow $selectable={selectable}>
-      {(title && selectable) && (
+      {title && selectable && (
         <FormRowTitle className={isActiveInput ? 'active' : ''}>
-          <Text size={14} color={isActiveInput ? 'secondaryLight' : 'gray6'} weight={700} data-testid="form-row-title">{title}</Text>
+          <Text
+            size={14}
+            color={isActiveInput ? 'secondaryLight' : 'gray6'}
+            weight={700}
+            data-testid="form-row-title"
+          >
+            {title}
+          </Text>
         </FormRowTitle>
       )}
 
@@ -96,7 +103,7 @@ export function FormRow({
             }}
             onBlur={() => setFocused(false)}
             onChange={(e: ChangeEvent<HTMLInputElement>) => onInput(e)}
-            onKeyDown={e => {
+            onKeyDown={(e) => {
               if (e.code === 'Minus' || e.code === 'KeyE') {
                 e.preventDefault()
                 return false
@@ -106,8 +113,17 @@ export function FormRow({
             data-testid="form-row-input"
           />
 
-          <FormSelectToken className={selectable ? 'with-ripple' : ''} $selectable={selectable} onClick={() => selectable && showSelectToken()}>
-            <Text size={16} weight={700} color={token?.address ? 'black' : 'primary'} data-testid="form-row-symbol">
+          <FormSelectToken
+            className={selectable ? 'with-ripple' : ''}
+            $selectable={selectable}
+            onClick={() => selectable && showSelectToken()}
+          >
+            <Text
+              size={16}
+              weight={700}
+              color={token?.address ? 'black' : 'primary'}
+              data-testid="form-row-symbol"
+            >
               {textEllipsis(token?.symbol ?? 'Token', 10)}
             </Text>
             <TokenIcon token={token} size={40} />
@@ -121,24 +137,31 @@ export function FormRow({
               token={token}
               balance={balance ?? 0n}
               isMax={isMax}
-              onClickMax={() => onMax(idx, formatUnits(balance ?? 0n, token?.decimal ?? 0))}
+              onClickMax={() =>
+                onMax(idx, formatUnits(balance ?? 0n, token?.decimal ?? 0))
+              }
               hideMax={hideMax}
             />
           </FormRowSub>
         )}
       </section>
 
-      {show && portal ? (
-        createPortal((
-          <SelectTokenModal
-            selectedToken={token}
-            hideNative={hideNative}
-            onSelect={(token: ITokenItem) => onSelect && onSelect(idx, token)}
-            onClose={closeSelectToken}
-            onSearch={onSearch}
-          /> as any
-        ), portal)
-      ) : null}
+      {show && portal
+        ? createPortal(
+            (
+              <SelectTokenModal
+                selectedToken={token}
+                hideNative={hideNative}
+                onSelect={(token: ITokenItem) =>
+                  onSelect && onSelect(idx, token)
+                }
+                onClose={closeSelectToken}
+                onSearch={onSearch}
+              />
+            ) as any,
+            portal
+          )
+        : null}
     </StyledFormRow>
   )
 }

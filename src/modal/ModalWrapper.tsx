@@ -5,8 +5,8 @@ import { gsap } from 'gsap'
 import styled from 'styled-components'
 
 interface IProps {
-  children: React.ReactNode,
-  customStyle?: Record<string, any>,
+  children: React.ReactNode
+  customStyle?: Record<string, any>
   customIndex?: number
 }
 
@@ -14,9 +14,16 @@ export function ModalWrapper({ children, customStyle, customIndex }: IProps) {
   const ref = useRef<HTMLDivElement>(null)
   const [modalIndex, setModalIndex] = useState<number>(1)
 
-  useGSAP(() => {
-    gsap.fromTo(ref.current, { opacity: 0 }, { opacity: 1, duration: 0.4, ease: 'power1.out' })
-  }, { scope: ref })
+  useGSAP(
+    () => {
+      gsap.fromTo(
+        ref.current,
+        { opacity: 0 },
+        { opacity: 1, duration: 0.4, ease: 'power1.out' }
+      )
+    },
+    { scope: ref }
+  )
 
   useEffect(() => {
     const modalLength = document.querySelectorAll('#modal-overlay > div').length
@@ -24,7 +31,10 @@ export function ModalWrapper({ children, customStyle, customIndex }: IProps) {
   }, [])
 
   return (
-    <StyledModalWrapper ref={ref} style={{ ...(customStyle ?? {}), zIndex: customIndex ?? modalIndex }}>
+    <StyledModalWrapper
+      ref={ref}
+      style={{ ...(customStyle ?? {}), zIndex: customIndex ?? modalIndex }}
+    >
       {children}
     </StyledModalWrapper>
   )

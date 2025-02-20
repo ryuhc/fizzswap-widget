@@ -24,18 +24,23 @@ import {
   SwapA2AQrWrapper,
   SwapA2AActionFlowIcon,
   SwapA2AQrWarning,
-  StyledSwapA2AModal,
+  StyledSwapA2AModal
 } from '@/modal/SwapA2AModal/styles'
 
 interface IProps {
-  requestKey: string,
-  onClose: () => void,
-  connectorId: string,
+  requestKey: string
+  onClose: () => void
+  connectorId: string
   connectorName: string
 }
 
-export function SwapA2AModal({ requestKey, onClose, connectorId, connectorName }: IProps) {
-  const {t} = useTranslationSimplify()
+export function SwapA2AModal({
+  requestKey,
+  onClose,
+  connectorId,
+  connectorName
+}: IProps) {
+  const { t } = useTranslationSimplify()
   const { remain } = useA2AModalActions({ onClose })
 
   return (
@@ -43,7 +48,9 @@ export function SwapA2AModal({ requestKey, onClose, connectorId, connectorName }
       <StyledSwapA2AModal>
         <ModalClose onClose={onClose} />
         <StyledModalTitle style={{ marginTop: '30px', textAlign: 'center' }}>
-          <Text size={16} weight={700}>{t('General.ConnectWalletQRTitle', { walletname: connectorName })}</Text>
+          <Text size={16} weight={700}>
+            {t('General.ConnectWalletQRTitle', { walletname: connectorName })}
+          </Text>
         </StyledModalTitle>
 
         <SwapA2AQrWrapper>
@@ -55,14 +62,31 @@ export function SwapA2AModal({ requestKey, onClose, connectorId, connectorName }
               size={12}
               color="gray"
               dangerouslySetInnerHTML={{
-                __html: t('General.RemainMinute').replace('{{minute}}', remain.minutes).replace('{{second}}', remain.seconds)
+                __html: t('General.RemainMinute')
+                  .replace('{{minute}}', remain.minutes)
+                  .replace('{{second}}', remain.seconds)
               }}
             />
           </SwapA2AQrTimer>
-          <SwapA2AQrWarning><Text size={12} color="black2">{t('General.QrDesc1')}</Text></SwapA2AQrWarning>
+          <SwapA2AQrWarning>
+            <Text size={12} color="black2">
+              {t('General.QrDesc1')}
+            </Text>
+          </SwapA2AQrWarning>
           {connectorId === 'teleport' && (
             <Paragraph style={{ marginTop: '20px' }}>
-              <a href={requestKey} target="_blank" style={{ textDecoration: 'underline', textDecorationColor: '#007AFF'}}><Text size={14} weight={500} color="#007AFF">{t('General.QrDesc2')}</Text></a>
+              <a
+                href={requestKey}
+                target="_blank"
+                style={{
+                  textDecoration: 'underline',
+                  textDecorationColor: '#007AFF'
+                }}
+              >
+                <Text size={14} weight={500} color="#007AFF">
+                  {t('General.QrDesc2')}
+                </Text>
+              </a>
             </Paragraph>
           )}
         </SwapA2AQrWrapper>
@@ -72,7 +96,11 @@ export function SwapA2AModal({ requestKey, onClose, connectorId, connectorName }
             <SwapA2AActionFlow style={{ justifyContent: 'space-evenly' }}>
               <SwapA2AActionFlowIcon>
                 <Image type="vector" loading="lazy" src={ScanIcon} alt="scan" />
-                <SwapA2AActionFlowText className="Swap-with-qr-modal__notice__flow__text"><Text size={12} weight={700}>{t('Asset.AccessToSwapFlow3')}</Text></SwapA2AActionFlowText>
+                <SwapA2AActionFlowText className="Swap-with-qr-modal__notice__flow__text">
+                  <Text size={12} weight={700}>
+                    {t('Asset.AccessToSwapFlow3')}
+                  </Text>
+                </SwapA2AActionFlowText>
               </SwapA2AActionFlowIcon>
             </SwapA2AActionFlow>
           </SwapA2AQrNotice>
@@ -80,15 +108,42 @@ export function SwapA2AModal({ requestKey, onClose, connectorId, connectorName }
           <SwapA2AQrNotice>
             <SwapA2AActionFlow style={{ justifyContent: 'space-evenly' }}>
               <SwapA2AActionFlowIcon>
-                <Image type="vector" loading="lazy" src={getWalletIcon({ id: connectorId, name: connectorName })} alt={`${connectorId} step1`} sx={{ width: '34px' }} />
-                <SwapA2AActionFlowText className="Swap-with-qr-modal__notice__flow__text"><Text size={12} weight={700}>{t('General.ConnecWalletQRGuide1', { walletname: connectorName })}</Text></SwapA2AActionFlowText>
+                <Image
+                  type="vector"
+                  loading="lazy"
+                  src={getWalletIcon({ id: connectorId, name: connectorName })}
+                  alt={`${connectorId} step1`}
+                  sx={{ width: '34px' }}
+                />
+                <SwapA2AActionFlowText className="Swap-with-qr-modal__notice__flow__text">
+                  <Text size={12} weight={700}>
+                    {t('General.ConnecWalletQRGuide1', {
+                      walletname: connectorName
+                    })}
+                  </Text>
+                </SwapA2AActionFlowText>
               </SwapA2AActionFlowIcon>
               <SwapA2AActionFlowIcon>
-                <Image type="vector" loading="lazy" src={PointerIcon} alt="pointer" sx={{ margin: '0 10px' }} />
+                <Image
+                  type="vector"
+                  loading="lazy"
+                  src={PointerIcon}
+                  alt="pointer"
+                  sx={{ margin: '0 10px' }}
+                />
               </SwapA2AActionFlowIcon>
               <SwapA2AActionFlowIcon>
-                <Image type="vector" loading="lazy" src={KakaoIcon} alt={`${connectorId} step2`} />
-                <SwapA2AActionFlowText className="Swap-with-qr-modal__notice__flow__text"><Text size={12} weight={700}>{t('Asset.AccessToSwapFlow3')}</Text></SwapA2AActionFlowText>
+                <Image
+                  type="vector"
+                  loading="lazy"
+                  src={KakaoIcon}
+                  alt={`${connectorId} step2`}
+                />
+                <SwapA2AActionFlowText className="Swap-with-qr-modal__notice__flow__text">
+                  <Text size={12} weight={700}>
+                    {t('Asset.AccessToSwapFlow3')}
+                  </Text>
+                </SwapA2AActionFlowText>
               </SwapA2AActionFlowIcon>
             </SwapA2AActionFlow>
           </SwapA2AQrNotice>

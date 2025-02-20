@@ -1,6 +1,6 @@
 import { renderHook } from '@testing-library/react'
 import { walletConnect } from '@wagmi/connectors'
-import { describe, expect,it } from 'vitest'
+import { describe, expect, it } from 'vitest'
 
 import { wagmiWrapper as wrapper } from '@/__mock__/mockWagmiWrapper'
 import { mergeConnector, useConnectors } from '@/hooks/wallet/useConnectors'
@@ -19,7 +19,7 @@ describe('try merge connector', () => {
   it('return connector merge with params', () => {
     const connector = mergeConnector(
       {
-        PROFILE: 'prod',
+        PROFILE: 'prod'
       },
       walletConnect({
         projectId: process.env.NEXT_PUBLIC_WALLETCONNECT_KEY ?? ''

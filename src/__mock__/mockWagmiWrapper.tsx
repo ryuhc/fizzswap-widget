@@ -9,15 +9,17 @@ const queryClient = new QueryClient()
 // @ts-ignore
 const config = createConfig({
   chains: [silicon],
-  connectors: [walletConnect({ projectId: import.meta.env.VITE_WALLETCONNECT_KEY as string })]
+  connectors: [
+    walletConnect({
+      projectId: import.meta.env.VITE_WALLETCONNECT_KEY as string
+    })
+  ]
 })
 
 export const wagmiWrapper = ({ children }: any) => {
   return (
     <WagmiConfig config={config}>
-      <QueryClientProvider client={queryClient}>
-        {children}
-      </QueryClientProvider>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </WagmiConfig>
   )
 }

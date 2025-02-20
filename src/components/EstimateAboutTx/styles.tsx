@@ -9,11 +9,11 @@ export const EstimateAboutTxItem = styled('li')`
   gap: 8px;
 `
 
-export const EstimateAboutTxItemTitle =  styled('div')`
+export const EstimateAboutTxItemTitle = styled('div')`
   font-size: 12px;
   color: ${({ theme }) => theme.colors.gray};
 `
-export const EstimateAboutTxItemValue =  styled('div')`
+export const EstimateAboutTxItemValue = styled('div')`
   font-size: 12px;
   text-align: right;
   display: flex;

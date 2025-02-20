@@ -18,7 +18,7 @@ export function ConfirmOnModal({
   checked,
   title,
   checkImageGray,
-  onClick,
+  onClick
 }: IProps) {
   return (
     <StyledConfirmOnModal onClick={onClick}>

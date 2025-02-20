@@ -6,7 +6,6 @@ import { SwapTab } from '@/components/SwapTab'
 import { FORM_WIDTH } from '@/styles/common'
 import { device } from '@/styles/createBreakPoints'
 
-
 export function SwapBox() {
   return (
     <StyledSwapBox>

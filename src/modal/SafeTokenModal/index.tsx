@@ -10,12 +10,21 @@ import { pickTokenName } from '@/utils/common'
 import { ConfirmOnModal } from '@/components/ConfirmOnModal'
 import { TokenIcon } from '@/components/TokenIcon'
 
-import { AboutRiskHideForWeek, AboutRiskHideForWeekCheck, AboutRiskHideForWeekTitle } from '@/modal/AboutRiskModal'
+import {
+  AboutRiskHideForWeek,
+  AboutRiskHideForWeekCheck,
+  AboutRiskHideForWeekTitle
+} from '@/modal/AboutRiskModal'
 import { ModalWrapper } from '@/modal/ModalWrapper'
 
 import { Paragraph, Text } from '@/styles/common'
 import { device } from '@/styles/createBreakPoints'
-import { ModalSubmitButton, StyledFullModal, StyledModalSubmitArea, StyledModalTitle } from '@/styles/modal'
+import {
+  ModalSubmitButton,
+  StyledFullModal,
+  StyledModalSubmitArea,
+  StyledModalTitle
+} from '@/styles/modal'
 
 import CheckIconWhite from '@/assets/img/icon/ic-check-wh.svg'
 import ErrorIcon from '@/assets/img/icon/ic-error-primary.svg'
@@ -25,8 +34,8 @@ import { ITokenItem } from '@/hooks/queries/useTokenList'
 import { useIsMobile } from '@/hooks/ui/useIsMobile'
 
 interface IProps {
-  tokens: ITokenItem[],
-  onConfirm: (tokensForHide?: ITokenItem[]) => void,
+  tokens: ITokenItem[]
+  onConfirm: (tokensForHide?: ITokenItem[]) => void
   onClose: () => void
 }
 
@@ -52,26 +61,38 @@ export function SafeTokenModal({ tokens, onConfirm, onClose }: IProps) {
   return (
     <ModalWrapper>
       <StyledSafeTokenModal>
-        <StyledModalTitle>{t('General.SelectUnsafeTokenTitle')}</StyledModalTitle>
+        <StyledModalTitle>
+          {t('General.SelectUnsafeTokenTitle')}
+        </StyledModalTitle>
 
         <SafeTokenAlertBox>
           <div className="scrollable">
             <SafeTokenAlertIcon>
-              <Image src={ErrorIcon} alt="error alert"/>
+              <Image src={ErrorIcon} alt="error alert" />
             </SafeTokenAlertIcon>
 
             <SafeTokenAlertTokens>
-              {tokens.map(token => {
+              {tokens.map((token) => {
                 return (
                   <SafeTokenAlertTokenItem key={token.address}>
                     <SafeTokenAlertTokenItemLogo>
-                      <TokenIcon token={token} size={20}/>
+                      <TokenIcon token={token} size={20} />
                     </SafeTokenAlertTokenItemLogo>
 
                     <SafeTokenAlertTokenItemName>
-                      <Text size={14} weight={700}>{token.symbol}</Text>
-                      <Text size={12} color="black2" style={{ margin: '0 5px'}}>({pickTokenName(token, locale)})</Text>
-                      <Text size={12} color="blue">{getMaskedAddress(token.address, 4, 4, 3)}</Text>
+                      <Text size={14} weight={700}>
+                        {token.symbol}
+                      </Text>
+                      <Text
+                        size={12}
+                        color="black2"
+                        style={{ margin: '0 5px' }}
+                      >
+                        ({pickTokenName(token, locale)})
+                      </Text>
+                      <Text size={12} color="blue">
+                        {getMaskedAddress(token.address, 4, 4, 3)}
+                      </Text>
                     </SafeTokenAlertTokenItemName>
 
                     <SafeTokenAlertTokenItemLink
@@ -79,16 +100,24 @@ export function SafeTokenModal({ tokens, onConfirm, onClose }: IProps) {
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      <Text size={12} color="primaryActive" weight={700}>View</Text>
+                      <Text size={12} color="primaryActive" weight={700}>
+                        View
+                      </Text>
                     </SafeTokenAlertTokenItemLink>
                   </SafeTokenAlertTokenItem>
                 )
               })}
             </SafeTokenAlertTokens>
 
-            <Paragraph size={12} style={{ marginTop: '20px' }}>{t('General.SelectUnsafeTokenNotice1')}</Paragraph>
-            <Paragraph size={12} style={{ marginTop: '20px' }}>{t('General.SelectUnsafeTokenNotice2')}</Paragraph>
-            <Paragraph size={12}>{t('General.SelectUnsafeTokenNotice3')}</Paragraph>
+            <Paragraph size={12} style={{ marginTop: '20px' }}>
+              {t('General.SelectUnsafeTokenNotice1')}
+            </Paragraph>
+            <Paragraph size={12} style={{ marginTop: '20px' }}>
+              {t('General.SelectUnsafeTokenNotice2')}
+            </Paragraph>
+            <Paragraph size={12}>
+              {t('General.SelectUnsafeTokenNotice3')}
+            </Paragraph>
           </div>
         </SafeTokenAlertBox>
 
@@ -99,18 +128,26 @@ export function SafeTokenModal({ tokens, onConfirm, onClose }: IProps) {
         />
 
         <SafeTokenAlertError>
-          {error && <Paragraph size={12} color="red">{t('Asset.NeedConfirmOurPolicy')}</Paragraph>}
+          {error && (
+            <Paragraph size={12} color="red">
+              {t('Asset.NeedConfirmOurPolicy')}
+            </Paragraph>
+          )}
         </SafeTokenAlertError>
 
         <AboutRiskHideForWeek
-          style={!isMobile ? {} : {
-            width: '100%',
-            left: 0,
-            position: 'fixed',
-            backgroundColor: '#fff',
-            padding: '25px 0 25px 20px',
-            bottom: '56px'
-          }}
+          style={
+            !isMobile
+              ? {}
+              : {
+                  width: '100%',
+                  left: 0,
+                  position: 'fixed',
+                  backgroundColor: '#fff',
+                  padding: '25px 0 25px 20px',
+                  bottom: '56px'
+                }
+          }
           onClick={() => setDisabled(!disabled)}
         >
           <AboutRiskHideForWeekCheck checked={disabled}>

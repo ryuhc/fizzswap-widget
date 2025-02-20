@@ -18,26 +18,38 @@ import { SUPPORT_CHAIN_IDS } from '@/constants/chain'
 import { useAllowance } from '@/hooks/queries/useAllowance'
 
 interface IApprovals {
-  id: `0x${string}` | number,
-  symbol: string,
-  finished: boolean,
+  id: `0x${string}` | number
+  symbol: string
+  finished: boolean
   initialized: boolean
 }
 
 interface IProps {
-  ids: `0x${string}`[] | number[],
-  symbols: string[],
-  amounts: bigint[],
-  spender: `0x${string}`,
-  nftAddress?: `0x${string}`,
-  nativeBalance: bigint,
+  ids: `0x${string}`[] | number[]
+  symbols: string[]
+  amounts: bigint[]
+  spender: `0x${string}`
+  nftAddress?: `0x${string}`
+  nativeBalance: bigint
   isSummary?: boolean
 }
 
-export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, nativeBalance, isSummary }: IProps) {
+export function useApproveToken({
+  ids,
+  symbols,
+  amounts,
+  spender,
+  nftAddress,
+  nativeBalance,
+  isSummary
+}: IProps) {
   const chainId = useChainId() as SUPPORT_CHAIN_IDS
   const { isEstimatingFee } = useTxHistoryStore()
-  const { data: approvals, isFetched, refetch } = useAllowance({
+  const {
+    data: approvals,
+    isFetched,
+    refetch
+  } = useAllowance({
     chainId,
     params: isSummary ? [] : ids,
     isNft: !!nftAddress,
@@ -50,21 +62,23 @@ export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, na
   const [step, setStep] = useState<number>(0)
   const [initialStep, setInitialStep] = useState<number>(0)
   const needApprove: IApprovals[] = useMemo(() => {
-    return alreadyFinished ? [] : map(approvals, (finished, i) => {
-      return {
-        id: ids[i],
-        symbol: symbols[i],
-        finished,
-        initialized: initialStep > i
-      }
-    })
+    return alreadyFinished
+      ? []
+      : map(approvals, (finished, i) => {
+          return {
+            id: ids[i],
+            symbol: symbols[i],
+            finished,
+            initialized: initialStep > i
+          }
+        })
   }, [alreadyFinished, approvals, ids, symbols, initialStep])
 
   // init approvals
   const prevApprovals = usePrevious(approvals)
   useEffect(() => {
     if (!prevApprovals && approvals) {
-      const initialStep = findIndex(approvals, finished => !finished)
+      const initialStep = findIndex(approvals, (finished) => !finished)
 
       if (initialStep !== -1) {
         setStep(initialStep)
@@ -122,13 +136,16 @@ export function useApproveToken({ ids, symbols, amounts, spender, nftAddress, na
     methodInterface: approveParam.methodInterface,
     methodArgs: approveParam.args
   } as SendTransactionParameters)
-  const handleApprove = useCallback(async (approval: IApprovals) => {
-    if (isEstimatingFee || isLoading || approval.finished) {
-      return
-    }
+  const handleApprove = useCallback(
+    async (approval: IApprovals) => {
+      if (isEstimatingFee || isLoading || approval.finished) {
+        return
+      }
 
-    await broadcast()
-  }, [isEstimatingFee, isLoading, broadcast])
+      await broadcast()
+    },
+    [isEstimatingFee, isLoading, broadcast]
+  )
 
   const updateStep = useCallback(() => {
     refetch().then(({ data }) => {

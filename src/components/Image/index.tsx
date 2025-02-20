@@ -1,12 +1,20 @@
 import { useEffect, useMemo, useState } from 'react'
 
-export function Image({ src, alt, sx, type, className, loading, onError }: {
-  src: any,
-  alt?: string,
-  sx?: any,
-  type?: string,
-  loading?: 'eager' | 'lazy' | undefined,
-  className?: string,
+export function Image({
+  src,
+  alt,
+  sx,
+  type,
+  className,
+  loading,
+  onError
+}: {
+  src: any
+  alt?: string
+  sx?: any
+  type?: string
+  loading?: 'eager' | 'lazy' | undefined
+  className?: string
   onError?: Function
 }) {
   const [path, setPath] = useState<string>('')
@@ -29,7 +37,16 @@ export function Image({ src, alt, sx, type, className, loading, onError }: {
     }
   }, [sx, type])
 
-  return path && (
-    <img src={path} className={className ?? ''} alt={alt ?? ''} style={styleProps} loading={loading} onError={onError} />
+  return (
+    path && (
+      <img
+        src={path}
+        className={className ?? ''}
+        alt={alt ?? ''}
+        style={styleProps}
+        loading={loading}
+        onError={onError}
+      />
+    )
   )
 }
