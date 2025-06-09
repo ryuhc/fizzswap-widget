@@ -8,6 +8,13 @@ import type { SwapWidgetProps } from '@/types/index.d.ts'
 
 import { darkColors, lightColors } from '@/constants/colors'
 
+type ThemeType = typeof lightColors
+declare module '@emotion/react' {
+  export interface Theme {
+    colors: ThemeType
+  }
+}
+
 export default function StyleProvider({
   theme,
   children
