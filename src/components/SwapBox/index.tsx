@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import { SwapForm } from '@/components/SwapForm'
 import { SwapTab } from '@/components/SwapTab'

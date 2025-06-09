@@ -1,7 +1,7 @@
 import { useMemo, MutableRefObject } from 'react'
 
 import { useClickAway } from '@uidotdev/usehooks'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { useChainId } from 'wagmi'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'

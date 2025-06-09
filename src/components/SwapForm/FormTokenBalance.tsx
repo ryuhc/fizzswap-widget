@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
 import { toReadableBN } from '@/utils/number'

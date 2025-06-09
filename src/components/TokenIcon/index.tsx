@@ -1,7 +1,7 @@
 import { useCallback, useMemo } from 'react'
 
 import { isEmpty } from 'lodash'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import { Image } from '@/components/Image'
 

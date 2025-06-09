@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react'
 import { createPortal } from 'react-dom'
 
 import { find } from 'lodash'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import useModal from '@/hooks/useModal'
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
