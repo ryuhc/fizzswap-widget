@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react'
 
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 import { useChainId } from 'wagmi'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'

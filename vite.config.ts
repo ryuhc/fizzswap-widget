@@ -39,7 +39,9 @@ export default defineConfig({
   },
   plugins: [
     nodePolyfills(),
-    react(),
+    react({
+      jsxImportSource: '@emotion/react',
+    }),
     // parse tsconfig paths
     tsconfigPaths(),
     // declaration type concerned plugin

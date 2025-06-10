@@ -1,7 +1,7 @@
 import React from 'react'
 import { useCallback, useMemo } from 'react'
 
-import { DefaultTheme, useTheme } from 'styled-components'
+import { useTheme } from '@emotion/react'
 
 const maybeReactUseSyncExternalStore: undefined | any = (React as any)[
   'useSyncExternalStore' + ''
@@ -47,7 +47,7 @@ function useMediaQueryImpl(query: string) {
 }
 
 export default function useMediaQuery(
-  queryInput: string | ((theme: DefaultTheme) => string)
+  queryInput: string | ((theme: any) => string)
 ) {
   const theme = useTheme()
 

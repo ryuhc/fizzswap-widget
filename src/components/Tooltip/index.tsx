@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom'
 import { PlacesType, Tooltip as ReactTooltip } from 'react-tooltip'
 
 import ReactDOMServer from 'react-dom/server'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import useModal from '@/hooks/useModal'
 

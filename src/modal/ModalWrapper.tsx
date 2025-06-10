@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 
 import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 interface IProps {
   children: React.ReactNode

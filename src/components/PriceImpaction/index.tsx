@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 import { useTranslationSimplify } from '@/hooks/useTranslationSimplify'
 import { dprec } from '@/utils/number'
